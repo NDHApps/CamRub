@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CRViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface CRViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate>
 
 @end
