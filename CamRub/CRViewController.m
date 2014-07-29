@@ -10,13 +10,14 @@
 
 @interface CRViewController ()
 
-@property (nonatomic, weak) IBOutlet UIImageView *imageView;
-
+@property (nonatomic, weak) IBOutlet UIImageView *cameraFrame;
+@property (nonatomic, weak) IBOutlet UIImageView *savedPixels;
+@property (nonatomic, weak) IBOutlet UIImageView *drawingStrokes;
 @property (nonatomic) IBOutlet UIView *overlayView;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *clearButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *drawButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *eraseButton;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *shareButton;
+@property (nonatomic, weak) IBOutlet UIButton *clearButton;
+@property (nonatomic, weak) IBOutlet UIButton *drawButton;
+@property (nonatomic, weak) IBOutlet UIButton *eraseButton;
+@property (nonatomic, weak) IBOutlet UIButton *shareButton;
 
 @property (nonatomic) UIImagePickerController *imagePickerController;
 
@@ -27,6 +28,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    brush = 10.0;
+    alpha = 1.0;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
@@ -40,17 +44,65 @@
 
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0)
-        exit(0);
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    mouseSwiped = NO;
+    UITouch *touch = [touches anyObject];
+    lastPoint = [touch locationInView:self.view];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    mouseSwiped = YES;
+    UITouch *touch = [touches anyObject];
+    CGPoint currentPoint = [touch locationInView:self.view];
+    
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y);
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brush );
+    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 0.0, 0.0, 0.0, 1.0);
+    CGContextSetBlendMode(UIGraphicsGetCurrentContext(),kCGBlendModeNormal);
+    
+    CGContextStrokePath(UIGraphicsGetCurrentContext());
+    self.drawingStrokes.image = UIGraphicsGetImageFromCurrentImageContext();
+    [self.drawingStrokes setAlpha:alpha];
+    UIGraphicsEndImageContext();
+    
+    lastPoint = currentPoint;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    if(!mouseSwiped) {
+        UIGraphicsBeginImageContext(self.view.frame.size);
+        [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brush);
+        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 0.0, 0.0, 0.0, alpha);
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+        CGContextStrokePath(UIGraphicsGetCurrentContext());
+        CGContextFlush(UIGraphicsGetCurrentContext());
+        self.drawingStrokes.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    
+    UIGraphicsBeginImageContext(self.savedPixels.frame.size);
+    [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) blendMode:kCGBlendModeNormal alpha:1.0];
+    [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
+    self.drawingStrokes.image = nil;
+    UIGraphicsEndImageContext();
 }
 
 - (void)showCustomImagePicker
 {
-    if (self.imageView.isAnimating)
+    if (self.cameraFrame.isAnimating)
     {
-        [self.imageView stopAnimating];
+        [self.cameraFrame stopAnimating];
     }
     
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
@@ -58,15 +110,20 @@
     imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePickerController.delegate = self;
     imagePickerController.showsCameraControls = NO;
+    
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    float scale = ceilf((screenSize.height / screenSize.width) * 10.0) / 10.0;
+    imagePickerController.cameraViewTransform = CGAffineTransformMakeScale(scale, scale);
         /*
          Load the overlay view from the OverlayView nib file. Self is the File's Owner for the nib file, so the overlayView outlet is set to the main view in the nib. Pass that view to the image picker controller to use as its overlay view, and set self's reference to the view to nil.
          */
     [[NSBundle mainBundle] loadNibNamed:@"CRCameraOverlayView" owner:self options:nil];
-    self.overlayView.frame = imagePickerController.cameraOverlayView.frame;
+    self.overlayView.frame = [[UIScreen mainScreen] bounds];
     imagePickerController.cameraOverlayView = self.overlayView;
     self.overlayView = nil;
     self.imagePickerController = imagePickerController;
     [self presentViewController:self.imagePickerController animated:YES completion:nil];
+    [imagePickerController.cameraOverlayView setUserInteractionEnabled:YES];
 }
 
 /*

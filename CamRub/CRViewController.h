@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CRViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate>
+@interface CRViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate> {
+
+    CGPoint lastPoint;
+    CGFloat brush;
+    CGFloat alpha;
+    BOOL mouseSwiped;
+}
 
 @end

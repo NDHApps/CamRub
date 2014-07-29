@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A283o" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CRViewController">
             <connections>
+                <outlet property="cameraFrame" destination="cKQ-Ln-xee" id="pkQ-tJ-cil"/>
+                <outlet property="clearButton" destination="vdH-Rz-eUh" id="fxr-8L-UHu"/>
+                <outlet property="drawButton" destination="esQ-tB-e6d" id="vi8-Lq-qpA"/>
+                <outlet property="drawingStrokes" destination="yFF-TN-YHB" id="fMH-vr-1qi"/>
+                <outlet property="eraseButton" destination="OeM-BY-b5l" id="xw2-Od-jTI"/>
                 <outlet property="overlayView" destination="9bN-qM-BdW" id="8BV-ep-7M8"/>
+                <outlet property="savedPixels" destination="RuG-5q-rbQ" id="lbT-oN-cTb"/>
+                <outlet property="shareButton" destination="fwJ-1U-Gdd" id="8Oi-H0-nzd"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -14,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee">
+                <imageView appearanceType="aqua" userInteractionEnabled="NO" alpha="0.90000000000000036" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
@@ -22,71 +29,88 @@
                         <constraint firstAttribute="width" constant="320" id="L9C-OZ-UUB"/>
                     </constraints>
                 </imageView>
-                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-Rz-eUh">
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-Rz-eUh">
                     <rect key="frame" x="20" y="478" width="50" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="ZwH-90-sqs"/>
                         <constraint firstAttribute="width" constant="50" id="lay-Dm-uwq"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="12"/>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="Clear" image="clear">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
                     <rect key="frame" x="97" y="478" width="50" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="45v-1n-WU4"/>
                         <constraint firstAttribute="width" constant="50" id="ue1-39-DHM"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="12"/>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="Draw" image="draw">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeM-BY-b5l">
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeM-BY-b5l">
                     <rect key="frame" x="173" y="478" width="50" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="UIX-bI-7Bb"/>
                         <constraint firstAttribute="width" constant="50" id="Uj8-bC-7pM"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="12"/>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="Erase" image="erase">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwJ-1U-Gdd">
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwJ-1U-Gdd">
                     <rect key="frame" x="250" y="478" width="50" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="LOh-tq-zsw"/>
                         <constraint firstAttribute="width" constant="50" id="xKh-Rp-RIZ"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="12"/>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="Share" image="share">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration" label=""/>
+                </imageView>
+                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <constraints>
+                <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="OeM-BY-b5l" secondAttribute="trailing" constant="27" id="7wm-kA-xuA"/>
+                <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="cKQ-Ln-xee" secondAttribute="trailing" constant="-70" id="8JE-44-rH2"/>
+                <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="BWd-aY-1Ub"/>
+                <constraint firstItem="fwJ-1U-Gdd" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="QeX-z3-4NV"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="ZEO-ms-WIK"/>
+                <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
+                <constraint firstItem="vdH-Rz-eUh" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="pJ4-6X-j0t"/>
+                <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="paI-ka-jka"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="zSE-Md-Onc"/>
+                <constraint firstItem="esQ-tB-e6d" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="27" id="zc6-Yl-IM4"/>
             </constraints>
         </view>
     </objects>
     <resources>
-        <image name="CamFrame" width="320" height="480"/>
+        <image name="CamFrame" width="320" height="568"/>
         <image name="clear" width="50" height="50"/>
         <image name="draw" width="50" height="50"/>
         <image name="erase" width="50" height="50"/>
