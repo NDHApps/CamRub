@@ -340,7 +340,7 @@
     }
 }
 
-- (void) animateShare {
+- (void) animateShare:(SEL)selectorWhenComplete {
     CGRect newFrame = _shareButton.frame;
     newFrame.size.height = newFrame.size.width;
     
@@ -352,16 +352,21 @@
                      } completion:^(BOOL finished) {
                          [_savedPixels setImage:nil];
                          [_savedPixels setFrame:_drawingStrokes.frame];
+                         ((void (*)(id, SEL))[self methodForSelector:selectorWhenComplete])(self, selectorWhenComplete);
                      }];
 
 }
 
+- (void) successAlert {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"Image saved to camera roll." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    alertView.tag = 3;
+    [alertView show];
+    
+}
+
 - (void) image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo: (void *) contextInfo {
     if(!error) {
-        [self animateShare];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"Image saved to camera roll." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        alertView.tag = 3;
-        [alertView show];
+        [self animateShare:@selector(successAlert)];
     }
 }
 
