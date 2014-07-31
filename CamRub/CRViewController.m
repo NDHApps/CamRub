@@ -18,9 +18,9 @@
 @property (nonatomic, weak) IBOutlet UIButton *clearButton;
 @property (nonatomic, weak) IBOutlet UIButton *drawButton;
 @property (nonatomic, weak) IBOutlet UIButton *eraseButton;
-@property (nonatomic, weak) IBOutlet UIButton *shareButton;
+@property (nonatomic, weak) IBOutlet UIButton *share;
 
-@property (nonatomic) UIImagePickerController *imagePickerController;
+- (void) IBAction clearImage;
 
 @end
 
@@ -40,9 +40,13 @@
     }
     else
     {
-        [self showCustomImagePicker];
+        [self loadCustomCameraView];
     }
 
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -92,112 +96,112 @@
     }
     
     UIGraphicsBeginImageContext(self.savedPixels.frame.size);
-    [self.pixelMask drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     self.pixelMask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    [self.imagePickerController takePicture];
+    [_captureManager captureStillImage];
 }
 
-- (void)showCustomImagePicker
+- (void)loadCustomCameraView
 {
     if (self.cameraFrame.isAnimating)
     {
         [self.cameraFrame stopAnimating];
     }
     
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePickerController.delegate = self;
-    imagePickerController.showsCameraControls = NO;
-    imagePickerController.cameraFlashMode = UIImagePickerControllerCameraFlashModeOff;
+    [self setCaptureManager:[[CaptureSessionManager alloc] init]];
     
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    CGFloat scaleFactor = 300.0/screenSize.width;
-    CGFloat translation = screenSize.height - 284.0 - (200.0/scaleFactor);
-    imagePickerController.cameraViewTransform = CGAffineTransformTranslate(CGAffineTransformMakeScale(scaleFactor, 1.0), 0.0, translation);
-        /*
-         Load the overlay view from the OverlayView nib file. Self is the File's Owner for the nib file, so the overlayView outlet is set to the main view in the nib. Pass that view to the image picker controller to use as its overlay view, and set self's reference to the view to nil.
-         */
+	[[self captureManager] addVideoInput];
+	[[self captureManager] addVideoPreviewLayer];
+    [[self captureManager] addStillImageOutput];
+	CGRect layerRect = [[[self view] layer] bounds];
+	[[[self captureManager] previewLayer] setBounds:layerRect];
+	[[[self captureManager] previewLayer] setPosition:CGPointMake(CGRectGetMidX(layerRect),
+                                                                  CGRectGetMidY(layerRect))];
+	[[[self view] layer] addSublayer:[[self captureManager] previewLayer]];
+    
     [[NSBundle mainBundle] loadNibNamed:@"CRCameraOverlayView" owner:self options:nil];
     self.overlayView.frame = [[UIScreen mainScreen] bounds];
     [self.overlayView setUserInteractionEnabled:YES];
-    imagePickerController.cameraOverlayView = self.overlayView;
+    [[self view] addSubview:self.overlayView];
     self.overlayView = nil;
-    self.imagePickerController = imagePickerController;
     
-    UIDevice *currentDevice = [UIDevice currentDevice];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addStrokesToImage) name:kImageCapturedSuccessfully object:nil];
     
-    while ([currentDevice isGeneratingDeviceOrientationNotifications])
-        [currentDevice endGeneratingDeviceOrientationNotifications];
-    
-    [self.view addSubview:self.imagePickerController.view];
-    
-    while ([currentDevice isGeneratingDeviceOrientationNotifications])
-        [currentDevice endGeneratingDeviceOrientationNotifications];
+    [[_captureManager captureSession] startRunning];
    
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+- (void) addStrokesToImage {
     
-    UIImage * chosenImage = [info objectForKey: UIImagePickerControllerOriginalImage];
+    UIImage *capturedImage = [[self captureManager] stillImage];
     
-    CGFloat imageWidth  = chosenImage.size.width;
-    CGFloat imageHeight = chosenImage.size.height;
+    CGFloat imageWidth  = capturedImage.size.width;
+    CGFloat imageHeight = capturedImage.size.height;
     
-    CGRect cropRect = CGRectMake ((imageHeight - imageWidth) / 2.0, 0.0, imageWidth, imageWidth);
+    CGRect cropRect = CGRectMake ((imageHeight - imageWidth) / 2.0 + 0.03125 * imageWidth, 0.03125 * imageWidth, 0.9375 * imageWidth, 0.9375 * imageWidth);
     
     // Draw new image in current graphics context
-    CGImageRef imageRef = CGImageCreateWithImageInRect ([chosenImage CGImage], cropRect);
+    CGImageRef imageRef = CGImageCreateWithImageInRect ([capturedImage CGImage], cropRect);
     
     // Create new cropped UIImage
-    UIImage *croppedImage = [UIImage imageWithCGImage: imageRef scale: imageWidth / 300.0 orientation: UIImageOrientationRight];
+    UIImage *croppedImage = [self rotate:[UIImage imageWithCGImage: imageRef scale: 0.9375 * imageWidth / 600.0 orientation: UIImageOrientationRight]];
     
-    UIImage *maskedImage = [self addStrokesToImage:croppedImage];
-    
-    [_savedPixels setImage:maskedImage];
-    
-    self.drawingStrokes.image = nil;
-    
-}
-
-- (UIImage*) addStrokesToImage:(UIImage*)image {
-    
+    // Create alpha mask
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
-    
     CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
     [[UIColor whiteColor] set];
     UIRectFill(CGRectMake(0.0, 0.0, 300.0, 300.0));
     [_pixelMask drawInRect:maskRect];
-    
     UIImage* mask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
+    // Mask image
     CGImageRef maskRef = mask.CGImage;
-
     CGImageRef CGMask = CGImageMaskCreate(CGImageGetWidth(maskRef),
                                         CGImageGetHeight(maskRef),
                                         CGImageGetBitsPerComponent(maskRef),
                                         CGImageGetBitsPerPixel(maskRef),
                                         CGImageGetBytesPerRow(maskRef),
                                         CGImageGetDataProvider(maskRef), NULL, false);
+	CGImageRef masked = CGImageCreateWithMask([croppedImage CGImage], CGMask);
     
-	CGImageRef masked = CGImageCreateWithMask([image CGImage], CGMask);
+    UIImage *maskedImage = [UIImage imageWithCGImage:masked];
     
-    return [UIImage imageWithCGImage:masked];
+    UIGraphicsBeginImageContext(self.savedPixels.frame.size);
+    [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    [maskedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    self.pixelMask = nil;
+    self.drawingStrokes.image = nil;
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(UIImage*) rotate:(UIImage*) src {
+    
+    UIImageOrientation orientation = src.imageOrientation;
+    
+    UIGraphicsBeginImageContext(src.size);
+    
+    CGContextRef context=(UIGraphicsGetCurrentContext());
+    
+    if (orientation == UIImageOrientationRight) {
+        CGContextRotateCTM (context, 90/180*M_PI) ;
+    } else if (orientation == UIImageOrientationLeft) {
+        CGContextRotateCTM (context, -90/180*M_PI);
+    } else if (orientation == UIImageOrientationDown) {
+        // NOTHING
+    } else if (orientation == UIImageOrientationUp) {
+        CGContextRotateCTM (context, 90/180*M_PI);
+    }
+    
+    [src drawAtPoint:CGPointMake(0, 0)];
+    UIImage *img=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+    
 }
-*/
 
 @end

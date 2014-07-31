@@ -22,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" alpha="0.90000000000000036" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
+                <imageView appearanceType="aqua" userInteractionEnabled="NO" alpha="0.80000000000000027" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
@@ -86,7 +86,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <imageView appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
+                <imageView appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
                     <rect key="frame" x="10" y="134" width="300" height="300"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label=""/>

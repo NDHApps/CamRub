@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CaptureSessionManager.h"
 
-@interface CRViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate> {
-
+@interface CRViewController : UIViewController {
+    
     CGPoint lastPoint;
     CGFloat brush;
     CGFloat alpha;
     BOOL mouseSwiped;
 }
+
+@property (retain) CaptureSessionManager *captureManager;
+@property (nonatomic, retain) UILabel *scanningLabel;
 
 @end
