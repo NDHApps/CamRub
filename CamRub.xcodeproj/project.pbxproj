@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0192B92A1989B1A000EC00FC /* UIImage+UIImage_fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0192B9291989B1A000EC00FC /* UIImage+UIImage_fixOrientation.m */; };
 		01B996D71977004100740F94 /* CRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B996D61977004100740F94 /* CRViewController.m */; };
 		01B996DD1977110D00740F94 /* CRCameraOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01B996DC1977110D00740F94 /* CRCameraOverlayView.xib */; };
 		01D993831976F87B00B31E37 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01D993821976F87B00B31E37 /* Foundation.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0192B9281989B1A000EC00FC /* UIImage+UIImage_fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+UIImage_fixOrientation.h"; sourceTree = "<group>"; };
+		0192B9291989B1A000EC00FC /* UIImage+UIImage_fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+UIImage_fixOrientation.m"; sourceTree = "<group>"; };
 		01B996D51977004100740F94 /* CRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRViewController.h; sourceTree = "<group>"; };
 		01B996D61977004100740F94 /* CRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRViewController.m; sourceTree = "<group>"; };
 		01B996DC1977110D00740F94 /* CRCameraOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CRCameraOverlayView.xib; sourceTree = "<group>"; };
@@ -121,6 +124,8 @@
 				01D993B11976FA3700B31E37 /* MainStoryboard.storyboard */,
 				01B996D51977004100740F94 /* CRViewController.h */,
 				01B996D61977004100740F94 /* CRViewController.m */,
+				0192B9281989B1A000EC00FC /* UIImage+UIImage_fixOrientation.h */,
+				0192B9291989B1A000EC00FC /* UIImage+UIImage_fixOrientation.m */,
 				01B996DC1977110D00740F94 /* CRCameraOverlayView.xib */,
 			);
 			path = CamRub;
@@ -255,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0192B92A1989B1A000EC00FC /* UIImage+UIImage_fixOrientation.m in Sources */,
 				01D993931976F87B00B31E37 /* AppDelegate.m in Sources */,
 				01D9938F1976F87B00B31E37 /* main.m in Sources */,
 				01B996D71977004100740F94 /* CRViewController.m in Sources */,

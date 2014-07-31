@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CRViewController">
@@ -17,11 +18,11 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="9bN-qM-BdW">
+        <view contentMode="bottom" id="9bN-qM-BdW">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" alpha="0.90000000000000036" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
+                <imageView appearanceType="aqua" userInteractionEnabled="NO" alpha="0.90000000000000036" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
@@ -85,25 +86,35 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <imageView appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
+                    <rect key="frame" x="10" y="134" width="300" height="300"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label=""/>
                 </imageView>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <imageView appearanceType="aqua" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
+                    <rect key="frame" x="10" y="134" width="300" height="300"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="300" id="Q0g-Jb-Pgp"/>
+                        <constraint firstAttribute="width" constant="300" id="q27-M8-FXs"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <constraints>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="OeM-BY-b5l" secondAttribute="trailing" constant="27" id="7wm-kA-xuA"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="cKQ-Ln-xee" secondAttribute="trailing" constant="-70" id="8JE-44-rH2"/>
+                <constraint firstItem="cKQ-Ln-xee" firstAttribute="centerX" secondItem="yFF-TN-YHB" secondAttribute="centerX" id="9PM-j3-hFh"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="BWd-aY-1Ub"/>
+                <constraint firstItem="yFF-TN-YHB" firstAttribute="centerY" secondItem="RuG-5q-rbQ" secondAttribute="centerY" id="PYv-qI-atM"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="QeX-z3-4NV"/>
+                <constraint firstItem="yFF-TN-YHB" firstAttribute="height" secondItem="RuG-5q-rbQ" secondAttribute="height" id="VO0-Uo-CnA"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="ZEO-ms-WIK"/>
+                <constraint firstItem="yFF-TN-YHB" firstAttribute="centerX" secondItem="RuG-5q-rbQ" secondAttribute="centerX" id="c7V-yG-P0F"/>
+                <constraint firstItem="cKQ-Ln-xee" firstAttribute="bottom" secondItem="yFF-TN-YHB" secondAttribute="centerY" constant="284" id="fdd-EV-bwe"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
                 <constraint firstItem="vdH-Rz-eUh" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="pJ4-6X-j0t"/>
                 <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="paI-ka-jka"/>
+                <constraint firstItem="yFF-TN-YHB" firstAttribute="width" secondItem="RuG-5q-rbQ" secondAttribute="width" id="z7f-1t-BVW"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="zSE-Md-Onc"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="27" id="zc6-Yl-IM4"/>
             </constraints>
