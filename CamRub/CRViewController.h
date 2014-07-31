@@ -23,5 +23,6 @@
 }
 
 @property (retain) CaptureSessionManager *captureManager;
+@property BOOL isFrontCameraSelected;
 
 @end

@@ -35,7 +35,7 @@
                     </constraints>
                 </imageView>
                 <imageView hidden="YES" appearanceType="aqua" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="underliningStroke" translatesAutoresizingMaskIntoConstraints="NO" id="j5a-WQ-War">
-                    <rect key="frame" x="171" y="548" width="50" height="10"/>
+                    <rect key="frame" x="171" y="542" width="50" height="10"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="2vD-L3-yZN"/>
@@ -43,7 +43,7 @@
                     </constraints>
                 </imageView>
                 <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="underliningStroke" translatesAutoresizingMaskIntoConstraints="NO" id="xiW-zf-okX">
-                    <rect key="frame" x="95" y="548" width="50" height="10"/>
+                    <rect key="frame" x="95" y="542" width="50" height="10"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="HmV-Jc-Dgp"/>
@@ -70,12 +70,48 @@
                         <outletCollection property="gestureRecognizers" destination="19n-0P-L79" appends="YES" id="Qld-uP-zGC"/>
                     </connections>
                 </view>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-Rz-eUh">
-                    <rect key="frame" x="20" y="478" width="50" height="70"/>
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-zm-i5g">
+                    <rect key="frame" x="131" y="40" width="64" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="70" id="ZwH-90-sqs"/>
+                        <constraint firstAttribute="height" constant="75" id="lpP-a3-6b4"/>
+                        <constraint firstAttribute="width" constant="64" id="vRv-7G-YGm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-66" minY="55" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Flip" image="flip">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="dmz-eA-pt3" appends="YES" id="7bU-0Z-IdF"/>
+                    </connections>
+                </button>
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ole-EU-OaJ">
+                    <rect key="frame" x="265" y="40" width="35" height="75"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="JLF-2g-JfI"/>
+                        <constraint firstAttribute="height" constant="75" id="yBr-cb-jI7"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-35" minY="55" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Help" image="help">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="icE-ee-8a8" appends="YES" id="hLb-Vg-9po"/>
+                    </connections>
+                </button>
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-Rz-eUh">
+                    <rect key="frame" x="20" y="472" width="50" height="75"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="75" id="ZwH-90-sqs"/>
                         <constraint firstAttribute="width" constant="50" id="lay-Dm-uwq"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
@@ -89,11 +125,11 @@
                     </connections>
                 </button>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwJ-1U-Gdd">
-                    <rect key="frame" x="250" y="478" width="50" height="70"/>
+                    <rect key="frame" x="250" y="472" width="50" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="70" id="LOh-tq-zsw"/>
+                        <constraint firstAttribute="height" constant="75" id="LOh-tq-zsw"/>
                         <constraint firstAttribute="width" constant="50" id="xKh-Rp-RIZ"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
@@ -107,11 +143,11 @@
                     </connections>
                 </button>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
-                    <rect key="frame" x="96" y="478" width="50" height="70"/>
+                    <rect key="frame" x="96" y="472" width="50" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="70" id="45v-1n-WU4"/>
+                        <constraint firstAttribute="height" constant="75" id="45v-1n-WU4"/>
                         <constraint firstAttribute="width" constant="50" id="ue1-39-DHM"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
@@ -126,11 +162,11 @@
                     </connections>
                 </button>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeM-BY-b5l">
-                    <rect key="frame" x="172" y="478" width="50" height="70"/>
+                    <rect key="frame" x="172" y="472" width="50" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="70" id="UIX-bI-7Bb"/>
+                        <constraint firstAttribute="height" constant="75" id="UIX-bI-7Bb"/>
                         <constraint firstAttribute="width" constant="50" id="Uj8-bC-7pM"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
@@ -145,16 +181,16 @@
                     </connections>
                 </button>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1A-qu-zX1">
-                    <rect key="frame" x="16" y="40" width="58" height="70"/>
+                    <rect key="frame" x="13" y="40" width="58" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="70" id="epY-ua-gHs"/>
+                        <constraint firstAttribute="height" constant="75" id="epY-ua-gHs"/>
                         <constraint firstAttribute="width" constant="58" id="rrn-Au-yub"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="-52" minY="55" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="Undo" image="undo">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -259,35 +295,39 @@
             </subviews>
             <constraints>
                 <constraint firstItem="pRg-O5-P0s" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="0oY-5Y-Jqp"/>
-                <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="IlN-jt-M3W" secondAttribute="bottom" constant="3" id="18g-EL-fo0"/>
+                <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="IlN-jt-M3W" secondAttribute="bottom" constant="-3" id="18g-EL-fo0"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="OeM-BY-b5l" secondAttribute="trailing" constant="28" id="7wm-kA-xuA"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="cKQ-Ln-xee" secondAttribute="trailing" constant="-70" id="8JE-44-rH2"/>
+                <constraint firstItem="RuG-5q-rbQ" firstAttribute="centerX" secondItem="uIj-zm-i5g" secondAttribute="centerX" constant="-3" id="8Wb-ha-4aZ"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="centerX" secondItem="yFF-TN-YHB" secondAttribute="centerX" id="9PM-j3-hFh"/>
-                <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="BWd-aY-1Ub"/>
-                <constraint firstItem="xiW-zf-okX" firstAttribute="top" secondItem="esQ-tB-e6d" secondAttribute="bottom" id="HoV-aS-YoZ"/>
+                <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-96" id="BWd-aY-1Ub"/>
+                <constraint firstItem="xiW-zf-okX" firstAttribute="top" secondItem="esQ-tB-e6d" secondAttribute="bottom" constant="-5" id="HoV-aS-YoZ"/>
                 <constraint firstAttribute="bottom" secondItem="pRg-O5-P0s" secondAttribute="bottom" id="JzK-Io-HEq"/>
                 <constraint firstAttribute="trailing" secondItem="pRg-O5-P0s" secondAttribute="trailing" id="K1R-BI-OqJ"/>
                 <constraint firstItem="pRg-O5-P0s" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="LuJ-1x-Qcq"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="centerY" secondItem="RuG-5q-rbQ" secondAttribute="centerY" id="PYv-qI-atM"/>
                 <constraint firstAttribute="centerX" secondItem="X05-Hn-aun" secondAttribute="centerX" id="Q8a-Sn-g3p"/>
-                <constraint firstItem="fwJ-1U-Gdd" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="QeX-z3-4NV"/>
+                <constraint firstItem="fwJ-1U-Gdd" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-96" id="QeX-z3-4NV"/>
                 <constraint firstAttribute="centerX" secondItem="IlN-jt-M3W" secondAttribute="centerX" constant="0.5" id="V7D-o0-YEy"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="height" secondItem="RuG-5q-rbQ" secondAttribute="height" id="VO0-Uo-CnA"/>
-                <constraint firstItem="j5a-WQ-War" firstAttribute="top" secondItem="OeM-BY-b5l" secondAttribute="bottom" id="X79-Ns-CsK"/>
-                <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="bottom" constant="3" id="ZBL-Yb-ypZ"/>
+                <constraint firstItem="j5a-WQ-War" firstAttribute="top" secondItem="OeM-BY-b5l" secondAttribute="bottom" constant="-5" id="X79-Ns-CsK"/>
+                <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="bottom" constant="-3" id="ZBL-Yb-ypZ"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="ZEO-ms-WIK"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="centerX" secondItem="RuG-5q-rbQ" secondAttribute="centerX" id="c7V-yG-P0F"/>
                 <constraint firstItem="xiW-zf-okX" firstAttribute="centerX" secondItem="esQ-tB-e6d" secondAttribute="centerX" constant="-1" id="eLM-Hl-VnA"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="bottom" secondItem="yFF-TN-YHB" secondAttribute="centerY" constant="284" id="fdd-EV-bwe"/>
                 <constraint firstItem="j5a-WQ-War" firstAttribute="centerX" secondItem="OeM-BY-b5l" secondAttribute="centerX" constant="-1" id="gXs-UU-77e"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
-                <constraint firstItem="vdH-Rz-eUh" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="pJ4-6X-j0t"/>
-                <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="paI-ka-jka"/>
-                <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="s1A-qu-zX1" secondAttribute="bottom" constant="24" id="yT8-ZD-Zuo"/>
+                <constraint firstItem="vdH-Rz-eUh" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-96" id="pJ4-6X-j0t"/>
+                <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-96" id="paI-ka-jka"/>
+                <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="Ole-EU-OaJ" secondAttribute="bottom" constant="19" id="qls-7z-TzP"/>
+                <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="uIj-zm-i5g" secondAttribute="bottom" constant="19" id="rMb-zg-Qxv"/>
+                <constraint firstItem="Ole-EU-OaJ" firstAttribute="trailing" secondItem="fwJ-1U-Gdd" secondAttribute="trailing" id="tgU-zh-gJH"/>
+                <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="s1A-qu-zX1" secondAttribute="bottom" constant="19" id="yT8-ZD-Zuo"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="width" secondItem="RuG-5q-rbQ" secondAttribute="width" id="z7f-1t-BVW"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="zSE-Md-Onc"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="26" id="zc6-Yl-IM4"/>
-                <constraint firstItem="vdH-Rz-eUh" firstAttribute="centerX" secondItem="s1A-qu-zX1" secondAttribute="centerX" id="zjh-b2-bZB"/>
+                <constraint firstItem="vdH-Rz-eUh" firstAttribute="centerX" secondItem="s1A-qu-zX1" secondAttribute="centerX" constant="3" id="zjh-b2-bZB"/>
             </constraints>
         </view>
         <tapGestureRecognizer id="oLp-8g-RYa">
@@ -300,12 +340,12 @@
                 <action selector="shareImage" destination="-1" id="dFf-rg-bN9"/>
             </connections>
         </tapGestureRecognizer>
-        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="RdT-1x-6ee">
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="RdT-1x-6ee">
             <connections>
                 <action selector="drawPressed" destination="-1" id="134-7p-jnl"/>
             </connections>
         </pongPressGestureRecognizer>
-        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Fyg-Co-qdc">
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="Fyg-Co-qdc">
             <connections>
                 <action selector="erasePressed" destination="-1" id="7pT-gj-FOl"/>
             </connections>
@@ -330,6 +370,16 @@
                 <action selector="undo" destination="-1" id="XB8-bf-tSY"/>
             </connections>
         </tapGestureRecognizer>
+        <tapGestureRecognizer id="dmz-eA-pt3">
+            <connections>
+                <action selector="flip" destination="-1" id="mwb-ob-Ovk"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="icE-ee-8a8">
+            <connections>
+                <action selector="help" destination="-1" id="PLU-DA-F9I"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="BrushBar" width="280" height="84"/>
@@ -338,6 +388,8 @@
         <image name="clear" width="50" height="50"/>
         <image name="draw" width="50" height="50"/>
         <image name="erase" width="50" height="50"/>
+        <image name="flip" width="64" height="50"/>
+        <image name="help" width="35" height="50"/>
         <image name="share" width="50" height="50"/>
         <image name="underliningStroke" width="49" height="6"/>
         <image name="undo" width="58" height="50"/>

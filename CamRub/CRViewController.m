@@ -39,6 +39,8 @@
 - (IBAction) shareImage;
 - (IBAction) dismissBrushSelectors;
 - (IBAction) undo;
+- (IBAction) flip;
+- (IBAction) help;
 
 @end
 
@@ -52,6 +54,7 @@
     color = 0.0;
     alpha = 1.0;
     drawToolSelected = YES;
+    self.isFrontCameraSelected = NO;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
@@ -81,6 +84,13 @@
 {
     if(_savedPixels.image)
         _savedPixels.image = _lastRevision;
+}
+
+- (IBAction)flip
+{
+//    [self.captureManager.captureSession stopRunning];
+    [[self captureManager] toggleCamera];
+//    [self.captureManager.captureSession startRunning];
 }
 
 - (IBAction)sliderChanged:(id)sender
@@ -201,7 +211,13 @@
     CGImageRef imageRef = CGImageCreateWithImageInRect ([capturedImage CGImage], cropRect);
     
     // Rotate and crop the image
-    capturedImage = [self rotate:[UIImage imageWithCGImage: imageRef scale: 0.9375 * imageWidth / 600.0 orientation: UIImageOrientationRight]];
+    NSInteger orientation;
+    if (_captureManager.frontCameraInUse)
+        orientation = UIImageOrientationLeftMirrored;
+    else
+        orientation = UIImageOrientationRight;
+    
+    capturedImage = [self rotate:[UIImage imageWithCGImage: imageRef scale: 0.9375 * imageWidth / 600.0 orientation: orientation]];
     
     // Create alpha mask
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
@@ -230,21 +246,25 @@
 }
 
 - (void) eraseStrokes {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
-    CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
-    [[UIColor blackColor] set];
-    UIRectFill(CGRectMake(0.0, 0.0, 300.0, 300.0));
-    [_pixelMask drawInRect:maskRect];
-    UIImage* mask = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     
-    self.lastRevision = self.savedPixels.image;
-    self.savedPixels.image = [self maskImage:_savedPixels.image withMask:mask];
-    
-    UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
-    [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
-    self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    if(_savedPixels.image)
+    {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
+        CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
+        [[UIColor blackColor] set];
+        UIRectFill(CGRectMake(0.0, 0.0, 300.0, 300.0));
+        [_pixelMask drawInRect:maskRect];
+        UIImage* mask = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        self.lastRevision = self.savedPixels.image;
+        self.savedPixels.image = [self maskImage:_savedPixels.image withMask:mask];
+        
+        UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
+        [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+        self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
     
     _pixelMask = nil;
     self.drawingStrokes.image = nil;
@@ -292,7 +312,7 @@
 
 - (IBAction) clearImage {
     if(_savedPixels.image) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to clear the canvas?" message:@"All rubbing will be lost." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes",nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to clear the canvas?" message:@"All work will be lost." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes",nil];
         alertView.tag = 2;
         [alertView show];
     }
@@ -405,7 +425,7 @@
     {
         NSData *imgData = UIImagePNGRepresentation(_savedPixels.image);
         [composer addAttachmentData:imgData typeIdentifier:(NSString*)kUTTypeMessage filename:@"image.png"];
-        [composer setBody:@"Check out the rub I made using Cam Rub!"];
+        [composer setBody:@"Check out the picture I made using CamRub!"];
     }
     
     [self animateShare:nil];
@@ -430,11 +450,11 @@
     
     if (service == SLServiceTypeFacebook) {
         message = @"Imaged shared to Facebook.";
-        [shareSheet setInitialText:@"Check out the rub I made using Cam Rub!"];
+        [shareSheet setInitialText:@"Check out the picture I made using CamRub!"];
     }
     else if (service == SLServiceTypeTwitter) {
         message = @"Imaged shared to Twitter.";
-        [shareSheet setInitialText:@"Check out the rub I made using @CamRubApp!"];
+        [shareSheet setInitialText:@"Check out the picture I made using @CamRubApp!"];
     }
     
     if (![shareSheet addImage:_savedPixels.image]) {
@@ -482,7 +502,7 @@
         
         self.dic = [UIDocumentInteractionController interactionControllerWithURL:instaHookFile];
         self.dic.delegate = self;
-        self.dic.annotation = [NSDictionary dictionaryWithObject:@"Check out the rub I made using Cam Rub!"
+        self.dic.annotation = [NSDictionary dictionaryWithObject:@"Check out the picture I made using CamRub!"
                                                           forKey:@"InstagramCaption"];
         self.dic.UTI = @"com.instagram.photo";
         
@@ -491,7 +511,7 @@
         [self.dic presentOpenInMenuFromRect:rect inView:self.view animated:YES];
     }
     else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Instagram isn't installed!" message:@"Please download the Instagram app to share rubs to Instagram." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Instagram isn't installed!" message:@"Please download the Instagram app to share pictures to Instagram." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }
     
@@ -523,7 +543,6 @@
 
 - (void) successAlert:(NSString*)successMessage {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:successMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    alertView.tag = 4;
     [alertView show];
 }
 
@@ -536,6 +555,11 @@
 -(void) documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application {
     self.savedPixels.image = nil;
     [self drawTapped];
+}
+
+- (IBAction) help {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"CamRub Help" message:@"Instructions: \"Rub\" on the screen to capture portions of the image. Make unique drawings, create collages, or just play around with the app for fun! Tap the \"Share\" button when you're done to save or share your creations.\n\nFor additional support email us at NDHApps@gmail.com or follow us on Twitter at @CamRubApp.\n\n©2014 NDHApps. All rights reserved." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
