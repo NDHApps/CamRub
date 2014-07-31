@@ -171,7 +171,7 @@
                                 <action selector="eraseSliderChanged:" destination="-1" eventType="valueChanged" id="3Jy-X7-Ma2"/>
                             </connections>
                         </slider>
-                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB0-N4-zHk">
+                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB0-N4-zHk">
                             <rect key="frame" x="212" y="11" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -218,10 +218,10 @@
                                 <action selector="sliderChanged:" destination="-1" eventType="valueChanged" id="AhB-JQ-Onw"/>
                             </connections>
                         </slider>
-                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oub-uI-uXe">
+                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oub-uI-uXe">
                             <rect key="frame" x="212" y="11" width="50" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="ZqI-hU-Cw1"/>
                                 <constraint firstAttribute="width" constant="50" id="s92-w5-58H"/>

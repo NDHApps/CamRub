@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01432D76198AB35F009BA552 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01432D75198AB35F009BA552 /* MessageUI.framework */; };
+		01432D79198AB494009BA552 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 01432D78198AB494009BA552 /* Reachability.m */; };
+		01432D7B198AB74F009BA552 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01432D7A198AB74F009BA552 /* MobileCoreServices.framework */; };
 		0192B92D1989E2B200EC00FC /* CaptureSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0192B92C1989E2B200EC00FC /* CaptureSessionManager.m */; };
 		01B996D71977004100740F94 /* CRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B996D61977004100740F94 /* CRViewController.m */; };
 		01B996DD1977110D00740F94 /* CRCameraOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01B996DC1977110D00740F94 /* CRCameraOverlayView.xib */; };
@@ -23,6 +26,7 @@
 		01D993A61976F87B00B31E37 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01D993A41976F87B00B31E37 /* InfoPlist.strings */; };
 		01D993A81976F87B00B31E37 /* CamRubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D993A71976F87B00B31E37 /* CamRubTests.m */; };
 		01D993B21976FA3700B31E37 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01D993B11976FA3700B31E37 /* MainStoryboard.storyboard */; };
+		01E739A3198A8627002C9465 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E739A2198A8627002C9465 /* Twitter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01432D75198AB35F009BA552 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		01432D77198AB494009BA552 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		01432D78198AB494009BA552 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		01432D7A198AB74F009BA552 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0192B92B1989E2B200EC00FC /* CaptureSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSessionManager.h; sourceTree = "<group>"; };
 		0192B92C1989E2B200EC00FC /* CaptureSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureSessionManager.m; sourceTree = "<group>"; };
 		01B996D51977004100740F94 /* CRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRViewController.h; sourceTree = "<group>"; };
@@ -58,6 +66,7 @@
 		01D993A51976F87B00B31E37 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01D993A71976F87B00B31E37 /* CamRubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CamRubTests.m; sourceTree = "<group>"; };
 		01D993B11976FA3700B31E37 /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		01E739A2198A8627002C9465 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +74,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01432D7B198AB74F009BA552 /* MobileCoreServices.framework in Frameworks */,
+				01432D76198AB35F009BA552 /* MessageUI.framework in Frameworks */,
+				01E739A3198A8627002C9465 /* Twitter.framework in Frameworks */,
 				01D993851976F87B00B31E37 /* CoreGraphics.framework in Frameworks */,
 				01D993871976F87B00B31E37 /* UIKit.framework in Frameworks */,
 				01D993831976F87B00B31E37 /* Foundation.framework in Frameworks */,
@@ -106,6 +118,9 @@
 		01D993811976F87B00B31E37 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01432D7A198AB74F009BA552 /* MobileCoreServices.framework */,
+				01432D75198AB35F009BA552 /* MessageUI.framework */,
+				01E739A2198A8627002C9465 /* Twitter.framework */,
 				01D993821976F87B00B31E37 /* Foundation.framework */,
 				01D993841976F87B00B31E37 /* CoreGraphics.framework */,
 				01D993861976F87B00B31E37 /* UIKit.framework */,
@@ -134,6 +149,8 @@
 		01D993891976F87B00B31E37 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				01432D77198AB494009BA552 /* Reachability.h */,
+				01432D78198AB494009BA552 /* Reachability.m */,
 				01D9938A1976F87B00B31E37 /* CamRub-Info.plist */,
 				01D9938B1976F87B00B31E37 /* InfoPlist.strings */,
 				01D9938E1976F87B00B31E37 /* main.m */,
@@ -264,6 +281,7 @@
 				01D993931976F87B00B31E37 /* AppDelegate.m in Sources */,
 				01D9938F1976F87B00B31E37 /* main.m in Sources */,
 				01B996D71977004100740F94 /* CRViewController.m in Sources */,
+				01432D79198AB494009BA552 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
