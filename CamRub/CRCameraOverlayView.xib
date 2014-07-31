@@ -29,7 +29,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" alpha="0.80000000000000027" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
+                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
@@ -160,7 +160,7 @@
                             </constraints>
                         </imageView>
                         <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="adX-Fx-Ou4">
-                            <rect key="frame" x="18" y="20" width="178" height="31"/>
+                            <rect key="frame" x="18" y="21" width="178" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="tintColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                             <constraints>
@@ -184,7 +184,7 @@
                     <accessibility key="accessibilityConfiguration" label=""/>
                     <gestureRecognizers/>
                     <constraints>
-                        <constraint firstItem="adX-Fx-Ou4" firstAttribute="top" secondItem="IlN-jt-M3W" secondAttribute="top" constant="20" id="F0Y-1M-2Z8"/>
+                        <constraint firstItem="adX-Fx-Ou4" firstAttribute="top" secondItem="IlN-jt-M3W" secondAttribute="top" constant="21" id="F0Y-1M-2Z8"/>
                         <constraint firstAttribute="width" constant="280" id="MTo-9i-rhv"/>
                         <constraint firstAttribute="height" constant="80" id="Phj-qN-mJe"/>
                         <constraint firstItem="LB0-N4-zHk" firstAttribute="centerY" secondItem="IlN-jt-M3W" secondAttribute="top" constant="36" id="QsH-I0-aSz"/>
@@ -207,7 +207,7 @@
                             </constraints>
                         </imageView>
                         <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="CUJ-lF-c5c">
-                            <rect key="frame" x="18" y="20" width="178" height="31"/>
+                            <rect key="frame" x="18" y="21" width="178" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="tintColor" cyan="0.54830241203308105" magenta="0.42255282402038574" yellow="0.0006561279296875" black="0.099664392605633798" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                             <constraints>
@@ -238,7 +238,7 @@
                         <constraint firstAttribute="centerY" secondItem="8dT-Cg-c6h" secondAttribute="centerY" id="elS-9m-por"/>
                         <constraint firstItem="CUJ-lF-c5c" firstAttribute="leading" secondItem="X05-Hn-aun" secondAttribute="leading" constant="20" id="f8V-IQ-pr8"/>
                         <constraint firstItem="oub-uI-uXe" firstAttribute="centerY" secondItem="X05-Hn-aun" secondAttribute="top" constant="36" id="nVF-Yc-skz"/>
-                        <constraint firstItem="CUJ-lF-c5c" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" constant="20" id="tFn-BQ-sdZ"/>
+                        <constraint firstItem="CUJ-lF-c5c" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" constant="21" id="tFn-BQ-sdZ"/>
                     </constraints>
                 </view>
             </subviews>
