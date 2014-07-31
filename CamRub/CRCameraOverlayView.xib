@@ -10,13 +10,10 @@
                 <outlet property="brushPreview" destination="oub-uI-uXe" id="2zf-ek-9zD"/>
                 <outlet property="brushSelectorView" destination="X05-Hn-aun" id="tXp-Vz-XlC"/>
                 <outlet property="cameraFrame" destination="cKQ-Ln-xee" id="pkQ-tJ-cil"/>
-                <outlet property="clearButton" destination="vdH-Rz-eUh" id="fxr-8L-UHu"/>
-                <outlet property="drawButton" destination="esQ-tB-e6d" id="vi8-Lq-qpA"/>
                 <outlet property="drawIndicator" destination="xiW-zf-okX" id="9Ow-2X-2w2"/>
                 <outlet property="drawingStrokes" destination="yFF-TN-YHB" id="fMH-vr-1qi"/>
                 <outlet property="eraseBrushPreview" destination="LB0-N4-zHk" id="U4Z-NX-FTZ"/>
                 <outlet property="eraseBrushSelectorView" destination="IlN-jt-M3W" id="dd4-LH-Afz"/>
-                <outlet property="eraseButton" destination="OeM-BY-b5l" id="xw2-Od-jTI"/>
                 <outlet property="eraseIndicator" destination="j5a-WQ-War" id="nqP-xQ-NBV"/>
                 <outlet property="overlayView" destination="9bN-qM-BdW" id="8BV-ep-7M8"/>
                 <outlet property="savedPixels" destination="RuG-5q-rbQ" id="lbT-oN-cTb"/>
@@ -51,6 +48,19 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="HmV-Jc-Dgp"/>
                         <constraint firstAttribute="height" constant="10" id="lyk-kt-hwI"/>
+                    </constraints>
+                </imageView>
+                <imageView appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
+                    <rect key="frame" x="10" y="134" width="300" height="300"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration" label=""/>
+                </imageView>
+                <imageView appearanceType="aqua" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
+                    <rect key="frame" x="10" y="134" width="300" height="300"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="300" id="Q0g-Jb-Pgp"/>
+                        <constraint firstAttribute="width" constant="300" id="q27-M8-FXs"/>
                     </constraints>
                 </imageView>
                 <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pRg-O5-P0s" userLabel="dismissOverlay">
@@ -96,19 +106,6 @@
                         <outletCollection property="gestureRecognizers" destination="Dg6-Ca-poZ" appends="YES" id="fxb-4Z-xAf"/>
                     </connections>
                 </button>
-                <imageView appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
-                    <rect key="frame" x="10" y="134" width="300" height="300"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <accessibility key="accessibilityConfiguration" label=""/>
-                </imageView>
-                <imageView appearanceType="aqua" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
-                    <rect key="frame" x="10" y="134" width="300" height="300"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="300" id="Q0g-Jb-Pgp"/>
-                        <constraint firstAttribute="width" constant="300" id="q27-M8-FXs"/>
-                    </constraints>
-                </imageView>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
                     <rect key="frame" x="96" y="478" width="50" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -145,6 +142,24 @@
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="Fyg-Co-qdc" appends="YES" id="gno-dY-yT3"/>
                         <outletCollection property="gestureRecognizers" destination="M9Y-me-OJ9" appends="YES" id="myf-Hk-zJc"/>
+                    </connections>
+                </button>
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1A-qu-zX1">
+                    <rect key="frame" x="16" y="40" width="58" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="70" id="epY-ua-gHs"/>
+                        <constraint firstAttribute="width" constant="58" id="rrn-Au-yub"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Undo" image="undo">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="wpK-8J-8Ef" appends="YES" id="eEI-0l-gJC"/>
                     </connections>
                 </button>
                 <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IlN-jt-M3W" userLabel="selectEraseBrushSize">
@@ -268,9 +283,11 @@
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
                 <constraint firstItem="vdH-Rz-eUh" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="pJ4-6X-j0t"/>
                 <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="paI-ka-jka"/>
+                <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="s1A-qu-zX1" secondAttribute="bottom" constant="24" id="yT8-ZD-Zuo"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="width" secondItem="RuG-5q-rbQ" secondAttribute="width" id="z7f-1t-BVW"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="zSE-Md-Onc"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="26" id="zc6-Yl-IM4"/>
+                <constraint firstItem="vdH-Rz-eUh" firstAttribute="centerX" secondItem="s1A-qu-zX1" secondAttribute="centerX" id="zjh-b2-bZB"/>
             </constraints>
         </view>
         <tapGestureRecognizer id="oLp-8g-RYa">
@@ -308,6 +325,11 @@
                 <action selector="eraseTapped" destination="-1" id="Wj6-Qg-P2Z"/>
             </connections>
         </tapGestureRecognizer>
+        <tapGestureRecognizer id="wpK-8J-8Ef">
+            <connections>
+                <action selector="undo" destination="-1" id="XB8-bf-tSY"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="BrushBar" width="280" height="84"/>
@@ -318,5 +340,6 @@
         <image name="erase" width="50" height="50"/>
         <image name="share" width="50" height="50"/>
         <image name="underliningStroke" width="49" height="6"/>
+        <image name="undo" width="58" height="50"/>
     </resources>
 </document>

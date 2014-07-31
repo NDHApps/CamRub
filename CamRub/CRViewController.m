@@ -16,6 +16,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *cameraFrame;
 @property (nonatomic, weak) IBOutlet UIImageView *savedPixels;
 @property (nonatomic, strong) UIImage *pixelMask;
+@property (nonatomic, strong) UIImage *lastRevision;
 @property (nonatomic, weak) IBOutlet UIView *brushSelectorView;
 @property (nonatomic, weak) IBOutlet UIView *brushPreview;
 @property (nonatomic, weak) IBOutlet UIView *eraseBrushSelectorView;
@@ -23,9 +24,6 @@
 @property (nonatomic, weak) IBOutlet UIView *selectorBackground;
 @property (nonatomic, weak) IBOutlet UIImageView *drawingStrokes;
 @property (nonatomic, weak) IBOutlet UIView *overlayView;
-@property (nonatomic, weak) IBOutlet UIButton *clearButton;
-@property (nonatomic, weak) IBOutlet UIButton *drawButton;
-@property (nonatomic, weak) IBOutlet UIButton *eraseButton;
 @property (nonatomic, weak) IBOutlet UIButton *shareButton;
 @property (nonatomic, weak) IBOutlet UIImageView *drawIndicator;
 @property (nonatomic, weak) IBOutlet UIImageView *eraseIndicator;
@@ -40,6 +38,7 @@
 - (IBAction) erasePressed;
 - (IBAction) shareImage;
 - (IBAction) dismissBrushSelectors;
+- (IBAction) undo;
 
 @end
 
@@ -76,6 +75,12 @@
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus networkStatus = [reachability currentReachabilityStatus];
     return networkStatus != NotReachable;
+}
+
+- (IBAction)undo
+{
+    if(_savedPixels.image)
+        _savedPixels.image = _lastRevision;
 }
 
 - (IBAction)sliderChanged:(id)sender
@@ -210,12 +215,15 @@
     // Mask image
     capturedImage = [self maskImage:capturedImage withMask:mask];
     
+    // Update image
     UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
     [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    self.lastRevision = self.savedPixels.image;
     self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
+    // Clear temporary images
     self.pixelMask = nil;
     self.drawingStrokes.image = nil;
     
@@ -230,6 +238,7 @@
     UIImage* mask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
+    self.lastRevision = self.savedPixels.image;
     self.savedPixels.image = [self maskImage:_savedPixels.image withMask:mask];
     
     UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
@@ -540,6 +549,7 @@
             if (buttonIndex == 1) {
                 self.savedPixels.image = nil;
                 [self drawTapped];
+                self.lastRevision = nil;
             }
             break;
         default:
