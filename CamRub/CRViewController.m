@@ -13,23 +13,20 @@
 @property (nonatomic, weak) IBOutlet UIImageView *cameraFrame;
 @property (nonatomic, weak) IBOutlet UIImageView *savedPixels;
 @property (nonatomic, strong) UIImage *pixelMask;
+
 @property (nonatomic, weak) IBOutlet UIView *brushSelectorView;
 @property (nonatomic, weak) IBOutlet UIView *brushPreview;
 @property (nonatomic, weak) IBOutlet UIView *eraseBrushSelectorView;
 @property (nonatomic, weak) IBOutlet UIView *eraseBrushPreview;
+@property (nonatomic, weak) IBOutlet UIView *selectorBackground;
 @property (nonatomic, weak) IBOutlet UIImageView *drawingStrokes;
 @property (nonatomic, weak) IBOutlet UIView *overlayView;
 @property (nonatomic, weak) IBOutlet UIButton *clearButton;
 @property (nonatomic, weak) IBOutlet UIButton *drawButton;
 @property (nonatomic, weak) IBOutlet UIButton *eraseButton;
 @property (nonatomic, weak) IBOutlet UIButton *shareButton;
-
-@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *clearButtonTapRecognizer;
-@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *drawButtonTapRecognizer;
-@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *drawButtonPressRecognizer;
-@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *eraseButtonTapRecognizer;
-@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *eraseButtonPressRecognizer;
-@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *shareButtonTapRecognizer;
+@property (nonatomic, weak) IBOutlet UIImageView *drawIndicator;
+@property (nonatomic, weak) IBOutlet UIImageView *eraseIndicator;
 
 - (IBAction) sliderChanged: (id)sender;
 - (IBAction) eraseSliderChanged: (id)sender;
@@ -49,7 +46,8 @@
 {
     [super viewDidLoad];
     
-    brush = 25.0;
+    brush = 30.0;
+    eraser = 30.0;
     alpha = 1.0;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -161,7 +159,8 @@
     self.overlayView.frame = [[UIScreen mainScreen] bounds];
     [_brushPreview.layer setCornerRadius: 25.0];
     [_eraseBrushPreview.layer setCornerRadius: 25.0];
-    _brushPreview.transform = CGAffineTransformIdentity;
+    _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
+    _eraseBrushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
     [[self view] addSubview:self.overlayView];
     self.overlayView = nil;
     
@@ -245,44 +244,73 @@
 }
 
 - (IBAction) clearImage {
-    self.savedPixels.image = nil;
+    [self dismissBrushSelectors];
+    if(_savedPixels.image) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to clear the canvas?" message:@"All rubbing will be lost." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes",nil];
+        alertView.tag = 2;
+        [alertView show];
+    }
 }
 
 - (IBAction) drawTapped {
     drawToolSelected = YES;
+    [_drawIndicator setHidden:NO];
+    [_eraseIndicator setHidden:YES];
+    [self dismissBrushSelectors];
 }
 
 - (IBAction) eraseTapped {
     drawToolSelected = NO;
+    [_eraseIndicator setHidden:NO];
+    [_drawIndicator setHidden:YES];
+    [self dismissBrushSelectors];
 }
 
 - (IBAction) drawPressed {
+    drawToolSelected = YES;
+    [_drawIndicator setHidden:NO];
+    [_eraseIndicator setHidden:YES];
+    [_eraseBrushSelectorView setHidden:YES];
     [_brushSelectorView setHidden:NO];
+    [_selectorBackground setHidden:NO];
 }
 
 - (IBAction) erasePressed {
+    drawToolSelected = NO;
+    [_eraseIndicator setHidden:NO];
+    [_drawIndicator setHidden:YES];
+    [_brushSelectorView setHidden:YES];
     [_eraseBrushSelectorView setHidden:NO];
+    [_selectorBackground setHidden:NO];
 }
 
 - (IBAction) dismissBrushSelectors {
     [_brushSelectorView setHidden:YES];
     [_eraseBrushSelectorView setHidden:YES];
+    [_selectorBackground setHidden:YES];
 }
 
 - (IBAction) shareImage {
-    UIActionSheet *sharePopup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-                            @"Share on Facebook",
-                            @"Share on Twitter",
-                            @"Share on Instagram",
-                            @"Share via Messages",
-                            @"Save to Camera Roll",
-                            nil];
-    sharePopup.tag = 1;
-    [sharePopup showInView:[UIApplication sharedApplication].keyWindow];
+    [self dismissBrushSelectors];
+    if(_savedPixels.image) {
+        UIActionSheet *sharePopup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                                @"Share on Facebook",
+                                @"Share on Twitter",
+                                @"Share on Instagram",
+                                @"Share via Messages",
+                                @"Save to Camera Roll",
+                                nil];
+        sharePopup.tag = 1;
+        [sharePopup showInView:[UIApplication sharedApplication].keyWindow];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There's nothing to share!" message:@"Rub on the camera view to capture portions of the image." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        alertView.tag = 4;
+        [alertView show];
+    }
 
 }
 
-- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void) actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     switch (popup.tag) {
         case 1: {
@@ -300,8 +328,7 @@
 //                    [self MessagesShare];
                     break;
                 case 4:
-                    UIImageWriteToSavedPhotosAlbum(self.savedPixels.image,nil,nil,nil);
-                    [self animateShared];
+                    UIImageWriteToSavedPhotosAlbum(self.savedPixels.image,self,@selector(image:didFinishSavingWithError:contextInfo:),nil);
                     break;
                 default:
                     break;
@@ -313,8 +340,7 @@
     }
 }
 
-- (void)animateShared {
-    
+- (void) animateShare {
     CGRect newFrame = _shareButton.frame;
     newFrame.size.height = newFrame.size.width;
     
@@ -322,7 +348,7 @@
                      animations:^{
                          
                          [_savedPixels setFrame:newFrame];
-
+                         
                      } completion:^(BOOL finished) {
                          [_savedPixels setImage:nil];
                          [_savedPixels setFrame:_drawingStrokes.frame];
@@ -330,12 +356,26 @@
 
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void) image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo: (void *) contextInfo {
+    if(!error) {
+        [self animateShare];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"Image saved to camera roll." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        alertView.tag = 3;
+        [alertView show];
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (alertView.tag) {
         case 1:
             if (buttonIndex == 0)
                 exit(0);
+            break;
+        case 2:
+            if (buttonIndex == 1)
+                self.savedPixels.image = nil;
+            break;
         default:
             break;
             
