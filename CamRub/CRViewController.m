@@ -13,14 +13,33 @@
 @property (nonatomic, weak) IBOutlet UIImageView *cameraFrame;
 @property (nonatomic, weak) IBOutlet UIImageView *savedPixels;
 @property (nonatomic, strong) UIImage *pixelMask;
+@property (nonatomic, weak) IBOutlet UIView *brushSelectorView;
+@property (nonatomic, weak) IBOutlet UIView *brushPreview;
+@property (nonatomic, weak) IBOutlet UIView *eraseBrushSelectorView;
+@property (nonatomic, weak) IBOutlet UIView *eraseBrushPreview;
 @property (nonatomic, weak) IBOutlet UIImageView *drawingStrokes;
 @property (nonatomic, weak) IBOutlet UIView *overlayView;
 @property (nonatomic, weak) IBOutlet UIButton *clearButton;
 @property (nonatomic, weak) IBOutlet UIButton *drawButton;
 @property (nonatomic, weak) IBOutlet UIButton *eraseButton;
-@property (nonatomic, weak) IBOutlet UIButton *share;
+@property (nonatomic, weak) IBOutlet UIButton *shareButton;
 
-- (void) IBAction clearImage;
+@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *clearButtonTapRecognizer;
+@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *drawButtonTapRecognizer;
+@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *drawButtonPressRecognizer;
+@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *eraseButtonTapRecognizer;
+@property (weak, nonatomic) IBOutlet UILongPressGestureRecognizer *eraseButtonPressRecognizer;
+@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *shareButtonTapRecognizer;
+
+- (IBAction) sliderChanged: (id)sender;
+- (IBAction) eraseSliderChanged: (id)sender;
+- (IBAction) clearImage;
+- (IBAction) drawTapped;
+- (IBAction) drawPressed;
+- (IBAction) eraseTapped;
+- (IBAction) erasePressed;
+- (IBAction) shareImage;
+- (IBAction) dismissBrushSelectors;
 
 @end
 
@@ -36,6 +55,7 @@
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"CamRub needs a camera!" message:@"Please try CamRub on another camera-enabled device." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        alertView.tag = 1;
         [alertView show];
     }
     else
@@ -49,6 +69,22 @@
     [super didReceiveMemoryWarning];
 }
 
+- (IBAction)sliderChanged:(id)sender
+{
+    UISlider *slider = (UISlider *)sender;
+    float val = slider.value * 40.0 + 10;
+    brush = val;
+    _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, val/50.0, val/50.0);
+}
+
+- (IBAction)eraseSliderChanged:(id)sender
+{
+    UISlider *slider = (UISlider *)sender;
+    float val = slider.value * 40.0 + 10;
+    eraser = val;
+    _eraseBrushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, val/50.0, val/50.0);
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     mouseSwiped = NO;
@@ -59,10 +95,11 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     
     mouseSwiped = YES;
+    drawToolSelected = YES;
     UITouch *touch = [touches anyObject];
     CGPoint currentPoint = [touch locationInView:self.drawingStrokes];
     
-    UIGraphicsBeginImageContext(self.drawingStrokes.frame.size);
+    UIGraphicsBeginImageContextWithOptions(self.drawingStrokes.frame.size, NO, 0.0);
     [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height)];
     CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
     CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y);
@@ -82,7 +119,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
     if(!mouseSwiped) {
-        UIGraphicsBeginImageContext(self.drawingStrokes.frame.size);
+        UIGraphicsBeginImageContextWithOptions(self.drawingStrokes.frame.size, NO, 0.0);
         [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height)];
         CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brush);
@@ -95,7 +132,7 @@
         UIGraphicsEndImageContext();
     }
     
-    UIGraphicsBeginImageContext(self.savedPixels.frame.size);
+    UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
     [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     self.pixelMask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -122,7 +159,9 @@
     
     [[NSBundle mainBundle] loadNibNamed:@"CRCameraOverlayView" owner:self options:nil];
     self.overlayView.frame = [[UIScreen mainScreen] bounds];
-    [self.overlayView setUserInteractionEnabled:YES];
+    [_brushPreview.layer setCornerRadius: 25.0];
+    [_eraseBrushPreview.layer setCornerRadius: 25.0];
+    _brushPreview.transform = CGAffineTransformIdentity;
     [[self view] addSubview:self.overlayView];
     self.overlayView = nil;
     
@@ -144,8 +183,8 @@
     // Draw new image in current graphics context
     CGImageRef imageRef = CGImageCreateWithImageInRect ([capturedImage CGImage], cropRect);
     
-    // Create new cropped UIImage
-    UIImage *croppedImage = [self rotate:[UIImage imageWithCGImage: imageRef scale: 0.9375 * imageWidth / 600.0 orientation: UIImageOrientationRight]];
+    // Rotate and crop the image
+    capturedImage = [self rotate:[UIImage imageWithCGImage: imageRef scale: 0.9375 * imageWidth / 600.0 orientation: UIImageOrientationRight]];
     
     // Create alpha mask
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
@@ -164,13 +203,14 @@
                                         CGImageGetBitsPerPixel(maskRef),
                                         CGImageGetBytesPerRow(maskRef),
                                         CGImageGetDataProvider(maskRef), NULL, false);
-	CGImageRef masked = CGImageCreateWithMask([croppedImage CGImage], CGMask);
+	maskRef = CGImageCreateWithMask([capturedImage CGImage], CGMask);
     
-    UIImage *maskedImage = [UIImage imageWithCGImage:masked];
+    capturedImage = [UIImage imageWithCGImage:maskRef];
+    maskRef = CGMask = nil;
     
-    UIGraphicsBeginImageContext(self.savedPixels.frame.size);
+    UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
     [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
-    [maskedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
@@ -183,7 +223,7 @@
     
     UIImageOrientation orientation = src.imageOrientation;
     
-    UIGraphicsBeginImageContext(src.size);
+    UIGraphicsBeginImageContextWithOptions(src.size, NO, 0.0);
     
     CGContextRef context=(UIGraphicsGetCurrentContext());
     
@@ -202,6 +242,104 @@
     UIGraphicsEndImageContext();
     return img;
     
+}
+
+- (IBAction) clearImage {
+    self.savedPixels.image = nil;
+}
+
+- (IBAction) drawTapped {
+    drawToolSelected = YES;
+}
+
+- (IBAction) eraseTapped {
+    drawToolSelected = NO;
+}
+
+- (IBAction) drawPressed {
+    [_brushSelectorView setHidden:NO];
+}
+
+- (IBAction) erasePressed {
+    [_eraseBrushSelectorView setHidden:NO];
+}
+
+- (IBAction) dismissBrushSelectors {
+    [_brushSelectorView setHidden:YES];
+    [_eraseBrushSelectorView setHidden:YES];
+}
+
+- (IBAction) shareImage {
+    UIActionSheet *sharePopup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                            @"Share on Facebook",
+                            @"Share on Twitter",
+                            @"Share on Instagram",
+                            @"Share via Messages",
+                            @"Save to Camera Roll",
+                            nil];
+    sharePopup.tag = 1;
+    [sharePopup showInView:[UIApplication sharedApplication].keyWindow];
+
+}
+
+- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (popup.tag) {
+        case 1: {
+            switch (buttonIndex) {
+                case 0:
+//                    [self FBShare];
+                    break;
+                case 1:
+//                    [self TwitterShare];
+                    break;
+                case 2:
+//                    [self InstagramShare];
+                    break;
+                case 3:
+//                    [self MessagesShare];
+                    break;
+                case 4:
+                    UIImageWriteToSavedPhotosAlbum(self.savedPixels.image,nil,nil,nil);
+                    [self animateShared];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)animateShared {
+    
+    CGRect newFrame = _shareButton.frame;
+    newFrame.size.height = newFrame.size.width;
+    
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         
+                         [_savedPixels setFrame:newFrame];
+
+                     } completion:^(BOOL finished) {
+                         [_savedPixels setImage:nil];
+                         [_savedPixels setFrame:_drawingStrokes.frame];
+                     }];
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (alertView.tag) {
+        case 1:
+            if (buttonIndex == 0)
+                exit(0);
+        default:
+            break;
+            
+    }
 }
 
 @end

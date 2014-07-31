@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "CaptureSessionManager.h"
 
-@interface CRViewController : UIViewController {
+@interface CRViewController : UIViewController <UIActionSheetDelegate> {
     
     CGPoint lastPoint;
     CGFloat brush;
+    CGFloat eraser;
     CGFloat alpha;
     BOOL mouseSwiped;
+    BOOL drawToolSelected; // Otherwise Erase
 }
 
 @property (retain) CaptureSessionManager *captureManager;

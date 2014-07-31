@@ -7,14 +7,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CRViewController">
             <connections>
+                <outlet property="brushPreview" destination="oub-uI-uXe" id="2zf-ek-9zD"/>
+                <outlet property="brushSelectorView" destination="X05-Hn-aun" id="tXp-Vz-XlC"/>
                 <outlet property="cameraFrame" destination="cKQ-Ln-xee" id="pkQ-tJ-cil"/>
                 <outlet property="clearButton" destination="vdH-Rz-eUh" id="fxr-8L-UHu"/>
+                <outlet property="clearButtonTapRecognizer" destination="oLp-8g-RYa" id="U37-y4-jmd"/>
                 <outlet property="drawButton" destination="esQ-tB-e6d" id="vi8-Lq-qpA"/>
+                <outlet property="drawButtonPressRecognizer" destination="RdT-1x-6ee" id="n9y-a3-b95"/>
                 <outlet property="drawingStrokes" destination="yFF-TN-YHB" id="fMH-vr-1qi"/>
+                <outlet property="eraseBrushPreview" destination="LB0-N4-zHk" id="U4Z-NX-FTZ"/>
+                <outlet property="eraseBrushSelectorView" destination="IlN-jt-M3W" id="dd4-LH-Afz"/>
                 <outlet property="eraseButton" destination="OeM-BY-b5l" id="xw2-Od-jTI"/>
+                <outlet property="eraseButtonPressRecognizer" destination="Fyg-Co-qdc" id="dBB-fm-MnM"/>
                 <outlet property="overlayView" destination="9bN-qM-BdW" id="8BV-ep-7M8"/>
                 <outlet property="savedPixels" destination="RuG-5q-rbQ" id="lbT-oN-cTb"/>
                 <outlet property="shareButton" destination="fwJ-1U-Gdd" id="8Oi-H0-nzd"/>
+                <outlet property="shareButtonTapRecognizer" destination="Dg6-Ca-poZ" id="F20-pO-9P9"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -33,6 +41,7 @@
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-Rz-eUh">
                     <rect key="frame" x="20" y="478" width="50" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="ZwH-90-sqs"/>
                         <constraint firstAttribute="width" constant="50" id="lay-Dm-uwq"/>
@@ -43,38 +52,14 @@
                     <state key="normal" title="Clear" image="clear">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
-                    <rect key="frame" x="97" y="478" width="50" height="70"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="70" id="45v-1n-WU4"/>
-                        <constraint firstAttribute="width" constant="50" id="ue1-39-DHM"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="Draw" image="draw">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeM-BY-b5l">
-                    <rect key="frame" x="173" y="478" width="50" height="70"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="70" id="UIX-bI-7Bb"/>
-                        <constraint firstAttribute="width" constant="50" id="Uj8-bC-7pM"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="Erase" image="erase">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="oLp-8g-RYa" appends="YES" id="Rr7-SV-bqs"/>
+                    </connections>
                 </button>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwJ-1U-Gdd">
                     <rect key="frame" x="250" y="478" width="50" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="LOh-tq-zsw"/>
                         <constraint firstAttribute="width" constant="50" id="xKh-Rp-RIZ"/>
@@ -85,6 +70,9 @@
                     <state key="normal" title="Share" image="share">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="Dg6-Ca-poZ" appends="YES" id="fxb-4Z-xAf"/>
+                    </connections>
                 </button>
                 <imageView appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
                     <rect key="frame" x="10" y="134" width="300" height="300"/>
@@ -99,29 +87,205 @@
                         <constraint firstAttribute="width" constant="300" id="q27-M8-FXs"/>
                     </constraints>
                 </imageView>
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
+                    <rect key="frame" x="97" y="478" width="50" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="70" id="45v-1n-WU4"/>
+                        <constraint firstAttribute="width" constant="50" id="ue1-39-DHM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Draw" image="draw">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="RdT-1x-6ee" appends="YES" id="bza-xy-gwX"/>
+                        <outletCollection property="gestureRecognizers" destination="wtI-V6-CPZ" appends="YES" id="QiU-FF-itV"/>
+                    </connections>
+                </button>
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeM-BY-b5l">
+                    <rect key="frame" x="173" y="478" width="50" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="70" id="UIX-bI-7Bb"/>
+                        <constraint firstAttribute="width" constant="50" id="Uj8-bC-7pM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Erase" image="erase">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="Fyg-Co-qdc" appends="YES" id="gno-dY-yT3"/>
+                        <outletCollection property="gestureRecognizers" destination="M9Y-me-OJ9" appends="YES" id="myf-Hk-zJc"/>
+                    </connections>
+                </button>
+                <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X05-Hn-aun" userLabel="selectDrawBrushSize">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BrushBar" translatesAutoresizingMaskIntoConstraints="NO" id="8dT-Cg-c6h">
+                            <rect key="frame" x="20" y="395" width="280" height="80"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="280" id="4JO-II-vCt"/>
+                                <constraint firstAttribute="height" constant="80" id="Dzg-7y-h1v"/>
+                            </constraints>
+                        </imageView>
+                        <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="CUJ-lF-c5c">
+                            <rect key="frame" x="38" y="415" width="178" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="tintColor" cyan="0.54830241203308105" magenta="0.42255282402038574" yellow="0.0006561279296875" black="0.099664392605633798" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="cMD-Iy-UnW"/>
+                                <constraint firstAttribute="width" constant="174" id="jYR-hx-d5t"/>
+                            </constraints>
+                            <connections>
+                                <action selector="sliderChanged:" destination="-1" eventType="valueChanged" id="AhB-JQ-Onw"/>
+                            </connections>
+                        </slider>
+                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oub-uI-uXe">
+                            <rect key="frame" x="232" y="406" width="50" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="ZqI-hU-Cw1"/>
+                                <constraint firstAttribute="width" constant="50" id="s92-w5-58H"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <accessibility key="accessibilityConfiguration" label=""/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstItem="8dT-Cg-c6h" firstAttribute="centerY" secondItem="oub-uI-uXe" secondAttribute="centerY" constant="4" id="Kbi-Qo-0Bu"/>
+                        <constraint firstItem="8dT-Cg-c6h" firstAttribute="leading" secondItem="CUJ-lF-c5c" secondAttribute="trailing" constant="-194" id="ULk-b4-rqH"/>
+                        <constraint firstItem="oub-uI-uXe" firstAttribute="centerX" secondItem="8dT-Cg-c6h" secondAttribute="trailing" constant="-43" id="WdV-XM-VPu"/>
+                        <constraint firstAttribute="centerX" secondItem="8dT-Cg-c6h" secondAttribute="centerX" id="fsX-6k-wxr"/>
+                        <constraint firstItem="8dT-Cg-c6h" firstAttribute="top" secondItem="CUJ-lF-c5c" secondAttribute="bottom" constant="-50" id="oFy-0Z-gBN"/>
+                        <constraint firstAttribute="bottom" secondItem="8dT-Cg-c6h" secondAttribute="bottom" constant="93" id="tjc-Gy-vHh"/>
+                    </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="ehI-Xt-s0k" appends="YES" id="4KR-Hm-80p"/>
+                    </connections>
+                </view>
+                <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IlN-jt-M3W" userLabel="selectEraseBrushSize">
+                    <rect key="frame" x="-1" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EraseBrushBar" translatesAutoresizingMaskIntoConstraints="NO" id="zfI-31-d8o">
+                            <rect key="frame" x="20" y="395" width="280" height="80"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="280" id="L8f-hr-y9A"/>
+                                <constraint firstAttribute="height" constant="80" id="Ral-M5-rjp"/>
+                            </constraints>
+                        </imageView>
+                        <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="adX-Fx-Ou4">
+                            <rect key="frame" x="38" y="415" width="178" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="tintColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="NDc-SW-Gid"/>
+                                <constraint firstAttribute="width" constant="174" id="VJc-Ch-WAs"/>
+                            </constraints>
+                            <connections>
+                                <action selector="eraseSliderChanged:" destination="-1" eventType="valueChanged" id="3Jy-X7-Ma2"/>
+                            </connections>
+                        </slider>
+                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB0-N4-zHk">
+                            <rect key="frame" x="232" y="406" width="50" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="NTe-Ku-IQ6"/>
+                                <constraint firstAttribute="width" constant="50" id="ZRK-Pw-PJj"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <accessibility key="accessibilityConfiguration" label=""/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstItem="zfI-31-d8o" firstAttribute="centerY" secondItem="LB0-N4-zHk" secondAttribute="centerY" constant="4" id="345-k5-58p"/>
+                        <constraint firstAttribute="centerX" secondItem="zfI-31-d8o" secondAttribute="centerX" id="Jch-Gc-9qx"/>
+                        <constraint firstItem="zfI-31-d8o" firstAttribute="leading" secondItem="adX-Fx-Ou4" secondAttribute="trailing" constant="-194" id="Q7s-vk-xKQ"/>
+                        <constraint firstItem="zfI-31-d8o" firstAttribute="top" secondItem="adX-Fx-Ou4" secondAttribute="bottom" constant="-50" id="Xrg-BY-nAg"/>
+                        <constraint firstAttribute="bottom" secondItem="zfI-31-d8o" secondAttribute="bottom" constant="93" id="rPb-Aw-JzI"/>
+                        <constraint firstItem="LB0-N4-zHk" firstAttribute="centerX" secondItem="zfI-31-d8o" secondAttribute="trailing" constant="-43" id="wI2-Fh-C2v"/>
+                    </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="19n-0P-L79" appends="YES" id="f8Z-Re-Mk3"/>
+                    </connections>
+                </view>
             </subviews>
             <constraints>
+                <constraint firstItem="IlN-jt-M3W" firstAttribute="bottom" secondItem="cKQ-Ln-xee" secondAttribute="bottom" id="7DL-l1-NHF"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="OeM-BY-b5l" secondAttribute="trailing" constant="27" id="7wm-kA-xuA"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="cKQ-Ln-xee" secondAttribute="trailing" constant="-70" id="8JE-44-rH2"/>
+                <constraint firstItem="X05-Hn-aun" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="8bg-cg-z5a"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="centerX" secondItem="yFF-TN-YHB" secondAttribute="centerX" id="9PM-j3-hFh"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="BWd-aY-1Ub"/>
+                <constraint firstItem="X05-Hn-aun" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="CYj-WN-GsM"/>
+                <constraint firstItem="IlN-jt-M3W" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" constant="-1" id="M1o-vF-mOY"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="centerY" secondItem="RuG-5q-rbQ" secondAttribute="centerY" id="PYv-qI-atM"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="QeX-z3-4NV"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="height" secondItem="RuG-5q-rbQ" secondAttribute="height" id="VO0-Uo-CnA"/>
+                <constraint firstAttribute="trailing" secondItem="IlN-jt-M3W" secondAttribute="trailing" constant="1" id="WGb-8x-Tbt"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="ZEO-ms-WIK"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="centerX" secondItem="RuG-5q-rbQ" secondAttribute="centerX" id="c7V-yG-P0F"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="bottom" secondItem="yFF-TN-YHB" secondAttribute="centerY" constant="284" id="fdd-EV-bwe"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
+                <constraint firstAttribute="trailing" secondItem="X05-Hn-aun" secondAttribute="trailing" id="nQx-ad-Fa5"/>
                 <constraint firstItem="vdH-Rz-eUh" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="pJ4-6X-j0t"/>
                 <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="cKQ-Ln-xee" secondAttribute="bottom" constant="-90" id="paI-ka-jka"/>
+                <constraint firstItem="IlN-jt-M3W" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" id="rRa-8k-teJ"/>
+                <constraint firstAttribute="bottom" secondItem="X05-Hn-aun" secondAttribute="bottom" id="usl-V5-BHq"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="width" secondItem="RuG-5q-rbQ" secondAttribute="width" id="z7f-1t-BVW"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="zSE-Md-Onc"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="27" id="zc6-Yl-IM4"/>
             </constraints>
         </view>
+        <tapGestureRecognizer id="oLp-8g-RYa">
+            <connections>
+                <action selector="clearImage" destination="-1" id="O8w-de-ch0"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="Dg6-Ca-poZ">
+            <connections>
+                <action selector="shareImage" destination="-1" id="dFf-rg-bN9"/>
+            </connections>
+        </tapGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="RdT-1x-6ee">
+            <connections>
+                <action selector="drawPressed" destination="-1" id="134-7p-jnl"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Fyg-Co-qdc">
+            <connections>
+                <action selector="erasePressed" destination="-1" id="7pT-gj-FOl"/>
+            </connections>
+        </pongPressGestureRecognizer>
+        <tapGestureRecognizer id="19n-0P-L79">
+            <connections>
+                <action selector="dismissBrushSelectors" destination="-1" id="YvA-E6-7Fi"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="ehI-Xt-s0k">
+            <connections>
+                <action selector="dismissBrushSelectors" destination="-1" id="UyF-II-jPY"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="wtI-V6-CPZ"/>
+        <tapGestureRecognizer id="M9Y-me-OJ9"/>
     </objects>
     <resources>
+        <image name="BrushBar" width="280" height="84"/>
         <image name="CamFrame" width="320" height="568"/>
+        <image name="EraseBrushBar" width="280" height="84"/>
         <image name="clear" width="50" height="50"/>
         <image name="draw" width="50" height="50"/>
         <image name="erase" width="50" height="50"/>
