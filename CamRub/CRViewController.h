@@ -18,6 +18,7 @@
     CGFloat eraseSize;
     CGFloat color;
     CGFloat alpha;
+    
     BOOL mouseSwiped;
     BOOL drawToolSelected; // Otherwise Erase
 }

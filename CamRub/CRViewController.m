@@ -27,6 +27,9 @@
 @property (nonatomic, weak) IBOutlet UIButton *shareButton;
 @property (nonatomic, weak) IBOutlet UIImageView *drawIndicator;
 @property (nonatomic, weak) IBOutlet UIImageView *eraseIndicator;
+@property (nonatomic, strong) IBOutletCollection(UIButton) NSArray *buttons;
+@property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *topButtonConstraints;
+@property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *bottomButtonConstraints;
 @property (nonatomic, retain) UIDocumentInteractionController *dic;
 
 - (IBAction) sliderChanged: (id)sender;
@@ -69,6 +72,11 @@
 
 }
 
+- (CGFloat) trueScreenHeight {
+    CGRect screenSize = [[UIScreen mainScreen] bounds];
+    return screenSize.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -82,15 +90,15 @@
 
 - (IBAction)undo
 {
+    [self dismissBrushSelectors];
     if(_savedPixels.image)
         _savedPixels.image = _lastRevision;
 }
 
 - (IBAction)flip
 {
-//    [self.captureManager.captureSession stopRunning];
+    [self dismissBrushSelectors];
     [[self captureManager] toggleCamera];
-//    [self.captureManager.captureSession startRunning];
 }
 
 - (IBAction)sliderChanged:(id)sender
@@ -184,7 +192,11 @@
 	[[[self view] layer] addSublayer:[[self captureManager] previewLayer]];
     
     [[NSBundle mainBundle] loadNibNamed:@"CRCameraOverlayView" owner:self options:nil];
-    self.overlayView.frame = [[UIScreen mainScreen] bounds];
+    CGRect screenSize = [[UIScreen mainScreen] bounds];
+    screenSize.size.height = [self trueScreenHeight];
+    self.overlayView.frame = screenSize;
+    [self customizeConstraints];
+    [self customizeButtons];
     [_brushPreview.layer setCornerRadius: 25.0];
     [_eraseBrushPreview.layer setCornerRadius: 25.0];
     _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
@@ -196,6 +208,26 @@
     
     [[_captureManager captureSession] startRunning];
    
+}
+
+- (void) customizeConstraints {
+    CGFloat screenHeight = [self trueScreenHeight];
+    CGFloat spacing = screenHeight / 4.0 - 110.0;
+    for (NSLayoutConstraint *topButtonConstraint in self.topButtonConstraints)
+    {
+        topButtonConstraint.constant = spacing - 5.0;
+    }
+    for (NSLayoutConstraint *bottomButtonConstraint in self.bottomButtonConstraints)
+    {
+        bottomButtonConstraint.constant = spacing;
+    }
+}
+
+- (void) customizeButtons {
+    for (UIButton *buttonToCustomize in self.buttons)
+    {
+        [buttonToCustomize setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    }
 }
 
 - (void) addStrokesToImage {
@@ -218,7 +250,7 @@
         orientation = UIImageOrientationRight;
     
     capturedImage = [self rotate:[UIImage imageWithCGImage: imageRef scale: 0.9375 * imageWidth / 600.0 orientation: orientation]];
-    
+    CGImageRelease(imageRef);
     // Create alpha mask
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
     CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
@@ -280,8 +312,10 @@
                                           CGImageGetBytesPerRow(maskRef),
                                           CGImageGetDataProvider(maskRef), NULL, false);
 	maskRef = CGImageCreateWithMask([image CGImage], CGMask);
-    
-    return [UIImage imageWithCGImage:maskRef];
+    CGImageRelease(CGMask);
+    UIImage *result = [UIImage imageWithCGImage:maskRef];
+    CGImageRelease(maskRef);
+    return result;
 
 }
 
@@ -369,21 +403,34 @@
 - (IBAction) shareImage {
     [self dismissBrushSelectors];
     if(_savedPixels.image) {
-        UIActionSheet *sharePopup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-                                @"Share on Facebook",
-                                @"Share on Twitter",
-                                @"Share on Instagram",
-                                @"Share via Messages",
-                                @"Save to Camera Roll",
-                                nil];
-        sharePopup.tag = 1;
-        [sharePopup showInView:[UIApplication sharedApplication].keyWindow];
+        _drawingStrokes.image = [self renderImage];
+        _drawingStrokes.alpha = 0.5;
+        [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             _drawingStrokes.alpha = 1.0;
+                             
+                         } completion:^(BOOL finished) {
+                             [self.captureManager.captureSession stopRunning];
+                             [self displayActionSheet];
+                         }];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There's nothing to share!" message:@"Rub on the camera view to capture portions of the image." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         alertView.tag = 3;
         [alertView show];
     }
 
+}
+
+- (void) displayActionSheet {
+    UIActionSheet *sharePopup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
+                                 @"Share on Facebook",
+                                 @"Share on Twitter",
+                                 @"Share on Instagram",
+                                 @"Share via Messages",
+                                 @"Save to Camera Roll",
+                                 nil];
+    sharePopup.tag = 1;
+    [sharePopup showInView:[UIApplication sharedApplication].keyWindow];
 }
 
 - (void) actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -407,6 +454,8 @@
                     [self saveImage];
                     break;
                 default:
+                    _drawingStrokes.image = nil;
+                    [self.captureManager.captureSession startRunning];
                     break;
             }
             break;
@@ -423,22 +472,24 @@
     // These checks basically make sure it's an MMS capable device with iOS7
     if([MFMessageComposeViewController respondsToSelector:@selector(canSendAttachments)] && [MFMessageComposeViewController canSendAttachments])
     {
-        NSData *imgData = UIImagePNGRepresentation(_savedPixels.image);
+        NSData *imgData = UIImagePNGRepresentation(_drawingStrokes.image);
         [composer addAttachmentData:imgData typeIdentifier:(NSString*)kUTTypeMessage filename:@"image.png"];
-        [composer setBody:@"Check out the picture I made using CamRub!"];
+        [composer setBody:@"Check out this picture I made using CamRub!"];
     }
-    
-    [self animateShare:nil];
     
     [self presentViewController:composer animated:YES completion:nil];
 }
 
 - (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    _drawingStrokes.image = nil;
+    [self.captureManager.captureSession startRunning];
+    if (result == MessageComposeResultSent)
+        _savedPixels.image = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) saveImage {
-    UIImageWriteToSavedPhotosAlbum(self.savedPixels.image,self,@selector(image:didFinishSavingWithError:contextInfo:),nil);
+    UIImageWriteToSavedPhotosAlbum(self.drawingStrokes.image,self,@selector(image:didFinishSavingWithError:contextInfo:),nil);
 }
 
 - (void) SLShareImage:(NSString *const)service {
@@ -450,20 +501,20 @@
     
     if (service == SLServiceTypeFacebook) {
         message = @"Imaged shared to Facebook.";
-        [shareSheet setInitialText:@"Check out the picture I made using CamRub!"];
+        [shareSheet setInitialText:@"Check out this picture I made using CamRub!"];
     }
     else if (service == SLServiceTypeTwitter) {
         message = @"Imaged shared to Twitter.";
-        [shareSheet setInitialText:@"Check out the picture I made using @CamRubApp!"];
+        [shareSheet setInitialText:@"Check out this picture I made using @CamRubApp!"];
     }
     
-    if (![shareSheet addImage:_savedPixels.image]) {
-        NSLog(@"Unable to add the image!");
-    }
+    [shareSheet addImage:_drawingStrokes.image];
     
     shareSheet.completionHandler = ^(SLComposeViewControllerResult result) {
         switch(result) {
             case SLComposeViewControllerResultCancelled:
+                _drawingStrokes.image = nil;
+                [self.captureManager.captureSession startRunning];
                 break;
             case SLComposeViewControllerResultDone:
                 if ([self connected])
@@ -474,6 +525,18 @@
     
     [self presentViewController:shareSheet animated:NO completion:nil];
     
+}
+
+- (UIImage*) renderImage {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(600.0, 600.0), NO, 0.0 );
+    CGRect maskRect = CGRectMake(0.0, 0.0, 600.0, 600.0);
+    [[UIColor whiteColor] set];
+    UIRectFill(CGRectMake(0.0, 0.0, 600.0, 600.0));
+    [_savedPixels.image drawInRect:maskRect];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return img;
 }
 
 - (UIImage*) formatPNG {
@@ -502,7 +565,7 @@
         
         self.dic = [UIDocumentInteractionController interactionControllerWithURL:instaHookFile];
         self.dic.delegate = self;
-        self.dic.annotation = [NSDictionary dictionaryWithObject:@"Check out the picture I made using CamRub!"
+        self.dic.annotation = [NSDictionary dictionaryWithObject:@"Check out this picture I made using CamRub!"
                                                           forKey:@"InstagramCaption"];
         self.dic.UTI = @"com.instagram.photo";
         
@@ -526,39 +589,53 @@
 - (void) animateShare:(NSString*)successMessage {
     CGRect newFrame = _shareButton.frame;
     newFrame.size.height = newFrame.size.width;
-    
+    _savedPixels.image = nil;
     [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
                          
-                         [_savedPixels setFrame:newFrame];
+                         [_drawingStrokes setFrame:newFrame];
                          
                      } completion:^(BOOL finished) {
-                         [_savedPixels setImage:nil];
-                         [_savedPixels setFrame:_drawingStrokes.frame];
+                         [_drawingStrokes setImage:nil];
+                         [_drawingStrokes setFrame:_savedPixels.frame];
                          if (successMessage)
                              [self successAlert:successMessage];
+                         else {
+                             _drawingStrokes.image = nil;
+                             [self.captureManager.captureSession startRunning];
+                         }
                      }];
 
 }
 
 - (void) successAlert:(NSString*)successMessage {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success!" message:successMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    alertView.tag = 3;
     [alertView show];
 }
 
 - (void) image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo: (void *) contextInfo {
     if(!error) {
         [self animateShare:@"Image saved to camera roll."];
+    } else {
+        _drawingStrokes.image = nil;
+        [self.captureManager.captureSession startRunning];
     }
 }
 
+-(void) documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
+    _drawingStrokes.image = nil;
+    [self.captureManager.captureSession startRunning];
+}
+
 -(void) documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application {
-    self.savedPixels.image = nil;
+    _savedPixels.image = nil;
     [self drawTapped];
 }
 
 - (IBAction) help {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"CamRub Help" message:@"Instructions: \"Rub\" on the screen to capture portions of the image. Make unique drawings, create collages, or just play around with the app for fun! Tap the \"Share\" button when you're done to save or share your creations.\n\nFor additional support email us at NDHApps@gmail.com or follow us on Twitter at @CamRubApp.\n\n©2014 NDHApps. All rights reserved." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [self dismissBrushSelectors];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"CamRub Help" message:@"Instructions: Rub on the screen to capture portions of the image. Make unique drawings, create collages, or just play around with the app for fun! Tap the \"Share\" button when you're done to save or share your creations.\n\nFor additional support email us at NDHApps@gmail.com or follow us on Twitter at @CamRubApp.\n\n©2014 NDHApps. All rights reserved." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
 }
 
@@ -575,6 +652,10 @@
                 [self drawTapped];
                 self.lastRevision = nil;
             }
+            break;
+        case 3:
+            _drawingStrokes.image = nil;
+            [self.captureManager.captureSession startRunning];
             break;
         default:
             break;

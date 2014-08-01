@@ -19,7 +19,6 @@
 
 - (void)addVideoInput {
     NSArray *devices = [AVCaptureDevice devices];
-    AVCaptureDevice *frontCamera;
     AVCaptureDevice *backCamera;
     
     for (AVCaptureDevice *device in devices) {
@@ -28,8 +27,6 @@
             
             if ([device position] == AVCaptureDevicePositionBack)
                 backCamera = device;
-            else
-                frontCamera = device;
         }
     }
     
@@ -40,9 +37,6 @@
         if ([[self captureSession] canAddInput:backFacingCameraDeviceInput]) {
             [[self captureSession] addInput:backFacingCameraDeviceInput];
             self.frontCameraInUse = NO;
-        }
-        else {
-            NSLog(@"Couldn't add back facing video input");
         }
     }
 }
@@ -84,15 +78,8 @@
         }
 	}
     
-	NSLog(@"about to request a capture from: %@", [self stillImageOutput]);
 	[[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:videoConnection
                                                          completionHandler:^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
-                                                             CFDictionaryRef exifAttachments = CMGetAttachment(imageSampleBuffer, kCGImagePropertyExifDictionary, NULL);
-                                                             if (exifAttachments) {
-                                                                 NSLog(@"attachements: %@", exifAttachments);
-                                                             } else {
-                                                                 NSLog(@"no attachments");
-                                                             }
                                                              NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
                                                              UIImage *image = [[UIImage alloc] initWithData:imageData];
                                                              [self setStillImage:image];
@@ -128,9 +115,6 @@
                     [[self captureSession] addInput:frontFacingCameraDeviceInput];
                     self.frontCameraInUse = YES;
                 }
-                else {
-                    NSLog(@"Couldn't add back facing video input");
-                }
             }
         }
     } else {
@@ -140,9 +124,6 @@
             if ([[self captureSession] canAddInput:backFacingCameraDeviceInput]) {
                 [[self captureSession] addInput:backFacingCameraDeviceInput];
                 self.frontCameraInUse = NO;
-            }
-            else {
-                NSLog(@"Couldn’t add back facing video input");
             }
         }
     }
