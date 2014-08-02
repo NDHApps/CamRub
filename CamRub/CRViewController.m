@@ -10,6 +10,7 @@
 #import <Twitter/Twitter.h>
 #import "Reachability.h"
 #import <MobileCoreServices/UTCoreTypes.h>
+#import "CRSettingsController.h"
 
 @interface CRViewController ()
 
@@ -31,19 +32,6 @@
 @property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *topButtonConstraints;
 @property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *bottomButtonConstraints;
 @property (nonatomic, retain) UIDocumentInteractionController *dic;
-
-- (IBAction) sliderChanged: (id)sender;
-- (IBAction) eraseSliderChanged: (id)sender;
-- (IBAction) clearImage;
-- (IBAction) drawTapped;
-- (IBAction) drawPressed;
-- (IBAction) eraseTapped;
-- (IBAction) erasePressed;
-- (IBAction) shareImage;
-- (IBAction) dismissBrushSelectors;
-- (IBAction) undo;
-- (IBAction) flip;
-- (IBAction) help;
 
 @end
 
@@ -662,5 +650,16 @@
             
     }
 }
+
+- (IBAction) settings
+{
+    CGRect frame = CGRectMake(10, ([self trueScreenHeight]-470.0)/2.0, 310, 470);
+    CRSettingsController *settingsPopup = [[CRSettingsController alloc] initWithFrame:frame];
+    [[self view] addSubview:settingsPopup];
+    
+}
+//- (IBAction)close:(id)sender{
+//    [self removeFromSuperview];
+//}
 
 @end

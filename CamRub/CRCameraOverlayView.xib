@@ -33,6 +33,7 @@
                 <outletCollection property="bottomButtonConstraints" destination="dZJ-LY-bUV" id="dzt-wr-57J"/>
                 <outletCollection property="bottomButtonConstraints" destination="Ixe-eP-nbo" id="Hj6-0o-cCC"/>
                 <outletCollection property="bottomButtonConstraints" destination="U8g-fx-dve" id="lVO-gh-7H3"/>
+                <outletCollection property="buttons" destination="Ks6-VX-U6e" id="5Nc-e9-lC5"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -40,7 +41,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
+                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
@@ -61,12 +62,12 @@
                     </constraints>
                 </imageView>
                 <imageView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
-                    <rect key="frame" x="9.5" y="134" width="300" height="300"/>
+                    <rect key="frame" x="10" y="134" width="300" height="300"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label=""/>
                 </imageView>
                 <imageView appearanceType="aqua" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
-                    <rect key="frame" x="9.5" y="134" width="300" height="300"/>
+                    <rect key="frame" x="10" y="134" width="300" height="300"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="300" id="Q0g-Jb-Pgp"/>
@@ -81,7 +82,7 @@
                     </connections>
                 </view>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-zm-i5g">
-                    <rect key="frame" x="130" y="40" width="64" height="75"/>
+                    <rect key="frame" x="166" y="40" width="64" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
@@ -191,7 +192,7 @@
                     </connections>
                 </button>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1A-qu-zX1">
-                    <rect key="frame" x="14" y="40" width="58" height="75"/>
+                    <rect key="frame" x="93" y="40" width="58" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
@@ -200,12 +201,31 @@
                     </constraints>
                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="titleEdgeInsets" minX="-54" minY="55" maxX="0.0" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="-58" minY="55" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="Undo" image="undo">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="wpK-8J-8Ef" appends="YES" id="eEI-0l-gJC"/>
+                    </connections>
+                </button>
+                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ks6-VX-U6e">
+                    <rect key="frame" x="14" y="40" width="62" height="75"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="62" id="Nud-LJ-zQZ"/>
+                        <constraint firstAttribute="height" constant="75" id="p3t-LG-VNC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="14"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-50" minY="55" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Settings" image="settings">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="9aj-Ne-Yce" appends="YES" id="UlL-UI-g3h"/>
                     </connections>
                 </button>
                 <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IlN-jt-M3W" userLabel="selectEraseBrushSize">
@@ -308,7 +328,6 @@
                 <constraint firstItem="OeM-BY-b5l" firstAttribute="top" secondItem="IlN-jt-M3W" secondAttribute="bottom" constant="2" id="18g-EL-fo0"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="OeM-BY-b5l" secondAttribute="trailing" constant="27" id="7wm-kA-xuA"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="leading" secondItem="cKQ-Ln-xee" secondAttribute="trailing" constant="-70" id="8JE-44-rH2"/>
-                <constraint firstItem="RuG-5q-rbQ" firstAttribute="centerX" secondItem="uIj-zm-i5g" secondAttribute="centerX" constant="-2" id="8Wb-ha-4aZ"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="centerX" secondItem="yFF-TN-YHB" secondAttribute="centerX" id="9PM-j3-hFh"/>
                 <constraint firstAttribute="bottom" secondItem="cKQ-Ln-xee" secondAttribute="bottom" id="HGG-O1-6ai"/>
                 <constraint firstItem="xiW-zf-okX" firstAttribute="top" secondItem="esQ-tB-e6d" secondAttribute="bottom" constant="-5" id="HoV-aS-YoZ"/>
@@ -319,6 +338,7 @@
                 <constraint firstItem="vdH-Rz-eUh" firstAttribute="top" secondItem="RuG-5q-rbQ" secondAttribute="bottom" constant="35" id="Meu-zO-T4n"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="centerY" secondItem="RuG-5q-rbQ" secondAttribute="centerY" id="PYv-qI-atM"/>
                 <constraint firstAttribute="centerX" secondItem="X05-Hn-aun" secondAttribute="centerX" id="Q8a-Sn-g3p"/>
+                <constraint firstItem="Ks6-VX-U6e" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="leading" constant="-6" id="Tr4-xR-YUU"/>
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="top" secondItem="RuG-5q-rbQ" secondAttribute="bottom" constant="35" id="U8g-fx-dve"/>
                 <constraint firstAttribute="centerX" secondItem="IlN-jt-M3W" secondAttribute="centerX" constant="0.5" id="V7D-o0-YEy"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="height" secondItem="RuG-5q-rbQ" secondAttribute="height" id="VO0-Uo-CnA"/>
@@ -326,20 +346,22 @@
                 <constraint firstItem="j5a-WQ-War" firstAttribute="top" secondItem="OeM-BY-b5l" secondAttribute="bottom" constant="-5" id="X79-Ns-CsK"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="bottom" constant="2" id="ZBL-Yb-ypZ"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="ZEO-ms-WIK"/>
+                <constraint firstItem="uIj-zm-i5g" firstAttribute="centerX" secondItem="OeM-BY-b5l" secondAttribute="centerX" id="b9B-IF-I06"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="centerX" secondItem="RuG-5q-rbQ" secondAttribute="centerX" id="c7V-yG-P0F"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="RuG-5q-rbQ" secondAttribute="bottom" constant="35" id="dZJ-LY-bUV"/>
                 <constraint firstItem="xiW-zf-okX" firstAttribute="centerX" secondItem="esQ-tB-e6d" secondAttribute="centerX" constant="-2.5" id="eLM-Hl-VnA"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="centerY" secondItem="yFF-TN-YHB" secondAttribute="centerY" id="fdd-EV-bwe"/>
                 <constraint firstItem="j5a-WQ-War" firstAttribute="centerX" secondItem="OeM-BY-b5l" secondAttribute="centerX" constant="-2" id="gXs-UU-77e"/>
+                <constraint firstItem="Ks6-VX-U6e" firstAttribute="bottom" secondItem="RuG-5q-rbQ" secondAttribute="top" constant="-19" id="i4N-0y-nIf"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
                 <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="Ole-EU-OaJ" secondAttribute="bottom" constant="19" id="qls-7z-TzP"/>
                 <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="uIj-zm-i5g" secondAttribute="bottom" constant="19" id="rMb-zg-Qxv"/>
                 <constraint firstItem="Ole-EU-OaJ" firstAttribute="trailing" secondItem="fwJ-1U-Gdd" secondAttribute="trailing" id="tgU-zh-gJH"/>
                 <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="s1A-qu-zX1" secondAttribute="bottom" constant="19" id="yT8-ZD-Zuo"/>
+                <constraint firstItem="esQ-tB-e6d" firstAttribute="centerX" secondItem="s1A-qu-zX1" secondAttribute="centerX" id="ytV-8B-Srg"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="width" secondItem="RuG-5q-rbQ" secondAttribute="width" id="z7f-1t-BVW"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="zSE-Md-Onc"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="27" id="zc6-Yl-IM4"/>
-                <constraint firstItem="vdH-Rz-eUh" firstAttribute="centerX" secondItem="s1A-qu-zX1" secondAttribute="centerX" constant="2" id="zjh-b2-bZB"/>
             </constraints>
         </view>
         <tapGestureRecognizer id="oLp-8g-RYa">
@@ -392,6 +414,11 @@
                 <action selector="help" destination="-1" id="PLU-DA-F9I"/>
             </connections>
         </tapGestureRecognizer>
+        <tapGestureRecognizer id="9aj-Ne-Yce">
+            <connections>
+                <action selector="settings" destination="-1" id="4tn-af-v2v"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="BrushBar" width="280" height="84"/>
@@ -402,6 +429,7 @@
         <image name="erase" width="50" height="50"/>
         <image name="flip" width="64" height="50"/>
         <image name="help" width="35" height="50"/>
+        <image name="settings" width="50" height="50"/>
         <image name="share" width="50" height="50"/>
         <image name="underliningStroke" width="49" height="6"/>
         <image name="undo" width="58" height="50"/>

@@ -11,6 +11,9 @@
 		01432D79198AB494009BA552 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 01432D78198AB494009BA552 /* Reachability.m */; };
 		01432D7B198AB74F009BA552 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01432D7A198AB74F009BA552 /* MobileCoreServices.framework */; };
 		0192B92D1989E2B200EC00FC /* CaptureSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0192B92C1989E2B200EC00FC /* CaptureSessionManager.m */; };
+		01B2EC11198BE0A600E56609 /* CRSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01B2EC10198BE0A600E56609 /* CRSettingsView.xib */; };
+		01B2EC14198BE0E100E56609 /* CRSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B2EC13198BE0E100E56609 /* CRSettingsController.m */; };
+		01B2EC16198BEEC500E56609 /* CRHelpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01B2EC15198BEEC500E56609 /* CRHelpView.xib */; };
 		01B996D71977004100740F94 /* CRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B996D61977004100740F94 /* CRViewController.m */; };
 		01B996DD1977110D00740F94 /* CRCameraOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01B996DC1977110D00740F94 /* CRCameraOverlayView.xib */; };
 		01D993831976F87B00B31E37 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01D993821976F87B00B31E37 /* Foundation.framework */; };
@@ -46,6 +49,10 @@
 		01432D7A198AB74F009BA552 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0192B92B1989E2B200EC00FC /* CaptureSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureSessionManager.h; sourceTree = "<group>"; };
 		0192B92C1989E2B200EC00FC /* CaptureSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureSessionManager.m; sourceTree = "<group>"; };
+		01B2EC10198BE0A600E56609 /* CRSettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CRSettingsView.xib; sourceTree = "<group>"; };
+		01B2EC12198BE0E100E56609 /* CRSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRSettingsController.h; sourceTree = "<group>"; };
+		01B2EC13198BE0E100E56609 /* CRSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRSettingsController.m; sourceTree = "<group>"; };
+		01B2EC15198BEEC500E56609 /* CRHelpView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CRHelpView.xib; sourceTree = "<group>"; };
 		01B996D51977004100740F94 /* CRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRViewController.h; sourceTree = "<group>"; };
 		01B996D61977004100740F94 /* CRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRViewController.m; sourceTree = "<group>"; };
 		01B996DC1977110D00740F94 /* CRCameraOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CRCameraOverlayView.xib; sourceTree = "<group>"; };
@@ -142,6 +149,10 @@
 				01B996D51977004100740F94 /* CRViewController.h */,
 				01B996D61977004100740F94 /* CRViewController.m */,
 				01B996DC1977110D00740F94 /* CRCameraOverlayView.xib */,
+				01B2EC12198BE0E100E56609 /* CRSettingsController.h */,
+				01B2EC13198BE0E100E56609 /* CRSettingsController.m */,
+				01B2EC10198BE0A600E56609 /* CRSettingsView.xib */,
+				01B2EC15198BEEC500E56609 /* CRHelpView.xib */,
 			);
 			path = CamRub;
 			sourceTree = "<group>";
@@ -255,7 +266,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01B2EC16198BEEC500E56609 /* CRHelpView.xib in Resources */,
 				01D9938D1976F87B00B31E37 /* InfoPlist.strings in Resources */,
+				01B2EC11198BE0A600E56609 /* CRSettingsView.xib in Resources */,
 				01D993951976F87B00B31E37 /* Images.xcassets in Resources */,
 				01B996DD1977110D00740F94 /* CRCameraOverlayView.xib in Resources */,
 				01D993B21976FA3700B31E37 /* MainStoryboard.storyboard in Resources */,
@@ -280,6 +293,7 @@
 				0192B92D1989E2B200EC00FC /* CaptureSessionManager.m in Sources */,
 				01D993931976F87B00B31E37 /* AppDelegate.m in Sources */,
 				01D9938F1976F87B00B31E37 /* main.m in Sources */,
+				01B2EC14198BE0E100E56609 /* CRSettingsController.m in Sources */,
 				01B996D71977004100740F94 /* CRViewController.m in Sources */,
 				01432D79198AB494009BA552 /* Reachability.m in Sources */,
 			);
