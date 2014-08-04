@@ -16,6 +16,7 @@
                 <outlet property="eraseBrushSelectorView" destination="IlN-jt-M3W" id="dd4-LH-Afz"/>
                 <outlet property="eraseIndicator" destination="j5a-WQ-War" id="nqP-xQ-NBV"/>
                 <outlet property="overlayView" destination="9bN-qM-BdW" id="8BV-ep-7M8"/>
+                <outlet property="popupOverlay" destination="94h-YB-po1" id="hab-sA-HDf"/>
                 <outlet property="savedPixels" destination="RuG-5q-rbQ" id="lbT-oN-cTb"/>
                 <outlet property="selectorBackground" destination="pRg-O5-P0s" id="ssc-TI-1WG"/>
                 <outlet property="shareButton" destination="fwJ-1U-Gdd" id="8Oi-H0-nzd"/>
@@ -322,6 +323,15 @@
                         <constraint firstItem="CUJ-lF-c5c" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" constant="21" id="tFn-BQ-sdZ"/>
                     </constraints>
                 </view>
+                <view hidden="YES" appearanceType="aqua" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="fOn-Ee-Usy" appends="YES" id="izd-wy-cRe"/>
+                    </connections>
+                </view>
             </subviews>
             <constraints>
                 <constraint firstItem="pRg-O5-P0s" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="0oY-5Y-Jqp"/>
@@ -342,6 +352,7 @@
                 <constraint firstItem="fwJ-1U-Gdd" firstAttribute="top" secondItem="RuG-5q-rbQ" secondAttribute="bottom" constant="35" id="U8g-fx-dve"/>
                 <constraint firstAttribute="centerX" secondItem="IlN-jt-M3W" secondAttribute="centerX" constant="0.5" id="V7D-o0-YEy"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="height" secondItem="RuG-5q-rbQ" secondAttribute="height" id="VO0-Uo-CnA"/>
+                <constraint firstItem="94h-YB-po1" firstAttribute="leading" secondItem="9bN-qM-BdW" secondAttribute="leading" id="W67-v2-JVh"/>
                 <constraint firstAttribute="trailing" secondItem="cKQ-Ln-xee" secondAttribute="trailing" id="WKy-e5-wmF"/>
                 <constraint firstItem="j5a-WQ-War" firstAttribute="top" secondItem="OeM-BY-b5l" secondAttribute="bottom" constant="-5" id="X79-Ns-CsK"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="bottom" constant="2" id="ZBL-Yb-ypZ"/>
@@ -351,12 +362,15 @@
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="RuG-5q-rbQ" secondAttribute="bottom" constant="35" id="dZJ-LY-bUV"/>
                 <constraint firstItem="xiW-zf-okX" firstAttribute="centerX" secondItem="esQ-tB-e6d" secondAttribute="centerX" constant="-2.5" id="eLM-Hl-VnA"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="centerY" secondItem="yFF-TN-YHB" secondAttribute="centerY" id="fdd-EV-bwe"/>
+                <constraint firstAttribute="bottom" secondItem="94h-YB-po1" secondAttribute="bottom" id="ft0-bU-SNe"/>
                 <constraint firstItem="j5a-WQ-War" firstAttribute="centerX" secondItem="OeM-BY-b5l" secondAttribute="centerX" constant="-2" id="gXs-UU-77e"/>
                 <constraint firstItem="Ks6-VX-U6e" firstAttribute="bottom" secondItem="RuG-5q-rbQ" secondAttribute="top" constant="-19" id="i4N-0y-nIf"/>
+                <constraint firstAttribute="trailing" secondItem="94h-YB-po1" secondAttribute="trailing" id="lMA-mB-OYj"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
                 <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="Ole-EU-OaJ" secondAttribute="bottom" constant="19" id="qls-7z-TzP"/>
                 <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="uIj-zm-i5g" secondAttribute="bottom" constant="19" id="rMb-zg-Qxv"/>
                 <constraint firstItem="Ole-EU-OaJ" firstAttribute="trailing" secondItem="fwJ-1U-Gdd" secondAttribute="trailing" id="tgU-zh-gJH"/>
+                <constraint firstItem="94h-YB-po1" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="xzD-bg-Kxg"/>
                 <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="s1A-qu-zX1" secondAttribute="bottom" constant="19" id="yT8-ZD-Zuo"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="centerX" secondItem="s1A-qu-zX1" secondAttribute="centerX" id="ytV-8B-Srg"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="width" secondItem="RuG-5q-rbQ" secondAttribute="width" id="z7f-1t-BVW"/>
@@ -417,6 +431,11 @@
         <tapGestureRecognizer id="9aj-Ne-Yce">
             <connections>
                 <action selector="settings" destination="-1" id="4tn-af-v2v"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="fOn-Ee-Usy">
+            <connections>
+                <action selector="dismissPopup" destination="-1" id="3IU-Ku-8qM"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

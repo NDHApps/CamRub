@@ -20,23 +20,18 @@
 
 @implementation CRSettingsController
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self loadNib];
         hue = -0.1;
         value = -1.0;
-        
     }
+    
+    NSArray * subviewArray = [[NSBundle mainBundle] loadNibNamed:@"CRSettingsView" owner:self options:nil];
+    id mainView = [subviewArray objectAtIndex:0];
+    self = mainView;
+    self.frame = frame;
     return self;
-}
-
-- (void) loadNib {
-    NSArray * subviewArray = [[NSBundle mainBundle] loadNibNamed:@"CRSettingsView" owner:nil options:nil];
-    UIView * mainView = [subviewArray objectAtIndex:0];
-
-    [self addSubview:mainView];
 }
 
 - (IBAction) hueSliderChanged: (id)sender {
@@ -54,8 +49,6 @@
     
     if ([strongDelegate respondsToSelector:@selector(CRSettingsController:didSetColor:didSetDrawingMode:)])
         [strongDelegate CRSettingsController:self didSetColor:color didSetDrawingMode:_drawingMode.on];
-    [self setFrame:CGRectZero];
-    [self removeFromSuperview];
     
 }
 

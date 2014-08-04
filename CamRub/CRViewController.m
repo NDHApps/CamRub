@@ -24,13 +24,14 @@
 @property (nonatomic, weak) IBOutlet UIView *selectorBackground;
 @property (nonatomic, weak) IBOutlet UIImageView *drawingStrokes;
 @property (nonatomic, weak) IBOutlet UIView *overlayView;
+@property (nonatomic, weak) IBOutlet UIView *popupOverlay;
+@property (nonatomic, strong) CRSettingsController *popup;
 @property (nonatomic, weak) IBOutlet UIButton *shareButton;
 @property (nonatomic, weak) IBOutlet UIImageView *drawIndicator;
 @property (nonatomic, weak) IBOutlet UIImageView *eraseIndicator;
 @property (nonatomic, strong) IBOutletCollection(UIButton) NSArray *buttons;
 @property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *topButtonConstraints;
 @property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *bottomButtonConstraints;
-@property (nonatomic, strong) CRSettingsController *settingsPopup;
 @property (nonatomic, retain) UIDocumentInteractionController *dic;
 
 @end
@@ -521,7 +522,7 @@
 - (UIImage*) renderImage {
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(600.0, 600.0), NO, 0.0 );
     CGRect maskRect = CGRectMake(0.0, 0.0, 600.0, 600.0);
-    [[UIColor whiteColor] set];
+    [backgroundFillColor set];
     UIRectFill(CGRectMake(0.0, 0.0, 600.0, 600.0));
     [_savedPixels.image drawInRect:maskRect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
@@ -533,7 +534,7 @@
 - (UIImage*) formatPNG {
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(624.0 ,624.0), NO, 0.0 );
     CGRect maskRect = CGRectMake(12.0, 12.0, 600.0, 600.0);
-    [[UIColor whiteColor] set];
+    [backgroundFillColor set];
     UIRectFill(CGRectMake(0.0, 0.0, 624.0, 624.0));
     [_savedPixels.image drawInRect:maskRect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
@@ -656,15 +657,29 @@
 
 - (IBAction) settings
 {
-    CGRect frame = [[UIScreen mainScreen] bounds];
-    _settingsPopup = [[CRSettingsController alloc] initWithFrame:frame];
-    [_settingsPopup setDelegate: self];
-    [self.view addSubview:_settingsPopup];
+    _popupOverlay.hidden = NO;
     [self.captureManager.captureSession stopRunning];
+    if (_popup)
+        _popup.hidden = NO;
+    else {
+        CGRect frame = _popupOverlay.frame;
+        frame.origin.x += (frame.size.width - 305.0) / 2.0;
+        frame.origin.y += (frame.size.height - 470.0) / 2.0 + 5.0;
+        frame.size = CGSizeMake(305.0, 470.0);
+        _popup = [[CRSettingsController alloc] initWithFrame:frame];
+        _popup.delegate = self;
+        [self.view addSubview:_popup];
+    }
+}
+
+- (void) dismissPopup {
+    _popupOverlay.hidden = _popup.hidden = YES;
+    [self.captureManager.captureSession startRunning];
 }
 
 - (void) CRSettingsController:(CRSettingsController *)settingController didSetColor:(UIColor *)fillColor didSetDrawingMode:(BOOL)drawingMode {
     
+    [self dismissPopup];
     backgroundFillColor = fillColor;
     drawInFront = drawingMode;
     [self.captureManager.captureSession startRunning];

@@ -10,15 +10,15 @@
 
 @protocol CRSettingsControllerDelegate;
 
-@interface CRSettingsController : UIView {
+@interface CRSettingsController : UIView{
     CGFloat hue;
     CGFloat value;
     UIColor *color;
 }
 
-- (IBAction)handleCloseButton:(id)sender;
-
 @property (nonatomic, weak) id <CRSettingsControllerDelegate> delegate;
+
+- (IBAction)handleCloseButton:(id)sender;
 
 @end
 
