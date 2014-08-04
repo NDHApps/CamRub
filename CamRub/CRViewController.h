@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "CaptureSessionManager.h"
 #import <MessageUI/MFMessageComposeViewController.h>
+#import "CRSettingsController.h"
 
-@interface CRViewController : UIViewController <UIActionSheetDelegate, UIDocumentInteractionControllerDelegate, MFMessageComposeViewControllerDelegate> {
+@interface CRViewController : UIViewController <UIActionSheetDelegate, UIDocumentInteractionControllerDelegate, MFMessageComposeViewControllerDelegate, CRSettingsControllerDelegate> {
     
     CGPoint lastPoint;
     CGFloat brush;
@@ -18,9 +19,11 @@
     CGFloat eraseSize;
     CGFloat color;
     CGFloat alpha;
+    UIColor *backgroundFillColor;
     
     BOOL mouseSwiped;
     BOOL drawToolSelected; // Otherwise Erase
+    BOOL drawInFront;
 }
 
 @property (retain) CaptureSessionManager *captureManager;

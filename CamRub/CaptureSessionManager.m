@@ -65,20 +65,20 @@
 
 - (void)captureStillImage
 {
-	AVCaptureConnection *videoConnection = nil;
-	for (AVCaptureConnection *connection in [[self stillImageOutput] connections]) {
-		for (AVCaptureInputPort *port in [connection inputPorts]) {
-			if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
-				videoConnection = connection;
-				break;
-			}
-		}
-		if (videoConnection) {
+    AVCaptureConnection *videoConnection = nil;
+    for (AVCaptureConnection *connection in [[self stillImageOutput] connections]) {
+        for (AVCaptureInputPort *port in [connection inputPorts]) {
+            if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
+                videoConnection = connection;
+                break;
+            }
+        }
+        if (videoConnection) {
             break;
         }
-	}
+    }
     
-	[[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:videoConnection
+    [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:videoConnection
                                                          completionHandler:^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
                                                              NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
                                                              UIImage *image = [[UIImage alloc] initWithData:imageData];

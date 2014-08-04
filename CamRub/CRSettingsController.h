@@ -8,22 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@class CRSettingsController;
+@protocol CRSettingsControllerDelegate;
 
-@protocol CRSettingsControllerDelegate <NSObject>
+@interface CRSettingsController : UIView {
+    CGFloat hue;
+    CGFloat value;
+    UIColor *color;
+}
 
-<#methods#>
+- (IBAction)handleCloseButton:(id)sender;
+
+@property (nonatomic, weak) id <CRSettingsControllerDelegate> delegate;
 
 @end
 
-@interface CRSettingsController : UIView {
-    BOOL drawingMode;
-    CGFloat hue;
-    CGFloat value;
-}
+@protocol CRSettingsControllerDelegate <NSObject>
 
-@property (nonatomic, strong) UIColor *backgroundFillColor;
-
-@property (assign) id <CRSettingsControllerDelegate> delegate;
+- (void)CRSettingsController:(CRSettingsController*)settingController
+                 didSetColor:(UIColor*)fillColor
+           didSetDrawingMode:(BOOL)drawingMode;
 
 @end

@@ -11,11 +11,10 @@
 @interface CRSettingsController ()
 
 @property (nonatomic, weak) IBOutlet UIView *colorPreview;
+@property (nonatomic, weak) IBOutlet UISwitch *drawingMode;
 
 - (IBAction) hueSliderChanged: (id)sender;
 - (IBAction) valueSliderChanged: (id)sender;
-- (IBAction) switchChanged: (id)sender;
-- (IBAction) dismissView;
 
 @end
 
@@ -32,8 +31,9 @@
     }
     return self;
 }
+
 - (void) loadNib {
-    NSArray * subviewArray = [[NSBundle mainBundle] loadNibNamed:@"CRSettingsView" owner:self options:nil];
+    NSArray * subviewArray = [[NSBundle mainBundle] loadNibNamed:@"CRSettingsView" owner:nil options:nil];
     UIView * mainView = [subviewArray objectAtIndex:0];
 
     [self addSubview:mainView];
@@ -49,12 +49,14 @@
     [self updateColor];
 }
 
-- (IBAction) switchChanged: (id)sender {
-    drawingMode = ((UISwitch*)sender).on;
-}
-
-- (IBAction) dismissView {
+- (void)handleCloseButton:(id)sender {
+    id<CRSettingsControllerDelegate> strongDelegate = self.delegate;
+    
+    if ([strongDelegate respondsToSelector:@selector(CRSettingsController:didSetColor:didSetDrawingMode:)])
+        [strongDelegate CRSettingsController:self didSetColor:color didSetDrawingMode:_drawingMode.on];
+    [self setFrame:CGRectZero];
     [self removeFromSuperview];
+    
 }
 
 - (void) updateColor {
@@ -71,12 +73,13 @@
         s = value + 1.0;
         b = 1.0;
     } else {
-        s = 1.0 - value;
+        s = 1.0;
+        b = 1.0 - value;
     }
     
-    _backgroundFillColor = [UIColor colorWithHue:h saturation:s brightness:b alpha:1.0];
+    color = [UIColor colorWithHue:h saturation:s brightness:b alpha:1.0];
     
-    [_colorPreview setBackgroundColor:_backgroundFillColor];
+    [_colorPreview setBackgroundColor:color];
     
 }
 

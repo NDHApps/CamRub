@@ -10,7 +10,6 @@
 #import <Twitter/Twitter.h>
 #import "Reachability.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-#import "CRSettingsController.h"
 
 @interface CRViewController ()
 
@@ -31,6 +30,7 @@
 @property (nonatomic, strong) IBOutletCollection(UIButton) NSArray *buttons;
 @property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *topButtonConstraints;
 @property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *bottomButtonConstraints;
+@property (nonatomic, strong) CRSettingsController *settingsPopup;
 @property (nonatomic, retain) UIDocumentInteractionController *dic;
 
 @end
@@ -45,6 +45,7 @@
     color = 0.0;
     alpha = 1.0;
     drawToolSelected = YES;
+    drawInFront = YES;
     self.isFrontCameraSelected = NO;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -155,10 +156,12 @@
     [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     self.pixelMask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    if (drawToolSelected)
-        [_captureManager captureStillImage];
-    else
-        [self eraseStrokes];
+    if (_drawingStrokes.image && _captureManager.captureSession.isRunning) {
+        if (drawToolSelected)
+            [_captureManager captureStillImage];
+        else
+            [self eraseStrokes];
+    }
 }
 
 - (void)loadCustomCameraView
@@ -653,13 +656,20 @@
 
 - (IBAction) settings
 {
-    CGRect frame = CGRectMake(10, ([self trueScreenHeight]-470.0)/2.0, 310, 470);
-    CRSettingsController *settingsPopup = [[CRSettingsController alloc] initWithFrame:frame];
-    [[self view] addSubview:settingsPopup];
+    CGRect frame = [[UIScreen mainScreen] bounds];
+    _settingsPopup = [[CRSettingsController alloc] initWithFrame:frame];
+    [_settingsPopup setDelegate: self];
+    [self.view addSubview:_settingsPopup];
+    [self.captureManager.captureSession stopRunning];
+}
+
+- (void) CRSettingsController:(CRSettingsController *)settingController didSetColor:(UIColor *)fillColor didSetDrawingMode:(BOOL)drawingMode {
+    
+    backgroundFillColor = fillColor;
+    drawInFront = drawingMode;
+    [self.captureManager.captureSession startRunning];
+    
     
 }
-//- (IBAction)close:(id)sender{
-//    [self removeFromSuperview];
-//}
 
 @end
