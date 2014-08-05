@@ -25,7 +25,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *drawingStrokes;
 @property (nonatomic, weak) IBOutlet UIView *overlayView;
 @property (nonatomic, weak) IBOutlet UIView *popupOverlay;
-@property (nonatomic, strong) CRSettingsController *popup;
+@property (nonatomic, strong) UIView *popup;
 @property (nonatomic, weak) IBOutlet UIButton *shareButton;
 @property (nonatomic, weak) IBOutlet UIImageView *drawIndicator;
 @property (nonatomic, weak) IBOutlet UIImageView *eraseIndicator;
@@ -46,7 +46,12 @@
     color = 0.0;
     alpha = 1.0;
     drawToolSelected = YES;
-    drawInFront = YES;
+    [[NSUserDefaults standardUserDefaults] setBool:drawInFront forKey:@"drawingMode"];
+    NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundFillColor"];
+    if (colorData)
+        backgroundFillColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    else
+        backgroundFillColor = [UIColor whiteColor];
     self.isFrontCameraSelected = NO;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -157,7 +162,7 @@
     [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     self.pixelMask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    if (_drawingStrokes.image && _captureManager.captureSession.isRunning) {
+    if (_drawingStrokes.image.CGImage && _captureManager.captureSession.isRunning) {
         if (drawToolSelected)
             [_captureManager captureStillImage];
         else
@@ -193,6 +198,14 @@
     [_eraseBrushPreview.layer setCornerRadius: 25.0];
     _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
     _eraseBrushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
+    
+    if (!drawInFront) {
+        NSArray *subviews = [self.overlayView subviews];
+        NSInteger IndexA = [subviews indexOfObject:_drawingStrokes];
+        NSInteger IndexB = [subviews indexOfObject:_savedPixels];
+        [self.overlayView exchangeSubviewAtIndex:IndexA withSubviewAtIndex:IndexB];
+    }
+    
     [[self view] addSubview:self.overlayView];
     self.overlayView = nil;
     
@@ -257,8 +270,13 @@
     
     // Update image
     UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
-    [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
-    [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    if (drawInFront) {
+        [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+        [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    } else {
+        [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+        [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    }
     self.lastRevision = self.savedPixels.image;
     self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -394,15 +412,16 @@
 
 - (IBAction) shareImage {
     [self dismissBrushSelectors];
-    if(_savedPixels.image) {
+    NSLog(@"%@", (NSString*)_savedPixels.image.CGImage);
+    if(_savedPixels.image.CGImage) {
         _drawingStrokes.image = [self renderImage];
         _drawingStrokes.alpha = 0.5;
-        [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+        [self.captureManager.captureSession stopRunning];
+        [UIView animateWithDuration:1.5 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              _drawingStrokes.alpha = 1.0;
                              
                          } completion:^(BOOL finished) {
-                             [self.captureManager.captureSession stopRunning];
                              [self displayActionSheet];
                          }];
     } else {
@@ -658,30 +677,61 @@
 - (IBAction) settings
 {
     _popupOverlay.hidden = NO;
-    [self.captureManager.captureSession stopRunning];
-    if (_popup)
-        _popup.hidden = NO;
-    else {
-        CGRect frame = _popupOverlay.frame;
-        frame.origin.x += (frame.size.width - 305.0) / 2.0;
-        frame.origin.y += (frame.size.height - 470.0) / 2.0 + 5.0;
-        frame.size = CGSizeMake(305.0, 470.0);
-        _popup = [[CRSettingsController alloc] initWithFrame:frame];
-        _popup.delegate = self;
-        [self.view addSubview:_popup];
-    }
+    _popupOverlay.alpha = 0.0;
+    
+    CGRect frame = _popupOverlay.frame;
+    frame.origin.x += (frame.size.width - 305.0) / 2.0;
+    frame.origin.y += (frame.size.height - 470.0) / 2.0 + 5.0 + [self trueScreenHeight];
+    frame.size = CGSizeMake(305.0, 470.0);
+    _popup = (UIView*)[[CRSettingsController alloc] initWithFrame:frame];
+    ((CRSettingsController*)_popup).delegate = self;
+    [self.view addSubview:_popup];
+    frame.origin.y -= [self trueScreenHeight];
+    
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         _popup.frame = frame;
+                         _popupOverlay.alpha = 0.7;
+                         
+                     } completion:^(BOOL finished) {
+                        [self.captureManager.captureSession stopRunning];
+                     }];
 }
 
 - (void) dismissPopup {
-    _popupOverlay.hidden = _popup.hidden = YES;
     [self.captureManager.captureSession startRunning];
+    
+    CGRect frame = _popup.frame;
+    frame.origin.y += frame.origin.y + frame.size.height;
+    
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         _popup.frame = frame;
+                         _popupOverlay.alpha = 0.0;
+                         
+                     } completion:^(BOOL finished) {
+                         [_popup removeFromSuperview];
+                         _popupOverlay.hidden = YES;
+                     }];
 }
 
 - (void) CRSettingsController:(CRSettingsController *)settingController didSetColor:(UIColor *)fillColor didSetDrawingMode:(BOOL)drawingMode {
     
     [self dismissPopup];
+    
     backgroundFillColor = fillColor;
+    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:backgroundFillColor];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"backgroundFillColor"];
+    
+    
     drawInFront = drawingMode;
+    UIView *mainview = [self.view subviews].lastObject;
+    NSArray *subviews = [mainview subviews];
+    NSInteger IndexA = [subviews indexOfObject:_drawingStrokes];
+    NSInteger IndexB = [subviews indexOfObject:_savedPixels];
+    if ((IndexA < IndexB) == drawInFront)
+        [mainview exchangeSubviewAtIndex:IndexA withSubviewAtIndex:IndexB];
+    
     [self.captureManager.captureSession startRunning];
     
     

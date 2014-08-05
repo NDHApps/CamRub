@@ -35,6 +35,7 @@
                 <outletCollection property="bottomButtonConstraints" destination="Ixe-eP-nbo" id="Hj6-0o-cCC"/>
                 <outletCollection property="bottomButtonConstraints" destination="U8g-fx-dve" id="lVO-gh-7H3"/>
                 <outletCollection property="buttons" destination="Ks6-VX-U6e" id="5Nc-e9-lC5"/>
+                <outletCollection property="topButtonConstraints" destination="i4N-0y-nIf" id="Ci8-IW-qme"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -83,7 +84,7 @@
                     </connections>
                 </view>
                 <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-zm-i5g">
-                    <rect key="frame" x="166" y="40" width="64" height="75"/>
+                    <rect key="frame" x="173" y="40" width="64" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
@@ -323,7 +324,7 @@
                         <constraint firstItem="CUJ-lF-c5c" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" constant="21" id="tFn-BQ-sdZ"/>
                     </constraints>
                 </view>
-                <view hidden="YES" appearanceType="aqua" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
+                <view hidden="YES" appearanceType="aqua" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -357,14 +358,14 @@
                 <constraint firstItem="j5a-WQ-War" firstAttribute="top" secondItem="OeM-BY-b5l" secondAttribute="bottom" constant="-5" id="X79-Ns-CsK"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="bottom" constant="2" id="ZBL-Yb-ypZ"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="top" secondItem="9bN-qM-BdW" secondAttribute="top" id="ZEO-ms-WIK"/>
-                <constraint firstItem="uIj-zm-i5g" firstAttribute="centerX" secondItem="OeM-BY-b5l" secondAttribute="centerX" id="b9B-IF-I06"/>
+                <constraint firstItem="uIj-zm-i5g" firstAttribute="leading" secondItem="OeM-BY-b5l" secondAttribute="leading" id="b9B-IF-I06"/>
                 <constraint firstItem="yFF-TN-YHB" firstAttribute="centerX" secondItem="RuG-5q-rbQ" secondAttribute="centerX" id="c7V-yG-P0F"/>
                 <constraint firstItem="esQ-tB-e6d" firstAttribute="top" secondItem="RuG-5q-rbQ" secondAttribute="bottom" constant="35" id="dZJ-LY-bUV"/>
                 <constraint firstItem="xiW-zf-okX" firstAttribute="centerX" secondItem="esQ-tB-e6d" secondAttribute="centerX" constant="-2.5" id="eLM-Hl-VnA"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="centerY" secondItem="yFF-TN-YHB" secondAttribute="centerY" id="fdd-EV-bwe"/>
                 <constraint firstAttribute="bottom" secondItem="94h-YB-po1" secondAttribute="bottom" id="ft0-bU-SNe"/>
                 <constraint firstItem="j5a-WQ-War" firstAttribute="centerX" secondItem="OeM-BY-b5l" secondAttribute="centerX" constant="-2" id="gXs-UU-77e"/>
-                <constraint firstItem="Ks6-VX-U6e" firstAttribute="bottom" secondItem="RuG-5q-rbQ" secondAttribute="top" constant="-19" id="i4N-0y-nIf"/>
+                <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="Ks6-VX-U6e" secondAttribute="bottom" constant="19" id="i4N-0y-nIf"/>
                 <constraint firstAttribute="trailing" secondItem="94h-YB-po1" secondAttribute="trailing" id="lMA-mB-OYj"/>
                 <constraint firstItem="cKQ-Ln-xee" firstAttribute="leading" secondItem="vdH-Rz-eUh" secondAttribute="trailing" constant="-70" id="mFE-1v-ywS"/>
                 <constraint firstItem="RuG-5q-rbQ" firstAttribute="top" secondItem="Ole-EU-OaJ" secondAttribute="bottom" constant="19" id="qls-7z-TzP"/>

@@ -29,7 +29,7 @@
                     <rect key="frame" x="15" y="53" width="280" height="8"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="huH-QA-npp">
+                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="huH-QA-npp">
                     <rect key="frame" x="95" y="405" width="120" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="18"/>
@@ -37,8 +37,33 @@
                         <color key="titleColor" red="0.40784313729999999" green="0.42352941179999998" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <state key="selected">
+                        <color key="titleColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                    </state>
                     <connections>
                         <action selector="handleCloseButton:" destination="ZyV-y2-m8Q" eventType="touchUpInside" id="0Bh-aR-nYt"/>
+                    </connections>
+                </button>
+                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VbI-Ba-5tG">
+                    <rect key="frame" x="95" y="357" width="120" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="18"/>
+                    <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <state key="normal" title="Reset" backgroundImage="CRButton">
+                        <color key="titleColor" red="0.40784313729999999" green="0.42352941179999998" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected">
+                        <color key="titleColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="resetSettings" destination="ZyV-y2-m8Q" eventType="touchUpInside" id="CBI-5W-Q6R"/>
                     </connections>
                 </button>
                 <switch appearanceType="aqua" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nUc-QF-ggw">
@@ -47,7 +72,7 @@
                     <color key="onTintColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                 </switch>
                 <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-0.10000000000000001" minValue="-0.10000000000000001" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dE6-3U-7sP">
-                    <rect key="frame" x="59" y="148" width="158" height="31"/>
+                    <rect key="frame" x="59" y="149" width="158" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="tintColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                     <connections>
@@ -55,7 +80,7 @@
                     </connections>
                 </slider>
                 <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-1" minValue="-1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="RTZ-Gd-rg7">
-                    <rect key="frame" x="59" y="186" width="158" height="31"/>
+                    <rect key="frame" x="59" y="187" width="158" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="tintColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                     <connections>
@@ -137,6 +162,8 @@
             <connections>
                 <outlet property="colorPreview" destination="oDb-43-fLh" id="8aA-JK-eeD"/>
                 <outlet property="drawingMode" destination="nUc-QF-ggw" id="N9V-Q9-lJZ"/>
+                <outlet property="hueSlider" destination="dE6-3U-7sP" id="H2u-Ep-T4q"/>
+                <outlet property="valueSlider" destination="RTZ-Gd-rg7" id="40w-c7-T7X"/>
             </connections>
         </view>
     </objects>

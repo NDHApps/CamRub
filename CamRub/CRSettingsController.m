@@ -12,6 +12,8 @@
 
 @property (nonatomic, weak) IBOutlet UIView *colorPreview;
 @property (nonatomic, weak) IBOutlet UISwitch *drawingMode;
+@property (nonatomic, weak) IBOutlet UISlider *hueSlider;
+@property (nonatomic, weak) IBOutlet UISlider *valueSlider;
 
 - (IBAction) hueSliderChanged: (id)sender;
 - (IBAction) valueSliderChanged: (id)sender;
@@ -21,16 +23,17 @@
 @implementation CRSettingsController
 
 - (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        hue = -0.1;
-        value = -1.0;
-    }
-    
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
     NSArray * subviewArray = [[NSBundle mainBundle] loadNibNamed:@"CRSettingsView" owner:self options:nil];
     id mainView = [subviewArray objectAtIndex:0];
     self = mainView;
     self.frame = frame;
+    self.drawingMode.on = [defaults boolForKey:@"drawingMode"];
+    self.hueSlider.value = hue = [defaults doubleForKey:@"hue"] - 0.1;
+    self.valueSlider.value = value = [defaults doubleForKey:@"value"] - 1.0;
+    [self updateColor];
     return self;
 }
 
@@ -50,6 +53,12 @@
     if ([strongDelegate respondsToSelector:@selector(CRSettingsController:didSetColor:didSetDrawingMode:)])
         [strongDelegate CRSettingsController:self didSetColor:color didSetDrawingMode:_drawingMode.on];
     
+    // Save settings
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setDouble:(hue+0.1) forKey:@"hue"];
+    [defaults setDouble:(value+1.0) forKey:@"value"];
+    [defaults setBool:_drawingMode.on forKey:@"drawingMode"];
+    [defaults synchronize];    
 }
 
 - (void) updateColor {
@@ -59,8 +68,7 @@
     CGFloat b;
     
     if (hue < 0) {
-        h = 0.0;
-        s = 0.0;
+        h = s = 0.0;
         b = 1.0 - ((value + 1.0) / 2.0);
     } else if (value < 0) {
         s = value + 1.0;
@@ -76,13 +84,26 @@
     
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+
+- (IBAction) resetSettings {
+    hue = -0.1;
+    value = -1.0;
+    _drawingMode.on = YES;
+    
+    // Reset settings
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setDouble:0.0 forKey:@"hue"];
+    [defaults setDouble:0.0 forKey:@"value"];
+    [defaults setBool:YES forKey:@"drawingMode"];
+    [defaults synchronize];
+    
+    [self.drawingMode setOn: _drawingMode.on animated:YES];
+    [self.hueSlider setValue: hue animated:YES];
+    [self.valueSlider setValue: value animated:YES];
+    [self updateColor];
+
+    
 }
-*/
+
 
 @end
