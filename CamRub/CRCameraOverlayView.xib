@@ -305,7 +305,7 @@
                         <constraint firstItem="CUJ-lF-c5c" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" constant="21" id="tFn-BQ-sdZ"/>
                     </constraints>
                 </view>
-                <view hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
+                <view hidden="YES" alpha="0.0" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     <gestureRecognizers/>

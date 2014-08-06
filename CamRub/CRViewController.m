@@ -626,7 +626,7 @@
 
 - (UIImage*) formatPNG {
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(632.0 ,632.0), NO, 0.0 );
-    CGRect maskRect = CGRectMake(16.0, 16.0, 632.0, 632.0);
+    CGRect maskRect = CGRectMake(16.0, 16.0, 600.0, 600.0);
     [backgroundFillColor set];
     UIRectFill(CGRectMake(0.0, 0.0, 632.0, 632.0));
     [_savedPixels.image drawInRect:maskRect];
@@ -778,6 +778,7 @@
     frame.origin.x += (frame.size.width - 310.0) / 2.0;
     frame.origin.y += (frame.size.height - 470.0) / 2.0 + 5.0 + [self trueScreenHeight];
     frame.size = CGSizeMake(310.0, 470.0);
+    [_popup removeFromSuperview]; // Make sure previously referenced view is gone
     if (popupType) {
         _popup = [[CRSettingsController alloc] initWithFrame:frame];
         ((CRSettingsController*)_popup).delegate = self;
@@ -800,7 +801,6 @@
 }
 
 - (IBAction) dismissPopup {
-
     CGRect frame = _popup.frame;
     frame.origin.y += [self trueScreenHeight];
     [self.captureManager.captureSession startRunning];
