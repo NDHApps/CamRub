@@ -10,29 +10,29 @@
 	<string>CamRub</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>7AD72D97-0DEC-40B6-A632-B3378F9C7670</key>
+		<key>450DB97BE73D3566348FC0A3E82789A45E348738</key>
 		<string>https://github.com/NDHApps/CamRub.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>CamRub.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>7AD72D97-0DEC-40B6-A632-B3378F9C7670</key>
+		<key>450DB97BE73D3566348FC0A3E82789A45E348738</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/NDHApps/CamRub.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>7AD72D97-0DEC-40B6-A632-B3378F9C7670</string>
+	<string>450DB97BE73D3566348FC0A3E82789A45E348738</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>7AD72D97-0DEC-40B6-A632-B3378F9C7670</string>
+			<string>450DB97BE73D3566348FC0A3E82789A45E348738</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CamRub</string>
 		</dict>

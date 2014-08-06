@@ -10,8 +10,9 @@
 #import "CaptureSessionManager.h"
 #import <MessageUI/MFMessageComposeViewController.h>
 #import "CRSettingsController.h"
+#import "CRHelpController.h"
 
-@interface CRViewController : UIViewController <UIActionSheetDelegate, UIDocumentInteractionControllerDelegate, MFMessageComposeViewControllerDelegate, CRSettingsControllerDelegate> {
+@interface CRViewController : UIViewController <UIActionSheetDelegate, UIDocumentInteractionControllerDelegate, MFMessageComposeViewControllerDelegate, CRSettingsControllerDelegate, CRHelpControllerDelegate> {
     
     CGPoint lastPoint;
     CGFloat brush;

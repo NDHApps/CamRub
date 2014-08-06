@@ -47,6 +47,7 @@
     alpha = 1.0;
     drawToolSelected = YES;
     [[NSUserDefaults standardUserDefaults] setBool:drawInFront forKey:@"drawingMode"];
+    drawInFront = !drawInFront;
     NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundFillColor"];
     if (colorData)
         backgroundFillColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
@@ -66,6 +67,21 @@
     }
 
 }
+
+- (void) CRHelpController:(CRHelpController *)helpController {
+    [self dismissPopup];
+}
+
+- (void) CRSettingsController:(CRSettingsController *)settingController didSetColor:(UIColor *)fillColor didSetDrawingMode:(BOOL)drawingMode {
+    
+    [self dismissPopup];
+    drawInFront = drawingMode;
+    backgroundFillColor = fillColor;
+    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:backgroundFillColor];
+    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"backgroundFillColor"];
+    
+}
+
 
 - (CGFloat) trueScreenHeight {
     CGRect screenSize = [[UIScreen mainScreen] bounds];
@@ -120,7 +136,8 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+    if (_drawingStrokes.tag)
+        return;
     mouseSwiped = YES;
     UITouch *touch = [touches anyObject];
     CGPoint currentPoint = [touch locationInView:self.drawingStrokes];
@@ -136,14 +153,13 @@
     
     CGContextStrokePath(UIGraphicsGetCurrentContext());
     self.drawingStrokes.image = UIGraphicsGetImageFromCurrentImageContext();
-    [self.drawingStrokes setAlpha:0.5];
+    self.drawingStrokes.alpha = 0.5;
     UIGraphicsEndImageContext();
     
     lastPoint = currentPoint;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    
     if(!mouseSwiped) {
         UIGraphicsBeginImageContextWithOptions(self.drawingStrokes.frame.size, NO, 0.0);
         [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height)];
@@ -198,16 +214,9 @@
     [_eraseBrushPreview.layer setCornerRadius: 25.0];
     _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
     _eraseBrushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
-    
-    if (!drawInFront) {
-        NSArray *subviews = [self.overlayView subviews];
-        NSInteger IndexA = [subviews indexOfObject:_drawingStrokes];
-        NSInteger IndexB = [subviews indexOfObject:_savedPixels];
-        [self.overlayView exchangeSubviewAtIndex:IndexA withSubviewAtIndex:IndexB];
-    }
+    _drawingStrokes.tag = 0;
     
     [[self view] addSubview:self.overlayView];
-    self.overlayView = nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addStrokesToImage) name:kImageCapturedSuccessfully object:nil];
     
@@ -308,9 +317,37 @@
         UIGraphicsEndImageContext();
     }
     
-    _pixelMask = nil;
+    self.pixelMask = nil;
     self.drawingStrokes.image = nil;
+    if(_savedPixels.image.CGImage) {
+        if ([self imageIsTransparent:_savedPixels.image.CGImage])
+            self.savedPixels.image = nil;
+    }
+}
 
+- (BOOL) imageIsTransparent:(CGImageRef)imgRef {
+    size_t w = CGImageGetWidth(imgRef);
+    size_t h = CGImageGetHeight(imgRef);
+    unsigned char *inImage = malloc(w * h * 4);
+    memset(inImage, 0, (h * w * 4));
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(inImage, w, h, 8, w * 4, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
+    CGContextSetShouldAntialias(context, NO);
+    CGContextDrawImage(context, CGRectMake(0, 0, w, h), imgRef);
+    int byteIndex = 0;
+    BOOL imageIsTransparent = YES;
+    for(int i = 0; i < (w * h); i++) {
+        if (inImage[byteIndex + 3])
+            imageIsTransparent = NO;
+        if (!imageIsTransparent)
+            break;
+        byteIndex += 4;
+    }
+    free(inImage);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    return imageIsTransparent;
 }
 
 - (UIImage*) maskImage:(UIImage*)image withMask:(UIImage*)mask {
@@ -355,6 +392,7 @@
 }
 
 - (IBAction) clearImage {
+    [self dismissBrushSelectors];
     if(_savedPixels.image) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to clear the canvas?" message:@"All work will be lost." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes",nil];
         alertView.tag = 2;
@@ -412,21 +450,19 @@
 
 - (IBAction) shareImage {
     [self dismissBrushSelectors];
-    NSLog(@"%@", (NSString*)_savedPixels.image.CGImage);
     if(_savedPixels.image.CGImage) {
+        [self.captureManager.captureSession stopRunning];
+        _drawingStrokes.tag = 1;
         _drawingStrokes.image = [self renderImage];
         _drawingStrokes.alpha = 0.5;
-        [self.captureManager.captureSession stopRunning];
-        [UIView animateWithDuration:1.5 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseOut
+        [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              _drawingStrokes.alpha = 1.0;
-                             
                          } completion:^(BOOL finished) {
                              [self displayActionSheet];
                          }];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There's nothing to share!" message:@"Rub on the camera view to capture portions of the image." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        alertView.tag = 3;
         [alertView show];
     }
 
@@ -465,8 +501,7 @@
                     [self saveImage];
                     break;
                 default:
-                    _drawingStrokes.image = nil;
-                    [self.captureManager.captureSession startRunning];
+                    [self sharingCancelled];
                     break;
             }
             break;
@@ -479,28 +514,33 @@
 - (void) messagesShare {
     MFMessageComposeViewController *composer = [[MFMessageComposeViewController alloc] init];
     composer.messageComposeDelegate = self;
+    UIImage *imageToShare = [self formatPNG];
     
     // These checks basically make sure it's an MMS capable device with iOS7
     if([MFMessageComposeViewController respondsToSelector:@selector(canSendAttachments)] && [MFMessageComposeViewController canSendAttachments])
     {
-        NSData *imgData = UIImagePNGRepresentation(_drawingStrokes.image);
+        NSData *imgData = UIImagePNGRepresentation(imageToShare);
         [composer addAttachmentData:imgData typeIdentifier:(NSString*)kUTTypeMessage filename:@"image.png"];
         [composer setBody:@"Check out this picture I made using CamRub!"];
+    } else {
+        [self sharingCancelled];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your device is not compatible with this feature!" message:@"Please upgrade to iOS7 or later to send MMS messages from CamRub." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        
     }
     
     [self presentViewController:composer animated:YES completion:nil];
 }
 
 - (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
-    _drawingStrokes.image = nil;
-    [self.captureManager.captureSession startRunning];
     if (result == MessageComposeResultSent)
         _savedPixels.image = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self sharingCancelled];
 }
 
 - (void) saveImage {
-    UIImageWriteToSavedPhotosAlbum(self.drawingStrokes.image,self,@selector(image:didFinishSavingWithError:contextInfo:),nil);
+    UIImageWriteToSavedPhotosAlbum([self formatPNG],self,@selector(image:didFinishSavingWithError:contextInfo:),nil);
 }
 
 - (void) SLShareImage:(NSString *const)service {
@@ -519,13 +559,12 @@
         [shareSheet setInitialText:@"Check out this picture I made using @CamRubApp!"];
     }
     
-    [shareSheet addImage:_drawingStrokes.image];
+    [shareSheet addImage:[self formatPNG]];
     
     shareSheet.completionHandler = ^(SLComposeViewControllerResult result) {
         switch(result) {
             case SLComposeViewControllerResultCancelled:
-                _drawingStrokes.image = nil;
-                [self.captureManager.captureSession startRunning];
+                [self sharingCancelled];
                 break;
             case SLComposeViewControllerResultDone:
                 if ([self connected])
@@ -539,10 +578,10 @@
 }
 
 - (UIImage*) renderImage {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(600.0, 600.0), NO, 0.0 );
-    CGRect maskRect = CGRectMake(0.0, 0.0, 600.0, 600.0);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0, 300.0), NO, 0.0 );
+    CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
     [backgroundFillColor set];
-    UIRectFill(CGRectMake(0.0, 0.0, 600.0, 600.0));
+    UIRectFill(CGRectMake(0.0, 0.0, 300.0, 300.0));
     [_savedPixels.image drawInRect:maskRect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -587,6 +626,7 @@
     else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Instagram isn't installed!" message:@"Please download the Instagram app to share pictures to Instagram." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
+        [self sharingCancelled];
     }
     
 }
@@ -601,7 +641,7 @@
     CGRect newFrame = _shareButton.frame;
     newFrame.size.height = newFrame.size.width;
     _savedPixels.image = nil;
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseIn
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          
                          [_drawingStrokes setFrame:newFrame];
@@ -613,10 +653,23 @@
                              [self successAlert:successMessage];
                          else {
                              _drawingStrokes.image = nil;
+                             _drawingStrokes.tag = 0;
                              [self.captureManager.captureSession startRunning];
                          }
                      }];
 
+}
+
+- (void) sharingCancelled {
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _drawingStrokes.alpha = 0.0;
+                         
+                     } completion:^(BOOL finished) {
+                         _drawingStrokes.image = nil;
+                         _drawingStrokes.tag = 0;
+                     }];
+    [self.captureManager.captureSession startRunning];
 }
 
 - (void) successAlert:(NSString*)successMessage {
@@ -629,14 +682,12 @@
     if(!error) {
         [self animateShare:@"Image saved to camera roll."];
     } else {
-        _drawingStrokes.image = nil;
-        [self.captureManager.captureSession startRunning];
+        [self sharingCancelled];
     }
 }
 
 -(void) documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller {
-    _drawingStrokes.image = nil;
-    [self.captureManager.captureSession startRunning];
+    [self sharingCancelled];
 }
 
 -(void) documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application {
@@ -645,9 +696,7 @@
 }
 
 - (IBAction) help {
-    [self dismissBrushSelectors];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"CamRub Help" message:@"Instructions: Rub on the screen to capture portions of the image. Make unique drawings, create collages, or just play around with the app for fun! Tap the \"Share\" button when you're done to save or share your creations.\n\nFor additional support email us at NDHApps@gmail.com or follow us on Twitter at @CamRubApp.\n\n©2014 NDHApps. All rights reserved." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
+        [self showPopup:NO];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -665,8 +714,8 @@
             }
             break;
         case 3:
-            _drawingStrokes.image = nil;
             [self.captureManager.captureSession startRunning];
+            _drawingStrokes.image = nil;
             break;
         default:
             break;
@@ -676,35 +725,49 @@
 
 - (IBAction) settings
 {
+    [self showPopup:YES];
+}
+
+- (void) showPopup:(bool) popupType // YES = settings, NO = help
+{
+    [self dismissBrushSelectors];
+    _drawingStrokes.tag = 1;
     _popupOverlay.hidden = NO;
     _popupOverlay.alpha = 0.0;
-    
     CGRect frame = _popupOverlay.frame;
-    frame.origin.x += (frame.size.width - 305.0) / 2.0;
+    frame.origin.x += (frame.size.width - 310.0) / 2.0;
     frame.origin.y += (frame.size.height - 470.0) / 2.0 + 5.0 + [self trueScreenHeight];
-    frame.size = CGSizeMake(305.0, 470.0);
-    _popup = (UIView*)[[CRSettingsController alloc] initWithFrame:frame];
-    ((CRSettingsController*)_popup).delegate = self;
+    frame.size = CGSizeMake(310.0, 470.0);
+    if (popupType) {
+        _popup = [[CRSettingsController alloc] initWithFrame:frame];
+        ((CRSettingsController*)_popup).delegate = self;
+    } else {
+        _popup = [[CRHelpController alloc] initWithFrame:frame];
+        ((CRHelpController*)_popup).delegate = self;
+    }
     [self.view addSubview:_popup];
     frame.origin.y -= [self trueScreenHeight];
     
-    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseOut
+    
+    [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _popup.frame = frame;
                          _popupOverlay.alpha = 0.7;
                          
                      } completion:^(BOOL finished) {
-                        [self.captureManager.captureSession stopRunning];
+                         [self.captureManager.captureSession stopRunning];
                      }];
 }
 
-- (void) dismissPopup {
-    [self.captureManager.captureSession startRunning];
-    
+- (IBAction) dismissPopup {
+
     CGRect frame = _popup.frame;
-    frame.origin.y += frame.origin.y + frame.size.height;
-    
-    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseOut
+    frame.origin.y += [self trueScreenHeight];
+    [self.captureManager.captureSession startRunning];
+    if (_drawingStrokes.image.CGImage) {
+        _drawingStrokes.image = nil;
+    }
+    [UIView animateWithDuration:0.6 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _popup.frame = frame;
                          _popupOverlay.alpha = 0.0;
@@ -713,27 +776,10 @@
                          [_popup removeFromSuperview];
                          _popupOverlay.hidden = YES;
                      }];
+    _drawingStrokes.tag = 0;
 }
 
-- (void) CRSettingsController:(CRSettingsController *)settingController didSetColor:(UIColor *)fillColor didSetDrawingMode:(BOOL)drawingMode {
-    
-    [self dismissPopup];
-    
-    backgroundFillColor = fillColor;
-    NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:backgroundFillColor];
-    [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"backgroundFillColor"];
-    
-    
-    drawInFront = drawingMode;
-    UIView *mainview = [self.view subviews].lastObject;
-    NSArray *subviews = [mainview subviews];
-    NSInteger IndexA = [subviews indexOfObject:_drawingStrokes];
-    NSInteger IndexB = [subviews indexOfObject:_savedPixels];
-    if ((IndexA < IndexB) == drawInFront)
-        [mainview exchangeSubviewAtIndex:IndexA withSubviewAtIndex:IndexB];
-    
-    [self.captureManager.captureSession startRunning];
-    
+- (void) pauseCapture {
     
 }
 

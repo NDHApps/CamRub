@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
@@ -43,49 +44,42 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="cKQ-Ln-xee" userLabel="cameraFrame">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <imageView hidden="YES" appearanceType="aqua" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="underliningStroke" translatesAutoresizingMaskIntoConstraints="NO" id="j5a-WQ-War">
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="underliningStroke" translatesAutoresizingMaskIntoConstraints="NO" id="j5a-WQ-War">
                     <rect key="frame" x="171" y="539" width="50" height="10"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="2vD-L3-yZN"/>
                         <constraint firstAttribute="height" constant="10" id="Tm2-x9-ZqW"/>
                     </constraints>
                 </imageView>
-                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="underliningStroke" translatesAutoresizingMaskIntoConstraints="NO" id="xiW-zf-okX">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="underliningStroke" translatesAutoresizingMaskIntoConstraints="NO" id="xiW-zf-okX">
                     <rect key="frame" x="95" y="539" width="50" height="10"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="HmV-Jc-Dgp"/>
                         <constraint firstAttribute="height" constant="10" id="lyk-kt-hwI"/>
                     </constraints>
                 </imageView>
-                <imageView appearanceType="aqua" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
+                <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RuG-5q-rbQ" userLabel="savedPixels">
                     <rect key="frame" x="10" y="134" width="300" height="300"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label=""/>
                 </imageView>
-                <imageView appearanceType="aqua" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
+                <imageView alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yFF-TN-YHB" userLabel="drawingStrokes">
                     <rect key="frame" x="10" y="134" width="300" height="300"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="300" id="Q0g-Jb-Pgp"/>
                         <constraint firstAttribute="width" constant="300" id="q27-M8-FXs"/>
                     </constraints>
                 </imageView>
-                <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pRg-O5-P0s" userLabel="dismissOverlay">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pRg-O5-P0s" userLabel="dismissOverlay">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="19n-0P-L79" appends="YES" id="Qld-uP-zGC"/>
                     </connections>
                 </view>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-zm-i5g">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-zm-i5g">
                     <rect key="frame" x="173" y="40" width="64" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="75" id="lpP-a3-6b4"/>
@@ -101,9 +95,8 @@
                         <outletCollection property="gestureRecognizers" destination="dmz-eA-pt3" appends="YES" id="7bU-0Z-IdF"/>
                     </connections>
                 </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ole-EU-OaJ">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ole-EU-OaJ">
                     <rect key="frame" x="265" y="40" width="35" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="JLF-2g-JfI"/>
@@ -119,9 +112,8 @@
                         <outletCollection property="gestureRecognizers" destination="icE-ee-8a8" appends="YES" id="hLb-Vg-9po"/>
                     </connections>
                 </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-Rz-eUh">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-Rz-eUh">
                     <rect key="frame" x="20" y="469" width="50" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="75" id="ZwH-90-sqs"/>
@@ -137,9 +129,8 @@
                         <outletCollection property="gestureRecognizers" destination="oLp-8g-RYa" appends="YES" id="Rr7-SV-bqs"/>
                     </connections>
                 </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwJ-1U-Gdd">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fwJ-1U-Gdd">
                     <rect key="frame" x="250" y="469" width="50" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="75" id="LOh-tq-zsw"/>
@@ -155,9 +146,8 @@
                         <outletCollection property="gestureRecognizers" destination="Dg6-Ca-poZ" appends="YES" id="fxb-4Z-xAf"/>
                     </connections>
                 </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-tB-e6d">
                     <rect key="frame" x="97" y="469" width="50" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="75" id="45v-1n-WU4"/>
@@ -174,9 +164,8 @@
                         <outletCollection property="gestureRecognizers" destination="wtI-V6-CPZ" appends="YES" id="QiU-FF-itV"/>
                     </connections>
                 </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeM-BY-b5l">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeM-BY-b5l">
                     <rect key="frame" x="173" y="469" width="50" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="75" id="UIX-bI-7Bb"/>
@@ -193,9 +182,8 @@
                         <outletCollection property="gestureRecognizers" destination="M9Y-me-OJ9" appends="YES" id="myf-Hk-zJc"/>
                     </connections>
                 </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1A-qu-zX1">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1A-qu-zX1">
                     <rect key="frame" x="93" y="40" width="58" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="75" id="epY-ua-gHs"/>
@@ -211,9 +199,8 @@
                         <outletCollection property="gestureRecognizers" destination="wpK-8J-8Ef" appends="YES" id="eEI-0l-gJC"/>
                     </connections>
                 </button>
-                <button appearanceType="aqua" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ks6-VX-U6e">
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ks6-VX-U6e">
                     <rect key="frame" x="14" y="40" width="62" height="75"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="62" id="Nud-LJ-zQZ"/>
@@ -230,21 +217,18 @@
                         <outletCollection property="gestureRecognizers" destination="9aj-Ne-Yce" appends="YES" id="UlL-UI-g3h"/>
                     </connections>
                 </button>
-                <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IlN-jt-M3W" userLabel="selectEraseBrushSize">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IlN-jt-M3W" userLabel="selectEraseBrushSize">
                     <rect key="frame" x="20" y="387" width="280" height="80"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EraseBrushBar" translatesAutoresizingMaskIntoConstraints="NO" id="zfI-31-d8o">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EraseBrushBar" translatesAutoresizingMaskIntoConstraints="NO" id="zfI-31-d8o">
                             <rect key="frame" x="0.0" y="0.0" width="280" height="80"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="L8f-hr-y9A"/>
                                 <constraint firstAttribute="height" constant="80" id="Ral-M5-rjp"/>
                             </constraints>
                         </imageView>
-                        <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="adX-Fx-Ou4">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="adX-Fx-Ou4">
                             <rect key="frame" x="18" y="21" width="178" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="tintColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="NDc-SW-Gid"/>
@@ -254,9 +238,8 @@
                                 <action selector="eraseSliderChanged:" destination="-1" eventType="valueChanged" id="3Jy-X7-Ma2"/>
                             </connections>
                         </slider>
-                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB0-N4-zHk">
+                        <view clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB0-N4-zHk">
                             <rect key="frame" x="212" y="11" width="50" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="NTe-Ku-IQ6"/>
@@ -277,21 +260,18 @@
                         <constraint firstAttribute="centerX" secondItem="zfI-31-d8o" secondAttribute="centerX" id="qcF-n1-rRc"/>
                     </constraints>
                 </view>
-                <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X05-Hn-aun" userLabel="selectDrawBrushSize">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X05-Hn-aun" userLabel="selectDrawBrushSize">
                     <rect key="frame" x="20" y="387" width="280" height="80"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BrushBar" translatesAutoresizingMaskIntoConstraints="NO" id="8dT-Cg-c6h">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BrushBar" translatesAutoresizingMaskIntoConstraints="NO" id="8dT-Cg-c6h">
                             <rect key="frame" x="0.0" y="0.0" width="280" height="80"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="280" id="4JO-II-vCt"/>
                                 <constraint firstAttribute="height" constant="80" id="Dzg-7y-h1v"/>
                             </constraints>
                         </imageView>
-                        <slider appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="CUJ-lF-c5c">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="CUJ-lF-c5c">
                             <rect key="frame" x="18" y="21" width="178" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="tintColor" cyan="0.54830241203308105" magenta="0.42255282402038574" yellow="0.0006561279296875" black="0.099664392605633798" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="cMD-Iy-UnW"/>
@@ -301,9 +281,8 @@
                                 <action selector="sliderChanged:" destination="-1" eventType="valueChanged" id="AhB-JQ-Onw"/>
                             </connections>
                         </slider>
-                        <view appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oub-uI-uXe">
+                        <view clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oub-uI-uXe">
                             <rect key="frame" x="212" y="11" width="50" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="ZqI-hU-Cw1"/>
@@ -324,9 +303,8 @@
                         <constraint firstItem="CUJ-lF-c5c" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" constant="21" id="tFn-BQ-sdZ"/>
                     </constraints>
                 </view>
-                <view hidden="YES" appearanceType="aqua" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
+                <view hidden="YES" alpha="0.0" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     <gestureRecognizers/>
                     <connections>
@@ -389,12 +367,12 @@
                 <action selector="shareImage" destination="-1" id="dFf-rg-bN9"/>
             </connections>
         </tapGestureRecognizer>
-        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="RdT-1x-6ee">
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="RdT-1x-6ee">
             <connections>
                 <action selector="drawPressed" destination="-1" id="134-7p-jnl"/>
             </connections>
         </pongPressGestureRecognizer>
-        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.30000000000000004" id="Fyg-Co-qdc">
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="Fyg-Co-qdc">
             <connections>
                 <action selector="erasePressed" destination="-1" id="7pT-gj-FOl"/>
             </connections>
@@ -442,7 +420,7 @@
     </objects>
     <resources>
         <image name="BrushBar" width="280" height="84"/>
-        <image name="CamFrame" width="320" height="568"/>
+        <image name="CamFrame" width="320" height="480"/>
         <image name="EraseBrushBar" width="280" height="84"/>
         <image name="clear" width="50" height="50"/>
         <image name="draw" width="50" height="50"/>
@@ -451,7 +429,7 @@
         <image name="help" width="35" height="50"/>
         <image name="settings" width="50" height="50"/>
         <image name="share" width="50" height="50"/>
-        <image name="underliningStroke" width="49" height="6"/>
+        <image name="underliningStroke" width="49" height="7"/>
         <image name="undo" width="58" height="50"/>
     </resources>
 </document>

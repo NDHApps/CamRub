@@ -23,18 +23,26 @@
 @implementation CRSettingsController
 
 - (id)initWithFrame:(CGRect)frame {
-
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults synchronize];
-    NSArray * subviewArray = [[NSBundle mainBundle] loadNibNamed:@"CRSettingsView" owner:self options:nil];
-    id mainView = [subviewArray objectAtIndex:0];
-    self = mainView;
-    self.frame = frame;
-    self.drawingMode.on = [defaults boolForKey:@"drawingMode"];
-    self.hueSlider.value = hue = [defaults doubleForKey:@"hue"] - 0.1;
-    self.valueSlider.value = value = [defaults doubleForKey:@"value"] - 1.0;
-    [self updateColor];
+    
+    self = [self loadNibWithFrame:frame];
+    
+    if (self) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults synchronize];
+        self.drawingMode.on = ![defaults boolForKey:@"drawingMode"];
+        self.hueSlider.value = hue = [defaults doubleForKey:@"hue"] - 0.1;
+        self.valueSlider.value = value = [defaults doubleForKey:@"value"] - 1.0;
+        [self updateColor];
+    }
+    
     return self;
+}
+
+- (CRSettingsController*) loadNibWithFrame:(CGRect)frame {
+    NSArray * subviewArray = [[NSBundle mainBundle] loadNibNamed:@"CRSettingsView" owner:self options:nil];
+    CRSettingsController* view = [subviewArray objectAtIndex:0];
+    view.frame = frame;
+    return view;
 }
 
 - (IBAction) hueSliderChanged: (id)sender {
@@ -47,7 +55,8 @@
     [self updateColor];
 }
 
-- (void)handleCloseButton:(id)sender {
+- (IBAction) handleCloseButton:(id)sender {
+
     id<CRSettingsControllerDelegate> strongDelegate = self.delegate;
     
     if ([strongDelegate respondsToSelector:@selector(CRSettingsController:didSetColor:didSetDrawingMode:)])
@@ -57,7 +66,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setDouble:(hue+0.1) forKey:@"hue"];
     [defaults setDouble:(value+1.0) forKey:@"value"];
-    [defaults setBool:_drawingMode.on forKey:@"drawingMode"];
+    [defaults setBool:!(_drawingMode.on) forKey:@"drawingMode"];
     [defaults synchronize];    
 }
 
@@ -94,7 +103,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setDouble:0.0 forKey:@"hue"];
     [defaults setDouble:0.0 forKey:@"value"];
-    [defaults setBool:YES forKey:@"drawingMode"];
+    [defaults setBool:NO forKey:@"drawingMode"];
     [defaults synchronize];
     
     [self.drawingMode setOn: _drawingMode.on animated:YES];

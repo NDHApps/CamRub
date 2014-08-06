@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0107169719911CF400C24339 /* CRHelpController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0107169619911CF400C24339 /* CRHelpController.m */; };
 		01432D76198AB35F009BA552 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01432D75198AB35F009BA552 /* MessageUI.framework */; };
 		01432D79198AB494009BA552 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 01432D78198AB494009BA552 /* Reachability.m */; };
 		01432D7B198AB74F009BA552 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01432D7A198AB74F009BA552 /* MobileCoreServices.framework */; };
@@ -23,7 +24,6 @@
 		01D9938F1976F87B00B31E37 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D9938E1976F87B00B31E37 /* main.m */; };
 		01D993931976F87B00B31E37 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D993921976F87B00B31E37 /* AppDelegate.m */; };
 		01D993951976F87B00B31E37 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01D993941976F87B00B31E37 /* Images.xcassets */; };
-		01D9939C1976F87B00B31E37 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01D9939B1976F87B00B31E37 /* XCTest.framework */; };
 		01D9939D1976F87B00B31E37 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01D993821976F87B00B31E37 /* Foundation.framework */; };
 		01D9939E1976F87B00B31E37 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01D993861976F87B00B31E37 /* UIKit.framework */; };
 		01D993A61976F87B00B31E37 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01D993A41976F87B00B31E37 /* InfoPlist.strings */; };
@@ -43,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0107169519911CF400C24339 /* CRHelpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRHelpController.h; sourceTree = "<group>"; };
+		0107169619911CF400C24339 /* CRHelpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRHelpController.m; sourceTree = "<group>"; };
 		01432D75198AB35F009BA552 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		01432D77198AB494009BA552 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		01432D78198AB494009BA552 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -68,7 +70,6 @@
 		01D993921976F87B00B31E37 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		01D993941976F87B00B31E37 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		01D9939A1976F87B00B31E37 /* CamRubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CamRubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		01D9939B1976F87B00B31E37 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		01D993A31976F87B00B31E37 /* CamRubTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CamRubTests-Info.plist"; sourceTree = "<group>"; };
 		01D993A51976F87B00B31E37 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01D993A71976F87B00B31E37 /* CamRubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CamRubTests.m; sourceTree = "<group>"; };
@@ -94,7 +95,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01D9939C1976F87B00B31E37 /* XCTest.framework in Frameworks */,
 				01D9939E1976F87B00B31E37 /* UIKit.framework in Frameworks */,
 				01D9939D1976F87B00B31E37 /* Foundation.framework in Frameworks */,
 			);
@@ -131,7 +131,6 @@
 				01D993821976F87B00B31E37 /* Foundation.framework */,
 				01D993841976F87B00B31E37 /* CoreGraphics.framework */,
 				01D993861976F87B00B31E37 /* UIKit.framework */,
-				01D9939B1976F87B00B31E37 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,6 +151,8 @@
 				01B2EC12198BE0E100E56609 /* CRSettingsController.h */,
 				01B2EC13198BE0E100E56609 /* CRSettingsController.m */,
 				01B2EC10198BE0A600E56609 /* CRSettingsView.xib */,
+				0107169519911CF400C24339 /* CRHelpController.h */,
+				0107169619911CF400C24339 /* CRHelpController.m */,
 				01B2EC15198BEEC500E56609 /* CRHelpView.xib */,
 			);
 			path = CamRub;
@@ -292,6 +293,7 @@
 			files = (
 				0192B92D1989E2B200EC00FC /* CaptureSessionManager.m in Sources */,
 				01D993931976F87B00B31E37 /* AppDelegate.m in Sources */,
+				0107169719911CF400C24339 /* CRHelpController.m in Sources */,
 				01D9938F1976F87B00B31E37 /* main.m in Sources */,
 				01B2EC14198BE0E100E56609 /* CRSettingsController.m in Sources */,
 				01B996D71977004100740F94 /* CRViewController.m in Sources */,
@@ -417,6 +419,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CamRub/CamRub-Prefix.pch";
 				INFOPLIST_FILE = "CamRub/CamRub-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -433,6 +436,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CamRub/CamRub-Prefix.pch";
 				INFOPLIST_FILE = "CamRub/CamRub-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
