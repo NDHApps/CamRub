@@ -22,9 +22,11 @@
     CGFloat alpha;
     UIColor *backgroundFillColor;
     
+    BOOL drawingEnabled;
     BOOL mouseSwiped;
     BOOL drawToolSelected; // Otherwise Erase
-    BOOL drawInFront;
+    BOOL drawBehind; // Otherwise Add New Strokes In Front (Default)
+    BOOL alphaEffect;
 }
 
 @property (retain) CaptureSessionManager *captureManager;

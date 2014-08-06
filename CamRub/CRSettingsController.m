@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) IBOutlet UIView *colorPreview;
 @property (nonatomic, weak) IBOutlet UISwitch *drawingMode;
+@property (nonatomic, weak) IBOutlet UISwitch *alphaEffect;
 @property (nonatomic, weak) IBOutlet UISlider *hueSlider;
 @property (nonatomic, weak) IBOutlet UISlider *valueSlider;
 
@@ -29,7 +30,8 @@
     if (self) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults synchronize];
-        self.drawingMode.on = ![defaults boolForKey:@"drawingMode"];
+        self.drawingMode.on = [defaults boolForKey:@"drawingMode"];
+        self.alphaEffect.on = [defaults boolForKey:@"alphaEffect"];
         self.hueSlider.value = hue = [defaults doubleForKey:@"hue"] - 0.1;
         self.valueSlider.value = value = [defaults doubleForKey:@"value"] - 1.0;
         [self updateColor];
@@ -59,14 +61,15 @@
 
     id<CRSettingsControllerDelegate> strongDelegate = self.delegate;
     
-    if ([strongDelegate respondsToSelector:@selector(CRSettingsController:didSetColor:didSetDrawingMode:)])
-        [strongDelegate CRSettingsController:self didSetColor:color didSetDrawingMode:_drawingMode.on];
+    if ([strongDelegate respondsToSelector:@selector(CRSettingsController:didSetColor:didSetDrawingMode:didSetAlphaEffect:)])
+        [strongDelegate CRSettingsController:self didSetColor:color didSetDrawingMode:_drawingMode.on didSetAlphaEffect:_alphaEffect.on];
     
     // Save settings
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setDouble:(hue+0.1) forKey:@"hue"];
     [defaults setDouble:(value+1.0) forKey:@"value"];
-    [defaults setBool:!(_drawingMode.on) forKey:@"drawingMode"];
+    [defaults setBool:_drawingMode.on forKey:@"drawingMode"];
+    [defaults setBool:_alphaEffect.on forKey:@"alphaEffect"];
     [defaults synchronize];    
 }
 
@@ -97,16 +100,19 @@
 - (IBAction) resetSettings {
     hue = -0.1;
     value = -1.0;
-    _drawingMode.on = YES;
+    _drawingMode.on = NO;
+    _alphaEffect.on = NO;
     
     // Reset settings
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setDouble:0.0 forKey:@"hue"];
     [defaults setDouble:0.0 forKey:@"value"];
     [defaults setBool:NO forKey:@"drawingMode"];
+    [defaults setBool:NO forKey:@"alphaEffect"];
     [defaults synchronize];
     
     [self.drawingMode setOn: _drawingMode.on animated:YES];
+    [self.alphaEffect setOn: _alphaEffect.on animated:YES];
     [self.hueSlider setValue: hue animated:YES];
     [self.valueSlider setValue: value animated:YES];
     [self updateColor];

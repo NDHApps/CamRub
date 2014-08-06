@@ -24,6 +24,7 @@
 
 - (void)CRSettingsController:(CRSettingsController*)settingController
                  didSetColor:(UIColor*)fillColor
-           didSetDrawingMode:(BOOL)drawingMode;
+           didSetDrawingMode:(BOOL)drawingMode
+           didSetAlphaEffect:(BOOL)alphaEffect;
 
 @end

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
@@ -10,11 +10,13 @@
             <connections>
                 <outlet property="brushPreview" destination="oub-uI-uXe" id="2zf-ek-9zD"/>
                 <outlet property="brushSelectorView" destination="X05-Hn-aun" id="tXp-Vz-XlC"/>
+                <outlet property="brushSlider" destination="CUJ-lF-c5c" id="eEi-ME-2DG"/>
                 <outlet property="cameraFrame" destination="cKQ-Ln-xee" id="pkQ-tJ-cil"/>
                 <outlet property="drawIndicator" destination="xiW-zf-okX" id="9Ow-2X-2w2"/>
                 <outlet property="drawingStrokes" destination="yFF-TN-YHB" id="fMH-vr-1qi"/>
                 <outlet property="eraseBrushPreview" destination="LB0-N4-zHk" id="U4Z-NX-FTZ"/>
                 <outlet property="eraseBrushSelectorView" destination="IlN-jt-M3W" id="dd4-LH-Afz"/>
+                <outlet property="eraseBrushSlider" destination="adX-Fx-Ou4" id="ppA-im-fCX"/>
                 <outlet property="eraseIndicator" destination="j5a-WQ-War" id="nqP-xQ-NBV"/>
                 <outlet property="overlayView" destination="9bN-qM-BdW" id="8BV-ep-7M8"/>
                 <outlet property="popupOverlay" destination="94h-YB-po1" id="hab-sA-HDf"/>
@@ -227,7 +229,7 @@
                                 <constraint firstAttribute="height" constant="80" id="Ral-M5-rjp"/>
                             </constraints>
                         </imageView>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="adX-Fx-Ou4">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="30" minValue="10" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="adX-Fx-Ou4">
                             <rect key="frame" x="18" y="21" width="178" height="31"/>
                             <color key="tintColor" cyan="0.54830241199999996" magenta="0.42255282399999999" yellow="0.00065612792969999998" black="0.099664392609999999" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                             <constraints>
@@ -235,7 +237,7 @@
                                 <constraint firstAttribute="width" constant="174" id="VJc-Ch-WAs"/>
                             </constraints>
                             <connections>
-                                <action selector="eraseSliderChanged:" destination="-1" eventType="valueChanged" id="3Jy-X7-Ma2"/>
+                                <action selector="eraseSliderChanged" destination="-1" eventType="valueChanged" id="HRN-Vy-G9N"/>
                             </connections>
                         </slider>
                         <view clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB0-N4-zHk">
@@ -270,7 +272,7 @@
                                 <constraint firstAttribute="height" constant="80" id="Dzg-7y-h1v"/>
                             </constraints>
                         </imageView>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="CUJ-lF-c5c">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="30" minValue="10" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="CUJ-lF-c5c">
                             <rect key="frame" x="18" y="21" width="178" height="31"/>
                             <color key="tintColor" cyan="0.54830241203308105" magenta="0.42255282402038574" yellow="0.0006561279296875" black="0.099664392605633798" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                             <constraints>
@@ -278,7 +280,7 @@
                                 <constraint firstAttribute="width" constant="174" id="jYR-hx-d5t"/>
                             </constraints>
                             <connections>
-                                <action selector="sliderChanged:" destination="-1" eventType="valueChanged" id="AhB-JQ-Onw"/>
+                                <action selector="sliderChanged" destination="-1" eventType="valueChanged" id="jSh-Bp-RqK"/>
                             </connections>
                         </slider>
                         <view clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oub-uI-uXe">
@@ -303,7 +305,7 @@
                         <constraint firstItem="CUJ-lF-c5c" firstAttribute="top" secondItem="X05-Hn-aun" secondAttribute="top" constant="21" id="tFn-BQ-sdZ"/>
                     </constraints>
                 </view>
-                <view hidden="YES" alpha="0.0" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
+                <view hidden="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="94h-YB-po1" userLabel="popupOverlay">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     <gestureRecognizers/>
@@ -420,7 +422,7 @@
     </objects>
     <resources>
         <image name="BrushBar" width="280" height="84"/>
-        <image name="CamFrame" width="320" height="480"/>
+        <image name="CamFrame" width="320" height="568"/>
         <image name="EraseBrushBar" width="280" height="84"/>
         <image name="clear" width="50" height="50"/>
         <image name="draw" width="50" height="50"/>
@@ -429,7 +431,7 @@
         <image name="help" width="35" height="50"/>
         <image name="settings" width="50" height="50"/>
         <image name="share" width="50" height="50"/>
-        <image name="underliningStroke" width="49" height="7"/>
+        <image name="underliningStroke" width="49" height="6"/>
         <image name="undo" width="58" height="50"/>
     </resources>
 </document>

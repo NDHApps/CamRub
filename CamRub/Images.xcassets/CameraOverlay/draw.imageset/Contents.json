@@ -2,8 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "draw.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

@@ -19,8 +19,10 @@
 @property (nonatomic, strong) UIImage *lastRevision;
 @property (nonatomic, weak) IBOutlet UIView *brushSelectorView;
 @property (nonatomic, weak) IBOutlet UIView *brushPreview;
+@property (nonatomic, weak) IBOutlet UISlider *brushSlider;
 @property (nonatomic, weak) IBOutlet UIView *eraseBrushSelectorView;
 @property (nonatomic, weak) IBOutlet UIView *eraseBrushPreview;
+@property (nonatomic, weak) IBOutlet UISlider *eraseBrushSlider;
 @property (nonatomic, weak) IBOutlet UIView *selectorBackground;
 @property (nonatomic, weak) IBOutlet UIImageView *drawingStrokes;
 @property (nonatomic, weak) IBOutlet UIView *overlayView;
@@ -42,12 +44,18 @@
 {
     [super viewDidLoad];
     
-    brush = drawSize = eraseSize = 30.0;
     color = 0.0;
     alpha = 1.0;
     drawToolSelected = YES;
-    [[NSUserDefaults standardUserDefaults] setBool:drawInFront forKey:@"drawingMode"];
-    drawInFront = !drawInFront;
+    drawingEnabled = YES;
+    drawSize = [[NSUserDefaults standardUserDefaults] doubleForKey:@"brushSize"];
+    eraseSize = [[NSUserDefaults standardUserDefaults] doubleForKey:@"eraserSize"];
+    if (!drawSize)
+        drawSize = 30.0;
+    if (!eraseSize)
+        eraseSize = 30.0;
+    drawBehind = [[NSUserDefaults standardUserDefaults] boolForKey:@"drawingMode"];
+    alphaEffect = [[NSUserDefaults standardUserDefaults] boolForKey:@"alphaEffect"];
     NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"backgroundFillColor"];
     if (colorData)
         backgroundFillColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
@@ -72,16 +80,16 @@
     [self dismissPopup];
 }
 
-- (void) CRSettingsController:(CRSettingsController *)settingController didSetColor:(UIColor *)fillColor didSetDrawingMode:(BOOL)drawingMode {
+- (void) CRSettingsController:(CRSettingsController *)settingController didSetColor:(UIColor *)fillColor didSetDrawingMode:(BOOL)drawingMode didSetAlphaEffect:(BOOL)alphaE{
     
     [self dismissPopup];
-    drawInFront = drawingMode;
+    drawBehind = drawingMode;
+    alphaEffect = alphaE;
     backgroundFillColor = fillColor;
     NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:backgroundFillColor];
     [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"backgroundFillColor"];
     
 }
-
 
 - (CGFloat) trueScreenHeight {
     CGRect screenSize = [[UIScreen mainScreen] bounds];
@@ -112,76 +120,85 @@
     [[self captureManager] toggleCamera];
 }
 
-- (IBAction)sliderChanged:(id)sender
+- (IBAction) sliderChanged
 {
-    UISlider *slider = (UISlider *)sender;
-    float val = slider.value * 40.0 + 10;
-    brush = drawSize = val;
-    _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, val/50.0, val/50.0);
+    brush = drawSize = _brushSlider.value;
+    _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, brush/50.0, brush/50.0);
+    [[NSUserDefaults standardUserDefaults] setDouble:drawSize forKey:@"brushSize"];
 }
 
-- (IBAction)eraseSliderChanged:(id)sender
+- (IBAction) eraseSliderChanged
 {
-    UISlider *slider = (UISlider *)sender;
-    float val = slider.value * 40.0 + 10;
-    brush = eraseSize = val;
-    _eraseBrushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, val/50.0, val/50.0);
+    brush = eraseSize = _eraseBrushSlider.value;
+    _eraseBrushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, brush/50.0, brush/50.0);
+    [[NSUserDefaults standardUserDefaults] setDouble:eraseSize forKey:@"eraserSize"];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self dismissBrushSelectors];
-    mouseSwiped = NO;
-    UITouch *touch = [touches anyObject];
-    lastPoint = [touch locationInView:self.drawingStrokes];
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(drawingEnabled) {
+        [self dismissBrushSelectors];
+        mouseSwiped = NO;
+        UITouch *touch = [touches anyObject];
+        lastPoint = [touch locationInView:self.drawingStrokes];
+    }
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (_drawingStrokes.tag)
-        return;
-    mouseSwiped = YES;
-    UITouch *touch = [touches anyObject];
-    CGPoint currentPoint = [touch locationInView:self.drawingStrokes];
-    
-    UIGraphicsBeginImageContextWithOptions(self.drawingStrokes.frame.size, NO, 0.0);
-    [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height)];
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y);
-    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
-    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brush );
-    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), color, color, color, alpha);
-    CGContextSetBlendMode(UIGraphicsGetCurrentContext(),kCGBlendModeNormal);
-    
-    CGContextStrokePath(UIGraphicsGetCurrentContext());
-    self.drawingStrokes.image = UIGraphicsGetImageFromCurrentImageContext();
-    self.drawingStrokes.alpha = 0.5;
-    UIGraphicsEndImageContext();
-    
-    lastPoint = currentPoint;
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if(!mouseSwiped) {
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(drawingEnabled)
+    {
+        mouseSwiped = YES;
+        UITouch *touch = [touches anyObject];
+        CGPoint currentPoint = [touch locationInView:self.drawingStrokes];
         UIGraphicsBeginImageContextWithOptions(self.drawingStrokes.frame.size, NO, 0.0);
         [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height)];
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y);
         CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brush);
         CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), color, color, color, alpha);
-        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
-        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+        CGContextSetBlendMode(UIGraphicsGetCurrentContext(),kCGBlendModeNormal);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
-        CGContextFlush(UIGraphicsGetCurrentContext());
         self.drawingStrokes.image = UIGraphicsGetImageFromCurrentImageContext();
+        self.drawingStrokes.alpha = 0.5;
         UIGraphicsEndImageContext();
+        lastPoint = currentPoint;
     }
-    
-    UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
-    [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
-    self.pixelMask = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    if (_drawingStrokes.image.CGImage && _captureManager.captureSession.isRunning) {
-        if (drawToolSelected)
-            [_captureManager captureStillImage];
-        else
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(drawingEnabled) {
+        if(!mouseSwiped) {
+            UIGraphicsBeginImageContextWithOptions(self.drawingStrokes.frame.size, NO, 0.0);
+            [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height)];
+            CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+            CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brush);
+            CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), color, color, color, alpha);
+            CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+            CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+            CGContextStrokePath(UIGraphicsGetCurrentContext());
+            CGContextFlush(UIGraphicsGetCurrentContext());
+            self.drawingStrokes.image = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+        }
+        [self strokesFinished];
+    }
+    else
+        _drawingStrokes.image = nil;
+}
+
+- (void) strokesFinished {
+    if (_drawingStrokes.image.CGImage && ![self imageIsTransparent:_drawingStrokes.image.CGImage]) {
+        UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
+        [self.drawingStrokes.image drawInRect:CGRectMake(0, 0, self.drawingStrokes.frame.size.width, self.drawingStrokes.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+        self.pixelMask = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        if (drawToolSelected) {
+            if (_captureManager.captureSession.isRunning)
+                [_captureManager captureStillImage];
+        } else
             [self eraseStrokes];
     }
 }
@@ -214,7 +231,10 @@
     [_eraseBrushPreview.layer setCornerRadius: 25.0];
     _brushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
     _eraseBrushPreview.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.6, 0.6);
-    _drawingStrokes.tag = 0;
+    _brushSlider.value = drawSize;
+    _eraseBrushSlider.value = eraseSize;
+    [self eraseSliderChanged];
+    [self sliderChanged];
     
     [[self view] addSubview:self.overlayView];
     
@@ -265,26 +285,25 @@
     
     capturedImage = [self rotate:[UIImage imageWithCGImage: imageRef scale: 0.9375 * imageWidth / 600.0 orientation: orientation]];
     CGImageRelease(imageRef);
+    
     // Create alpha mask
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
-    CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
-    [[UIColor whiteColor] set];
-    UIRectFill(CGRectMake(0.0, 0.0, 300.0, 300.0));
-    [_pixelMask drawInRect:maskRect];
-    UIImage* mask = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    UIImage* mask = [self prepareMask:_pixelMask];
     
     // Mask image
+    if (alphaEffect) {
+        mask = [self maskImage:capturedImage withMask:mask];
+        mask = [self prepareMask:mask];
+    }
     capturedImage = [self maskImage:capturedImage withMask:mask];
     
     // Update image
     UIGraphicsBeginImageContextWithOptions(self.savedPixels.frame.size, NO, 0.0);
-    if (drawInFront) {
-        [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+    if (drawBehind) {
         [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+        [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     } else {
-        [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
         [self.savedPixels.image drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
+        [capturedImage drawInRect:CGRectMake(0, 0, self.savedPixels.frame.size.width, self.savedPixels.frame.size.height) blendMode:kCGBlendModeNormal alpha:alpha];
     }
     self.lastRevision = self.savedPixels.image;
     self.savedPixels.image = UIGraphicsGetImageFromCurrentImageContext();
@@ -294,6 +313,18 @@
     self.pixelMask = nil;
     self.drawingStrokes.image = nil;
     
+}
+
+- (UIImage*) prepareMask:(UIImage*)maskingImage {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0,300.0), NO, 0.0 );
+    CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
+    [[UIColor whiteColor] set];
+    UIRectFill(CGRectMake(0.0, 0.0, 300.0, 300.0));
+    [maskingImage drawInRect:maskRect];
+    UIImage* mask = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return mask;
 }
 
 - (void) eraseStrokes {
@@ -393,6 +424,8 @@
 
 - (IBAction) clearImage {
     [self dismissBrushSelectors];
+    drawingEnabled = YES;
+    [self.captureManager.captureSession startRunning];
     if(_savedPixels.image) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to clear the canvas?" message:@"All work will be lost." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes",nil];
         alertView.tag = 2;
@@ -449,11 +482,13 @@
 }
 
 - (IBAction) shareImage {
+    if (_drawingStrokes.image.CGImage)
+        _drawingStrokes.image = nil;
     [self dismissBrushSelectors];
     if(_savedPixels.image.CGImage) {
+        drawingEnabled = NO;
         [self.captureManager.captureSession stopRunning];
-        _drawingStrokes.tag = 1;
-        _drawingStrokes.image = [self renderImage];
+        _drawingStrokes.image = [self renderPreview];
         _drawingStrokes.alpha = 0.5;
         [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
@@ -524,19 +559,19 @@
         [composer setBody:@"Check out this picture I made using CamRub!"];
     } else {
         [self sharingCancelled];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Your device is not compatible with this feature!" message:@"Please upgrade to iOS7 or later to send MMS messages from CamRub." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        
     }
     
     [self presentViewController:composer animated:YES completion:nil];
 }
 
 - (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
-    if (result == MessageComposeResultSent)
+    if (result == MessageComposeResultSent) {
         _savedPixels.image = nil;
+        [self drawTapped];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
     [self sharingCancelled];
+    
 }
 
 - (void) saveImage {
@@ -577,7 +612,7 @@
     
 }
 
-- (UIImage*) renderImage {
+- (UIImage*) renderPreview {
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(300.0, 300.0), NO, 0.0 );
     CGRect maskRect = CGRectMake(0.0, 0.0, 300.0, 300.0);
     [backgroundFillColor set];
@@ -590,10 +625,10 @@
 }
 
 - (UIImage*) formatPNG {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(624.0 ,624.0), NO, 0.0 );
-    CGRect maskRect = CGRectMake(12.0, 12.0, 600.0, 600.0);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(632.0 ,632.0), NO, 0.0 );
+    CGRect maskRect = CGRectMake(16.0, 16.0, 632.0, 632.0);
     [backgroundFillColor set];
-    UIRectFill(CGRectMake(0.0, 0.0, 624.0, 624.0));
+    UIRectFill(CGRectMake(0.0, 0.0, 632.0, 632.0));
     [_savedPixels.image drawInRect:maskRect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -653,8 +688,9 @@
                              [self successAlert:successMessage];
                          else {
                              _drawingStrokes.image = nil;
-                             _drawingStrokes.tag = 0;
                              [self.captureManager.captureSession startRunning];
+                             drawingEnabled = YES;
+                             [self drawTapped];
                          }
                      }];
 
@@ -667,7 +703,7 @@
                          
                      } completion:^(BOOL finished) {
                          _drawingStrokes.image = nil;
-                         _drawingStrokes.tag = 0;
+                         drawingEnabled = YES;
                      }];
     [self.captureManager.captureSession startRunning];
 }
@@ -692,6 +728,7 @@
 
 -(void) documentInteractionController:(UIDocumentInteractionController *)controller willBeginSendingToApplication:(NSString *)application {
     _savedPixels.image = nil;
+    drawingEnabled = YES;
     [self drawTapped];
 }
 
@@ -716,6 +753,7 @@
         case 3:
             [self.captureManager.captureSession startRunning];
             _drawingStrokes.image = nil;
+            drawingEnabled = YES;
             break;
         default:
             break;
@@ -731,7 +769,9 @@
 - (void) showPopup:(bool) popupType // YES = settings, NO = help
 {
     [self dismissBrushSelectors];
-    _drawingStrokes.tag = 1;
+    if (_drawingStrokes.image.CGImage)
+        _drawingStrokes.image = nil;
+    drawingEnabled = NO;
     _popupOverlay.hidden = NO;
     _popupOverlay.alpha = 0.0;
     CGRect frame = _popupOverlay.frame;
@@ -749,7 +789,7 @@
     frame.origin.y -= [self trueScreenHeight];
     
     
-    [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
+    [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _popup.frame = frame;
                          _popupOverlay.alpha = 0.7;
@@ -764,9 +804,6 @@
     CGRect frame = _popup.frame;
     frame.origin.y += [self trueScreenHeight];
     [self.captureManager.captureSession startRunning];
-    if (_drawingStrokes.image.CGImage) {
-        _drawingStrokes.image = nil;
-    }
     [UIView animateWithDuration:0.6 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          _popup.frame = frame;
@@ -776,11 +813,7 @@
                          [_popup removeFromSuperview];
                          _popupOverlay.hidden = YES;
                      }];
-    _drawingStrokes.tag = 0;
-}
-
-- (void) pauseCapture {
-    
+    drawingEnabled = YES;
 }
 
 @end
