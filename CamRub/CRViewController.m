@@ -556,7 +556,7 @@
     {
         NSData *imgData = UIImagePNGRepresentation(imageToShare);
         [composer addAttachmentData:imgData typeIdentifier:(NSString*)kUTTypeMessage filename:@"image.png"];
-        [composer setBody:@"Check out this picture I made using CamRub!"];
+        [composer setBody:@"Check out this picture I made using CamRub! NDHApps.com/GetCamRub"];
     } else {
         [self sharingCancelled];
     }
@@ -587,11 +587,11 @@
     
     if (service == SLServiceTypeFacebook) {
         message = @"Imaged shared to Facebook.";
-        [shareSheet setInitialText:@"Check out this picture I made using CamRub!"];
+        [shareSheet setInitialText:@"Check out this picture I made using CamRub! NDHApps.com/GetCamRub"];
     }
     else if (service == SLServiceTypeTwitter) {
         message = @"Imaged shared to Twitter.";
-        [shareSheet setInitialText:@"Check out this picture I made using @CamRubApp!"];
+        [shareSheet setInitialText:@"Check out this picture I made using @CamRubApp! NDHApps.com/GetCamRub"];
     }
     
     [shareSheet addImage:[self formatPNG]];
@@ -652,7 +652,7 @@
         
         self.dic = [UIDocumentInteractionController interactionControllerWithURL:instaHookFile];
         self.dic.delegate = self;
-        self.dic.annotation = [NSDictionary dictionaryWithObject:@"Check out this picture I made using CamRub!"
+        self.dic.annotation = [NSDictionary dictionaryWithObject:@"Check out this picture I made using CamRub! NDHApps.com/GetCamRub"
                                                           forKey:@"InstagramCaption"];
         self.dic.UTI = @"com.instagram.photo";
         
