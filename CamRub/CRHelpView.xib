@@ -34,7 +34,7 @@
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="11" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="278" translatesAutoresizingMaskIntoConstraints="NO" id="ROM-OP-EWF">
                     <rect key="frame" x="15" y="98" width="278" height="168"/>
-                    <string key="text">Rub on the screen to capture portions of the image. Make unique drawings, create collages, or just play around with the app to see what else you can come up with! Long press on the "Draw" or "Erase" buttons to change the brush size, or tap "Settings" to change the background color and drawing mode. When you're done, tap the "Share" button to save to your camera roll or share on social media.</string>
+                    <string key="text">Rub on the screen to capture portions of the image. Make unique drawings, create collages, or just play around with the app to see what else you can come up with! Hold on the "Draw" or "Erase" buttons to change the brush size, or tap on "Settings" to change the background color, drawing mode, and stroke transparency. When you're done, tap the "Share" button to save your work or share it on social media.</string>
                     <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>

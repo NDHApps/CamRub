@@ -604,6 +604,8 @@
             case SLComposeViewControllerResultDone:
                 if ([self connected])
                     [self animateShare:message];
+                else
+                    [self sharingCancelled];
                 break;
         }
     };
