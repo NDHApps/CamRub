@@ -40,6 +40,10 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"mailto:NDHApps@gmail.com"]];
 }
 
+- (IBAction) webButtonPressed {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://NDHApps.com"]];
+}
+
 - (IBAction) twitterButtonPressed {
     if (![[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=CamRubApp"]])
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/CamRubApp"]];

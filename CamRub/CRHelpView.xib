@@ -47,11 +47,11 @@
                 </label>
                 <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="oGQ-Ij-znB">
                     <rect key="frame" x="15" y="303" width="280" height="82"/>
-                    <string key="text">For additional support email 
-		 			 or follow 
-			   on Twitter.
+                    <string key="text">Web:
+Email:
+Twitter:
 
-CamRub v1.0. Copyright © 2014 NDHApps.</string>
+CamRub v1.0. Copyright © 2014 NDH Apps.</string>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -77,7 +77,7 @@ CamRub v1.0. Copyright © 2014 NDHApps.</string>
                     </connections>
                 </button>
                 <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BHM-xZ-VbQ">
-                    <rect key="frame" x="15" y="321" width="139" height="16"/>
+                    <rect key="frame" x="57" y="321" width="139" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
                     <state key="normal" title="NDHApps@gmail.com">
@@ -88,8 +88,20 @@ CamRub v1.0. Copyright © 2014 NDHApps.</string>
                         <action selector="emailButtonPressed" destination="lNH-xv-BFR" eventType="touchUpInside" id="hXo-Zg-0DA"/>
                     </connections>
                 </button>
+                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsi-rf-Xz7">
+                    <rect key="frame" x="51" y="305" width="95" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
+                    <state key="normal" title="NDHApps.com">
+                        <color key="titleColor" red="0.2524757923" green="0.26603876250000003" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="webButtonPressed" destination="lNH-xv-BFR" eventType="touchUpInside" id="f8z-Oo-l9P"/>
+                    </connections>
+                </button>
                 <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv8-zD-6K5">
-                    <rect key="frame" x="15" y="338" width="93" height="16"/>
+                    <rect key="frame" x="64" y="338" width="93" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
                     <state key="normal" title="@CamRubApp">
