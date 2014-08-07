@@ -249,7 +249,7 @@
     CGFloat spacing = screenHeight / 4.0 - 110.0;
     for (NSLayoutConstraint *topButtonConstraint in self.topButtonConstraints)
     {
-        topButtonConstraint.constant = spacing - 5.0;
+        topButtonConstraint.constant = spacing - 3.0;
     }
     for (NSLayoutConstraint *bottomButtonConstraint in self.bottomButtonConstraints)
     {
@@ -778,7 +778,7 @@
     _popupOverlay.alpha = 0.0;
     CGRect frame = _popupOverlay.frame;
     frame.origin.x += (frame.size.width - 310.0) / 2.0;
-    frame.origin.y += (frame.size.height - 470.0) / 2.0 + 5.0 + [self trueScreenHeight];
+    frame.origin.y += (frame.size.height - 470.0) / 2.0 + 2.0 + [self trueScreenHeight];
     frame.size = CGSizeMake(310.0, 470.0);
     [_popup removeFromSuperview]; // Make sure previously referenced view is gone
     if (popupType) {
