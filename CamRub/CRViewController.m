@@ -557,11 +557,12 @@
         NSData *imgData = UIImagePNGRepresentation(imageToShare);
         [composer addAttachmentData:imgData typeIdentifier:(NSString*)kUTTypeMessage filename:@"image.png"];
         [composer setBody:@"Check out this picture I made using CamRub! NDHApps.com/GetCamRub"];
+        
+        [self presentViewController:composer animated:YES completion:nil];
     } else {
         [self sharingCancelled];
     }
-    
-    [self presentViewController:composer animated:YES completion:nil];
+
 }
 
 - (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
