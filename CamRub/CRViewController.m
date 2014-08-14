@@ -490,12 +490,21 @@
         [self.captureManager.captureSession stopRunning];
         _drawingStrokes.image = [self renderPreview];
         _drawingStrokes.alpha = 0.5;
-        [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             _drawingStrokes.alpha = 1.0;
-                         } completion:^(BOOL finished) {
-                             [self displayActionSheet];
-                         }];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+            [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 _drawingStrokes.alpha = 1.0;
+                             } completion:^(BOOL finished) {
+                                 [self displayActionSheet];
+                             }];
+        } else {
+            [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 _drawingStrokes.alpha = 1.0;
+                             } completion:^(BOOL finished) {
+                                 [self displayActionSheet];
+                             }];
+        }
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"There's nothing to share!" message:@"Rub on the camera view to capture portions of the image." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
@@ -547,22 +556,51 @@
 }
 
 - (void) messagesShare {
+    
     MFMessageComposeViewController *composer = [[MFMessageComposeViewController alloc] init];
     composer.messageComposeDelegate = self;
-    UIImage *imageToShare = [self formatPNG];
     
     // These checks basically make sure it's an MMS capable device with iOS7
     if([MFMessageComposeViewController respondsToSelector:@selector(canSendAttachments)] && [MFMessageComposeViewController canSendAttachments])
     {
+        UIImage *imageToShare = [self formatPNG];
         NSData *imgData = UIImagePNGRepresentation(imageToShare);
         [composer addAttachmentData:imgData typeIdentifier:(NSString*)kUTTypeMessage filename:@"image.png"];
         [composer setBody:@"Check out this picture I made using CamRub! NDHApps.com/GetCamRub"];
-        
         [self presentViewController:composer animated:YES completion:nil];
+    } else if ([MFMessageComposeViewController respondsToSelector:@selector(canSendText)] && [MFMessageComposeViewController canSendText]){
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Image copied to clipboard!" message:@"Select \"Paste\" in the message field to share your work." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        alertView.tag = 4;
+        [alertView show];
     } else {
         [self sharingCancelled];
     }
 
+}
+
+- (void) iOS6MessageComposer {
+    UIImage *imageToShare = [self formatPNG];
+    
+    
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.persistent = NO;
+    
+    NSMutableDictionary *text = [NSMutableDictionary dictionaryWithCapacity:1];
+    [text setValue:@"Check out this picture I made using CamRub! NDHApps.com/GetCamRub" forKey:(NSString *)kUTTypeUTF8PlainText];
+    
+    NSMutableDictionary *image = [NSMutableDictionary dictionaryWithCapacity:1];
+    [image setValue:UIImagePNGRepresentation(imageToShare) forKey:(NSString *)kUTTypePNG];
+    
+    pasteboard.items = [NSArray arrayWithObjects:image,text, nil];
+    
+    NSString *phoneToCall = @"sms:";
+    NSString *phoneToCallEncoded = [phoneToCall stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSURL *url = [[NSURL alloc] initWithString:phoneToCallEncoded];
+    
+    [[UIApplication sharedApplication] openURL:url];
+    
+    [self animateShare:nil];
+    
 }
 
 - (void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
@@ -758,6 +796,8 @@
             _drawingStrokes.image = nil;
             drawingEnabled = YES;
             break;
+        case 4:
+            [self iOS6MessageComposer];
         default:
             break;
             
@@ -792,30 +832,53 @@
     [self.view addSubview:_popup];
     frame.origin.y -= [self trueScreenHeight];
     
-    
-    [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         _popup.frame = frame;
-                         _popupOverlay.alpha = 0.7;
-                         
-                     } completion:^(BOOL finished) {
-                         [self.captureManager.captureSession stopRunning];
-                     }];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _popup.frame = frame;
+                             _popupOverlay.alpha = 0.7;
+                             
+                         } completion:^(BOOL finished) {
+                             [self.captureManager.captureSession stopRunning];
+                         }];
+    } else {
+        [UIView animateWithDuration:0.7 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _popup.frame = frame;
+                             _popupOverlay.alpha = 0.7;
+                             
+                         } completion:^(BOOL finished) {
+                             [self.captureManager.captureSession stopRunning];
+                         }];
+    }
 }
 
 - (IBAction) dismissPopup {
     CGRect frame = _popup.frame;
     frame.origin.y += [self trueScreenHeight];
     [self.captureManager.captureSession startRunning];
-    [UIView animateWithDuration:0.6 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         _popup.frame = frame;
-                         _popupOverlay.alpha = 0.0;
-                         
-                     } completion:^(BOOL finished) {
-                         [_popup removeFromSuperview];
-                         _popupOverlay.hidden = YES;
-                     }];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        [UIView animateWithDuration:0.6 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _popup.frame = frame;
+                             _popupOverlay.alpha = 0.0;
+                             
+                         } completion:^(BOOL finished) {
+                             [_popup removeFromSuperview];
+                             _popupOverlay.hidden = YES;
+                         }];
+    } else {
+        [UIView animateWithDuration:0.6 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _popup.frame = frame;
+                             _popupOverlay.alpha = 0.0;
+                             
+                         } completion:^(BOOL finished) {
+                             [_popup removeFromSuperview];
+                             _popupOverlay.hidden = YES;
+                         }];
+    }
     drawingEnabled = YES;
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
@@ -27,31 +27,36 @@
                     <rect key="frame" x="15" y="53" width="280" height="8"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Instructions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iWj-TR-lkF">
-                    <rect key="frame" x="15" y="69" width="90" height="21"/>
+                    <rect key="frame" x="15" y="69" width="90" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="11" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="278" translatesAutoresizingMaskIntoConstraints="NO" id="ROM-OP-EWF">
-                    <rect key="frame" x="15" y="98" width="278" height="168"/>
+                    <rect key="frame" x="15" y="95" width="278" height="168"/>
                     <string key="text">Rub on the screen to capture portions of the image. Make unique drawings, create collages, or just play around with the app to see what else you can come up with! Hold on the "Draw" or "Erase" buttons to change the brush size, or tap on "Settings" to change the background color, drawing mode, and stroke transparency. When you're done, tap the "Share" button to save your work or share it on social media.</string>
                     <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Contact" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vS-Do-FLJ">
-                    <rect key="frame" x="15" y="275" width="61" height="21"/>
+                    <rect key="frame" x="15" y="271" width="61" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="oGQ-Ij-znB">
-                    <rect key="frame" x="15" y="303" width="280" height="82"/>
+                    <rect key="frame" x="15" y="297" width="280" height="66"/>
                     <string key="text">Web:
 Email:
 Twitter:
-
-CamRub v1.0. Copyright © 2014 NDH Apps.</string>
+Facebook: </string>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CamRub v1.1. Copyright © 2014 NDH Apps." lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="KcN-jQ-uVq">
+                    <rect key="frame" x="15" y="371" width="280" height="16"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -77,7 +82,7 @@ CamRub v1.0. Copyright © 2014 NDH Apps.</string>
                     </connections>
                 </button>
                 <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BHM-xZ-VbQ">
-                    <rect key="frame" x="57" y="321" width="139" height="16"/>
+                    <rect key="frame" x="57" y="315" width="139" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
                     <state key="normal" title="NDHApps@gmail.com">
@@ -89,7 +94,7 @@ CamRub v1.0. Copyright © 2014 NDH Apps.</string>
                     </connections>
                 </button>
                 <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsi-rf-Xz7">
-                    <rect key="frame" x="51" y="305" width="95" height="16"/>
+                    <rect key="frame" x="51" y="298" width="95" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
                     <state key="normal" title="NDHApps.com">
@@ -101,7 +106,7 @@ CamRub v1.0. Copyright © 2014 NDH Apps.</string>
                     </connections>
                 </button>
                 <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv8-zD-6K5">
-                    <rect key="frame" x="64" y="338" width="93" height="16"/>
+                    <rect key="frame" x="64" y="331.5" width="93" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
                     <state key="normal" title="@CamRubApp">
@@ -112,13 +117,25 @@ CamRub v1.0. Copyright © 2014 NDH Apps.</string>
                         <action selector="twitterButtonPressed" destination="lNH-xv-BFR" eventType="touchUpInside" id="VS9-QB-mBQ"/>
                     </connections>
                 </button>
+                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ct-bH-OK5">
+                    <rect key="frame" x="84" y="347.5" width="55" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
+                    <state key="normal" title="CamRub">
+                        <color key="titleColor" red="0.2524757923" green="0.26603876250000003" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="facebookButtonPressed" destination="lNH-xv-BFR" eventType="touchUpInside" id="bL3-Z5-Mer"/>
+                    </connections>
+                </button>
             </subviews>
         </view>
     </objects>
     <resources>
         <image name="CRButton" width="120" height="40"/>
-        <image name="CRTextLogoWhite" width="300" height="79"/>
-        <image name="brushStroke" width="310" height="8"/>
+        <image name="CRTextLogoWhite" width="300" height="80"/>
+        <image name="brushStroke" width="620" height="16"/>
         <image name="popup" width="305" height="470"/>
     </resources>
 </document>

@@ -44,6 +44,11 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://NDHApps.com"]];
 }
 
+- (IBAction) facebookButtonPressed {
+    if (![[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"fb://profile/262158193993200"]])
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/CamRub"]];
+}
+
 - (IBAction) twitterButtonPressed {
     if (![[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=CamRubApp"]])
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/CamRubApp"]];

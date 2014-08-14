@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
@@ -179,8 +179,8 @@
     </objects>
     <resources>
         <image name="CRButton" width="120" height="40"/>
-        <image name="CRTextLogoWhite" width="300" height="79"/>
-        <image name="brushStroke" width="310" height="8"/>
+        <image name="CRTextLogoWhite" width="300" height="80"/>
+        <image name="brushStroke" width="620" height="16"/>
         <image name="clear" width="50" height="50"/>
         <image name="popup" width="305" height="470"/>
     </resources>
